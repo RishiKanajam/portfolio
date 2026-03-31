@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:gauravrathva.me)",
+      "WebFetch(domain:www.pszostak.pl)",
+      "WebSearch",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm)",
+      "Read(//usr/local/bin/**)",
+      "Bash(brew --prefix)",
+      "Bash(export PATH=\"/opt/homebrew/bin:$PATH\")",
+      "Bash(npm -v)",
+      "Bash(npx --version)",
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --no-turbopack)",
+      "Bash(yes \"\")"
+    ]
+  }
+}
