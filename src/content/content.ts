@@ -30,7 +30,7 @@ export const hero = {
 
 export const about = {
   paragraphs: [
-    "I'm Rishi, Software and AI engineer based in Sydney, finishing my Master of IT & IT Management (Data Analytics) at the University of Sydney. My work sits at the intersection of machine learning, systems engineering, and security — I build things that ship, not just things that demo.",
+    "I'm Rishi, Software and AI engineer based in Sydney, Graduated from Master of IT & IT Management (Data Analytics) at the University of Sydney. My work sits at the intersection of machine learning, systems engineering, and security — I build things that ship, not just things that demo.",
     "Right now I'm going deep on AI security: adversarial ML, LLM red-teaming, and hardening production ML pipelines against real threats. Outside of that, I teach Data Structures & Algorithms at USyd and run OldTalkies, a Tenglish channel about Tech case studies.",
   ],
   tech: [
