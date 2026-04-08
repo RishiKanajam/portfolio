@@ -1,0 +1,129 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Sky-to-ocean gradient matching the beach photo -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5BBBD8"/>
+      <stop offset="55%" stop-color="#3AAFC6"/>
+      <stop offset="100%" stop-color="#28A0B8"/>
+    </linearGradient>
+    <radialGradient id="faceGrad" cx="50%" cy="42%" r="58%">
+      <stop offset="0%" stop-color="#D4956A"/>
+      <stop offset="100%" stop-color="#BB7A4C"/>
+    </radialGradient>
+    <clipPath id="circle">
+      <circle cx="100" cy="100" r="100"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="100" fill="url(#bg)"/>
+
+  <!-- ── Shirt / body ── -->
+  <path d="M0 168 Q20 150 65 144 L67 175 Q100 163 133 175 L135 144 Q180 150 200 168 L200 200 L0 200Z"
+        fill="#F2F2F2" clip-path="url(#circle)"/>
+  <!-- Shirt folds -->
+  <path d="M80 170 Q100 165 120 170" stroke="#DCDCDC" stroke-width="1" fill="none" opacity="0.6"/>
+
+  <!-- Mandarin collar -->
+  <path d="M83 144 Q100 137 117 144 L115 153 Q100 147 85 153Z" fill="#E6E6E6"/>
+  <line x1="100" y1="143" x2="100" y2="157" stroke="#D8D8D8" stroke-width="1.2" opacity="0.7"/>
+
+  <!-- Necklace chain hint (visible in photo) -->
+  <path d="M89 154 Q100 160 111 154" stroke="#C8B888" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.55"/>
+
+  <!-- Neck -->
+  <path d="M88 127 Q88 146 100 148 Q112 146 112 127 Q108 133 100 134 Q92 133 88 127Z" fill="#C08558"/>
+
+  <!-- ── Ears (behind face) ── -->
+  <ellipse cx="51" cy="108" rx="10" ry="14" fill="#C08558"/>
+  <ellipse cx="149" cy="108" rx="10" ry="14" fill="#C08558"/>
+  <ellipse cx="51" cy="108" rx="5.5" ry="8" fill="#AA7045"/>
+  <ellipse cx="149" cy="108" rx="5.5" ry="8" fill="#AA7045"/>
+
+  <!-- ── Face ── -->
+  <ellipse cx="100" cy="100" rx="51" ry="57" fill="url(#faceGrad)"/>
+
+  <!-- Subtle cheek warmth -->
+  <ellipse cx="72" cy="115" rx="12" ry="7" fill="#E07050" opacity="0.10"/>
+  <ellipse cx="128" cy="115" rx="12" ry="7" fill="#E07050" opacity="0.10"/>
+
+  <!-- Chin shadow -->
+  <ellipse cx="100" cy="130" rx="30" ry="7" fill="#9E6035" opacity="0.18"/>
+
+  <!-- ── Hair ── (rendered on top of face for natural look) -->
+  <!-- Base hair shape — top + sides -->
+  <path d="M49 97 Q51 52 100 44 Q149 52 151 97
+            Q149 78 143 67 Q124 38 100 36
+            Q76 38 57 67 Q51 78 49 97Z"
+        fill="#181818"/>
+  <!-- Hair volume on top (slight wave/fluff) -->
+  <path d="M65 58 Q80 46 100 43 Q120 46 135 58
+            Q120 50 100 48 Q80 50 65 58Z"
+        fill="#222222"/>
+  <!-- Cowlick / natural lift on top -->
+  <path d="M88 45 Q100 39 112 45 Q104 40 100 40 Q96 40 88 45Z"
+        fill="#141414"/>
+  <!-- Left side hair -->
+  <path d="M49 97 Q44 110 46 126 Q47 114 52 102Z" fill="#181818"/>
+  <!-- Right side hair -->
+  <path d="M151 97 Q156 110 154 126 Q153 114 148 102Z" fill="#181818"/>
+  <!-- Sideburns -->
+  <rect x="49" y="100" width="9" height="28" rx="4" fill="#181818"/>
+  <rect x="142" y="100" width="9" height="28" rx="4" fill="#181818"/>
+
+  <!-- ── Eyebrows — dark, slightly arched ── -->
+  <path d="M66 88 Q77 83 90 86" stroke="#141414" stroke-width="3.8" stroke-linecap="round" fill="none"/>
+  <path d="M110 86 Q123 83 134 88" stroke="#141414" stroke-width="3.8" stroke-linecap="round" fill="none"/>
+
+  <!-- ── Glasses ── clear/transparent rectangular frames -->
+  <!-- Left lens -->
+  <rect x="62" y="91" width="32" height="22" rx="7"
+        fill="rgba(220,235,245,0.08)" stroke="#CCCCCC" stroke-width="2.5"/>
+  <!-- Right lens -->
+  <rect x="106" y="91" width="32" height="22" rx="7"
+        fill="rgba(220,235,245,0.08)" stroke="#CCCCCC" stroke-width="2.5"/>
+  <!-- Bridge -->
+  <line x1="94" y1="102" x2="106" y2="102" stroke="#C4C4C4" stroke-width="2.2"/>
+  <!-- Left temple arm -->
+  <line x1="62" y1="102" x2="51" y2="106" stroke="#C4C4C4" stroke-width="2"/>
+  <!-- Right temple arm -->
+  <line x1="138" y1="102" x2="149" y2="106" stroke="#C4C4C4" stroke-width="2"/>
+
+  <!-- ── Eyes ── -->
+  <ellipse cx="78" cy="102" rx="8.5" ry="8" fill="#1A0F08"/>
+  <ellipse cx="122" cy="102" rx="8.5" ry="8" fill="#1A0F08"/>
+  <!-- Iris warm brown -->
+  <ellipse cx="78" cy="102" rx="6" ry="6" fill="#3B2010"/>
+  <ellipse cx="122" cy="102" rx="6" ry="6" fill="#3B2010"/>
+  <!-- Pupil -->
+  <circle cx="78" cy="102" r="3.5" fill="#0D0806"/>
+  <circle cx="122" cy="102" r="3.5" fill="#0D0806"/>
+  <!-- Eye shine -->
+  <circle cx="81" cy="99" r="2.2" fill="white" opacity="0.65"/>
+  <circle cx="125" cy="99" r="2.2" fill="white" opacity="0.65"/>
+
+  <!-- ── Nose ── -->
+  <path d="M97 111 Q98 121 100 122 Q102 121 103 111"
+        stroke="#A06838" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <!-- Nostrils -->
+  <ellipse cx="94" cy="122" rx="4.5" ry="3" fill="#9A6030" opacity="0.45"/>
+  <ellipse cx="106" cy="122" rx="4.5" ry="3" fill="#9A6030" opacity="0.45"/>
+
+  <!-- ── Stubble / beard shadow ── -->
+  <ellipse cx="100" cy="128" rx="24" ry="9" fill="#7A4A28" opacity="0.10"/>
+  <ellipse cx="84" cy="126" rx="8" ry="5" fill="#7A4A28" opacity="0.07"/>
+  <ellipse cx="116" cy="126" rx="8" ry="5" fill="#7A4A28" opacity="0.07"/>
+
+  <!-- ── Mouth ── slight natural smile -->
+  <path d="M84 126 Q92 134 100 135 Q108 134 116 126"
+        stroke="#7A3E20" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+  <!-- Upper lip cupid bow -->
+  <path d="M87 126 Q94 121 100 122 Q106 121 113 126"
+        stroke="#8C5030" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.55"/>
+  <!-- Teeth hint -->
+  <path d="M88 128 Q100 133 112 128 Q100 136 88 128Z"
+        fill="white" opacity="0.25"/>
+
+  <!-- ── Neck shadow ── -->
+  <path d="M88 127 Q100 134 112 127" stroke="#9A6030" stroke-width="0.8" fill="none" opacity="0.3"/>
+</svg>

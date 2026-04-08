@@ -11,7 +11,23 @@
       "Bash(npm -v)",
       "Bash(npx --version)",
       "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm --no-turbopack)",
-      "Bash(yes \"\")"
+      "Bash(yes \"\")",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(kill 13769)",
+      "Read(//private/tmp/**)",
+      "Bash(gh repo:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(xargs kill:*)",
+      "Bash(node -e \"const lr = require\\('lucide-react'\\); console.log\\(Object.keys\\(lr\\).filter\\(k => k.toLowerCase\\(\\).includes\\('link'\\)\\)\\)\")",
+      "Bash(node -e \"const lr = require\\('lucide-react'\\); console.log\\(Object.keys\\(lr\\).filter\\(k => k.toLowerCase\\(\\).includes\\('git'\\)\\)\\)\")",
+      "Bash(node -e \"const fm = require\\('framer-motion'\\); console.log\\(fm.version\\)\")",
+      "Bash(node -e \"const si = require\\('react-icons/si'\\); const keys = Object.keys\\(si\\); console.log\\(keys.filter\\(k => k.toLowerCase\\(\\).includes\\('azure'\\) || k.toLowerCase\\(\\).includes\\('amazon'\\) || k.toLowerCase\\(\\).includes\\('google'\\)\\).join\\('\\\\n'\\)\\)\")",
+      "Bash(node -e \"const si = require\\('react-icons/si'\\); const keys = Object.keys\\(si\\); console.log\\(keys.filter\\(k => k.toLowerCase\\(\\).includes\\('amazon'\\) || k.toLowerCase\\(\\).includes\\('azure'\\) || k.toLowerCase\\(\\).includes\\('microsoft'\\)\\).join\\('\\\\n'\\)\\)\")",
+      "Bash(node -e \"const si = require\\('react-icons/si'\\); const keys = Object.keys\\(si\\); console.log\\(keys.filter\\(k => k.match\\(/Si\\(Aws|Cloud|Lang\\)/i\\)\\).join\\('\\\\n'\\)\\)\")",
+      "Bash(npx tsc:*)"
     ]
   }
 }
