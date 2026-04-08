@@ -30,8 +30,8 @@ export const hero = {
 
 export const about = {
   paragraphs: [
-    "I'm Rishi, a 23-year-old software and AI engineer based in Sydney, finishing my Master of IT & IT Management (Data Analytics) at the University of Sydney. My work sits at the intersection of machine learning, systems engineering, and security — I build things that ship, not just things that demo.",
-    "Right now I'm going deep on AI security: adversarial ML, LLM red-teaming, and hardening production ML pipelines against real threats. Outside of that, I teach Data Structures & Algorithms at USyd and run OldTalkies, a Tenglish video essay channel about classic cinema.",
+    "I'm Rishi, Software and AI engineer based in Sydney, finishing my Master of IT & IT Management (Data Analytics) at the University of Sydney. My work sits at the intersection of machine learning, systems engineering, and security — I build things that ship, not just things that demo.",
+    "Right now I'm going deep on AI security: adversarial ML, LLM red-teaming, and hardening production ML pipelines against real threats. Outside of that, I teach Data Structures & Algorithms at USyd and run OldTalkies, a Tenglish channel about Tech case studies.",
   ],
   tech: [
     "Python",
@@ -65,32 +65,32 @@ export const experience: ExperienceItem[] = [
   {
     role: "Academic Tutor — Data Structures & Algorithms",
     company: "University of Sydney",
-    period: "2024 – present",
+    period: "Jan 2024 – present",
     current: true,
     bullets: [
-      "Tutored [N] undergraduate students per semester across weekly lab sessions, reinforcing concepts from arrays and trees through to graph algorithms and dynamic programming.",
-      "Designed supplementary problem sets that reduced common exam errors on recursion and sorting by [X]%, based on assessment data.",
-      "Held weekly office hours and provided written feedback on assignments, maintaining a student satisfaction score of [X]/5.",
+      "Mentored 50+ students per semester in COMP2123 / COMP9123, clarifying core DSA concepts and improving assessment pass rates through targeted lab sessions.",
+      "Delivered debugging and problem-solving support in C++ and Python for complex assignments, reducing individual turnaround and rework by streamlining feedback workflows.",
+      "Led improvements to lab support materials and grading aids, standardising examples and test cases to align tutorials with course learning outcomes.",
+    ],
+  },
+  {
+    role: "Frontend Developer Intern",
+    company: "HRVITE Services Pvt Ltd",
+    period: "Apr 2023 – Jul 2023",
+    bullets: [
+      "Re-engineered Angular UI components and interaction flows, improving usability and contributing to a measured ~15% increase in user retention.",
+      "Integrated front-end with REST APIs and collaborated in a 6-member Agile team to scope and ship features to production.",
+      "Implemented front-end unit tests and participated in code reviews to reduce regressions and improve maintainability.",
     ],
   },
   {
     role: "Software Engineer Trainee",
     company: "Revidd",
-    period: "2023",
+    period: "Jul 2022 – Jan 2023",
     bullets: [
-      "Built and shipped [N] product features across the full stack using [tech stack], reducing friction in the content-review workflow.",
-      "Optimised a core data-processing pipeline, cutting average job runtime from [X]s to [Y]s — a [Z]% improvement.",
-      "Participated in daily standups and sprint planning, delivering [N] story points across [X] sprints with zero regressions.",
-    ],
-  },
-  {
-    role: "Frontend Developer Intern",
-    company: "HRvite",
-    period: "2022",
-    bullets: [
-      "Implemented [N] new UI components in React/TypeScript that became part of the core hiring dashboard used by [X] clients.",
-      "Reduced initial page load time by [X]% through code-splitting and lazy loading, improving Lighthouse performance score from [A] to [B].",
-      "Collaborated with the design team to close [N] accessibility gaps, bringing key flows to WCAG 2.1 AA compliance.",
+      "Built 15+ responsive interfaces with ReactJS integrated to REST APIs, contributing to a reported ~25% uplift in user engagement.",
+      "Operated in Agile teams (stand-ups, sprint planning) and led peer code reviews to accelerate delivery and knowledge transfer.",
+      "Implemented client-side performance optimisations and cross-browser fixes to improve page load and UX consistency.",
     ],
   },
 ];
