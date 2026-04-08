@@ -87,17 +87,13 @@ export default function Hero() {
                 <FileText size={15} />
                 Resume
               </a>
-              <a
-                href="#ask-me"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById("ask-me")?.scrollIntoView({ behavior: "smooth" });
-                }}
+              <button
+                onClick={() => window.dispatchEvent(new Event("open-chatbot"))}
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-border text-[15px] text-text-2 font-semibold hover:border-border-strong hover:text-text-1 transition-colors"
               >
                 <MessageCircle size={15} />
                 Ask Me
-              </a>
+              </button>
             </motion.div>
 
             {/* Social row */}

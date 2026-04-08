@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, FormEvent } from "react";
+import { useState, useRef, useEffect, FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, Send, X, Bot } from "lucide-react";
 
@@ -41,6 +41,13 @@ export default function AIChatbot() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Allow any element on the page to open the chat via a custom event
+  useEffect(() => {
+    const handler = () => { setOpen(true); setTimeout(() => inputRef.current?.focus(), 50); };
+    window.addEventListener("open-chatbot", handler);
+    return () => window.removeEventListener("open-chatbot", handler);
+  }, []);
 
   const send = async (e: FormEvent) => {
     e.preventDefault();
