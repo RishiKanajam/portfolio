@@ -1,24 +1,28 @@
 import AnimatedSection from "@/components/AnimatedSection";
 import { about } from "@/content/content";
 import {
-  SiPython, SiCplusplus, SiJavascript,
+  SiPython, SiCplusplus, SiJavascript, SiTypescript,
   SiPytorch, SiTensorflow, SiFastapi,
+  SiReact, SiNextdotjs,
   SiMongodb, SiPostgresql, SiDocker, SiLangchain,
 } from "react-icons/si";
 import type { IconType } from "react-icons";
 
 // Brand color — works on both the light bg-subtle chip background and dark surface
 const TECH_ICONS: Record<string, { Icon: IconType; color: string }> = {
-  Python:     { Icon: SiPython,     color: "#3776AB" },
-  "C++":      { Icon: SiCplusplus,  color: "#00599C" },
-  JavaScript: { Icon: SiJavascript, color: "#D4B800" },
-  PyTorch:    { Icon: SiPytorch,    color: "#EE4C2C" },
-  TensorFlow: { Icon: SiTensorflow, color: "#FF6F00" },
-  LangChain:  { Icon: SiLangchain,  color: "#1C7C5C" },
-  FastAPI:    { Icon: SiFastapi,    color: "#009688" },
-  MongoDB:    { Icon: SiMongodb,    color: "#47A248" },
-  PostgreSQL: { Icon: SiPostgresql, color: "#336791" },
-  Docker:     { Icon: SiDocker,     color: "#2496ED" },
+  Python:     { Icon: SiPython,      color: "#3776AB" },
+  "C++":      { Icon: SiCplusplus,   color: "#00599C" },
+  JavaScript: { Icon: SiJavascript,  color: "#D4B800" },
+  TypeScript: { Icon: SiTypescript,  color: "#3178C6" },
+  PyTorch:    { Icon: SiPytorch,     color: "#EE4C2C" },
+  TensorFlow: { Icon: SiTensorflow,  color: "#FF6F00" },
+  LangChain:  { Icon: SiLangchain,   color: "#1C7C5C" },
+  FastAPI:    { Icon: SiFastapi,     color: "#009688" },
+  React:      { Icon: SiReact,       color: "#61DAFB" },
+  "Next.js":  { Icon: SiNextdotjs,   color: "#888888" },
+  MongoDB:    { Icon: SiMongodb,     color: "#47A248" },
+  PostgreSQL: { Icon: SiPostgresql,  color: "#336791" },
+  Docker:     { Icon: SiDocker,      color: "#2496ED" },
 };
 
 const FALLBACK_COLORS: Record<string, string> = {

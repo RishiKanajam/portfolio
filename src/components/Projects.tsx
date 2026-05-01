@@ -263,12 +263,127 @@ function LlamaIllustration() {
   );
 }
 
+// ── DeceptionArena illustration — social-deduction game with LLM agents ───────
+// Agent positions: hexagonal ring, center=(85,110), radius=55
+// Precomputed: top(85,55), TR(133,82), BR(133,138), bot(85,165), BL(37,138), TL(37,82)
+function DeceptionArenaIllustration() {
+  const ag = [
+    { id: "GPT-4o",  x: 85,  y: 55,  c: "#10B981", elo: 1847 },
+    { id: "L3",      x: 133, y: 82,  c: "#8B5CF6", elo: 1723 },
+    { id: "Claude",  x: 133, y: 138, c: "#F59E0B", elo: 1809 },
+    { id: "Mistral", x: 85,  y: 165, c: "#EF4444", elo: 1654 },
+    { id: "Gemini",  x: 37,  y: 138, c: "#3B82F6", elo: 1712 },
+    { id: "Human",   x: 37,  y: 82,  c: "#6B7280", elo: 1591 },
+  ] as const;
+
+  // [from, to, isDeceptive]
+  const edges: [number, number, boolean][] = [
+    [0,1,false],[1,2,true],[2,3,false],[3,4,true],[4,5,false],[5,0,true],
+    [0,3,true],[1,4,false],
+  ];
+
+  const leaderboard = [
+    { name: "GPT-4o",  elo: 1847, d: 0.82, c: "#10B981" },
+    { name: "Claude",  elo: 1809, d: 0.76, c: "#F59E0B" },
+    { name: "Llama-3", elo: 1723, d: 0.68, c: "#8B5CF6" },
+    { name: "Gemini",  elo: 1712, d: 0.61, c: "#3B82F6" },
+  ] as const;
+
+  return (
+    <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      <rect width="560" height="220" fill="#06080E"/>
+      {/* Grid — left panel only */}
+      {Array.from({length:5},(_,i)=>(
+        <line key={`v${i}`} x1={i*40} y1="0" x2={i*40} y2="220" stroke="#0C1020" strokeWidth="0.5"/>
+      ))}
+      {Array.from({length:6},(_,i)=>(
+        <line key={`h${i}`} x1="0" y1={i*44} x2="175" y2={i*44} stroke="#0C1020" strokeWidth="0.5"/>
+      ))}
+
+      {/* ── Agent social graph ── */}
+      {/* Deceptive / honest edges */}
+      {edges.map(([a, b, deceptive], i) => (
+        <line key={i}
+          x1={ag[a].x} y1={ag[a].y}
+          x2={ag[b].x} y2={ag[b].y}
+          stroke={deceptive ? "#EF4444" : "#1A3A5A"}
+          strokeWidth={deceptive ? "1" : "1.5"}
+          strokeDasharray={deceptive ? "3,2" : undefined}
+          opacity="0.55"
+        />
+      ))}
+      {/* Game-table ring */}
+      <circle cx="85" cy="110" r="18" fill="none" stroke="#1A2A3C" strokeWidth="1.5" opacity="0.7"/>
+      {/* Playing cards at centre */}
+      <rect x="74" y="99" width="14" height="20" rx="2" fill="#0A1220" stroke="#1A3A60" strokeWidth="1"/>
+      <text x="78" y="113" fontSize="9" fill="#EF4444" fontFamily="monospace">♥</text>
+      <rect x="83" y="102" width="14" height="20" rx="2" fill="#0A1220" stroke="#2A4060" strokeWidth="1"/>
+      <text x="88" y="116" fontSize="9" fill="#2A4060" fontFamily="monospace">?</text>
+
+      {/* Agent nodes */}
+      {ag.map((a, i) => (
+        <g key={i}>
+          <circle cx={a.x} cy={a.y} r="11" fill="#080E18" stroke={a.c} strokeWidth="1.5"/>
+          <text x={a.x} y={a.y + 3} fontSize="6" fill={a.c} fontFamily="monospace" textAnchor="middle">
+            {a.id}
+          </text>
+        </g>
+      ))}
+
+      {/* Panel divider */}
+      <line x1="175" y1="12" x2="175" y2="208" stroke="#0E1C2C" strokeWidth="1"/>
+
+      {/* ── Right stats panel ── */}
+      <text x="192" y="22" fontSize="10" fill="#EF4444" fontFamily="monospace" fontWeight="bold">
+        DECEPTION ARENA
+      </text>
+      <text x="192" y="34" fontSize="8" fill="#2A4A6A" fontFamily="monospace">
+        COUP + SECRET HITLER · MULTI-LLM BENCHMARK
+      </text>
+
+      {/* ELO Leaderboard */}
+      <rect x="192" y="42" width="352" height="100" rx="6" fill="#080E18" stroke="#0E1C2C" strokeWidth="1"/>
+      <text x="204" y="57" fontSize="7" fill="#1A3A58" fontFamily="monospace" fontWeight="bold" letterSpacing="0.1em">
+        DECEPTION ELO
+      </text>
+      {leaderboard.map(({ name, elo, d, c }, i) => (
+        <g key={name} transform={`translate(204, ${62 + i * 20})`}>
+          <circle cx="5" cy="5" r="4" fill={c}/>
+          <text x="15" y="9" fontSize="8" fill="#2A5878" fontFamily="monospace">{name}</text>
+          <text x="95" y="9" fontSize="9" fill={c} fontFamily="monospace" fontWeight="bold">{elo}</text>
+          <text x="148" y="9" fontSize="7" fill="#1A3A50" fontFamily="monospace">d={d}</text>
+          <rect x="195" y="1" width={Math.round(d * 90)} height="8" rx="2" fill={c} opacity="0.25"/>
+          <rect x="195" y="1" width={Math.round(d * 90)} height="8" rx="2" fill="none" stroke={c} strokeWidth="0.5" opacity="0.4"/>
+        </g>
+      ))}
+
+      {/* Stats row */}
+      <rect x="192" y="150" width="352" height="46" rx="6" fill="#080E18" stroke="#0E1C2C" strokeWidth="1"/>
+      {[
+        { label: "GAMES PLAYED", val: "147",  x: 204 },
+        { label: "TOTAL ROUNDS", val: "1,470",x: 308 },
+        { label: "DECEIVE RATE", val: "72%",  x: 416 },
+      ].map(({ label, val, x }) => (
+        <g key={label}>
+          <text x={x} y="164" fontSize="6" fill="#1A3050" fontFamily="monospace" letterSpacing="0.05em">{label}</text>
+          <text x={x} y="183" fontSize="13" fill="#EF4444" fontFamily="monospace" fontWeight="bold">{val}</text>
+        </g>
+      ))}
+
+      <text x="192" y="210" fontSize="7" fill="#0A1828" fontFamily="monospace">
+        asyncio · OpenRouter · OpenAI · Anthropic · React + Pixi.js · arXiv target
+      </text>
+    </svg>
+  );
+}
+
 const ILLUSTRATIONS = {
-  ocius:    OciusIllustration,
-  medvault: MedVaultIllustration,
-  mangrag:  MangRAGIllustration,
-  rna:      RNAIllustration,
-  llama:    LlamaIllustration,
+  ocius:     OciusIllustration,
+  medvault:  MedVaultIllustration,
+  mangrag:   MangRAGIllustration,
+  rna:       RNAIllustration,
+  llama:     LlamaIllustration,
+  deceptiona: DeceptionArenaIllustration,
 } as const;
 
 // ── Shared card atoms — theme-aware via CSS vars ──────────────────────────────
@@ -300,7 +415,7 @@ function ProjectLinks({ project }: { project: Project }) {
       {project.caseStudyUrl && (
         <a href={project.caseStudyUrl} target="_blank" rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 text-[13px] text-text-3 hover:text-accent transition-colors">
-          <BookOpen size={13} /> Case study →
+          <BookOpen size={13} /> Read the case study →
         </a>
       )}
     </div>
@@ -328,7 +443,6 @@ function CardVisual({ project, tall = false }: { project: Project; tall?: boolea
 }
 
 // ── Card variants ─────────────────────────────────────────────────────────────
-// All use CSS var colors so they adapt to light / dark automatically.
 
 /** Full-width featured card */
 function CardFull({ project, badge }: { project: Project; badge?: string }) {
@@ -360,19 +474,25 @@ function CardFull({ project, badge }: { project: Project; badge?: string }) {
   );
 }
 
-/** Small card — accent-tinted, no illustration, text only */
+/** Small card — illustration + text */
 function CardSmall({ project }: { project: Project }) {
   return (
     <motion.div
       whileHover={{ y: -3 }}
       transition={{ type: "spring", stiffness: 300, damping: 28 }}
-      className="rounded-2xl bg-bg-subtle border border-border p-5 flex flex-col"
+      className="rounded-2xl bg-bg-subtle border border-border p-5 flex flex-col relative overflow-hidden"
     >
+      {/* In-progress badge */}
+      {project.inProgress && (
+        <span className="absolute top-4 right-4 text-[10px] font-semibold text-text-3 tracking-wide bg-surface border border-border px-2 py-0.5 rounded-full z-10">
+          In Progress
+        </span>
+      )}
       {/* Mini illustration */}
       <div className="aspect-video rounded-xl overflow-hidden border border-border mb-4">
         {(() => { const I = ILLUSTRATIONS[project.placeholderVariant]; return <I />; })()}
       </div>
-      <h3 className="text-[16px] font-bold text-text-1 mb-2 leading-snug">{project.title}</h3>
+      <h3 className="text-[16px] font-bold text-text-1 mb-2 leading-snug pr-16">{project.title}</h3>
       <p className="text-[13px] text-text-2 leading-relaxed mb-4 grow line-clamp-3">{project.description}</p>
       <div className="flex flex-wrap gap-1.5 mb-2">
         {project.tech.slice(0, 4).map((t) => <Chip key={t} label={t} />)}
@@ -387,20 +507,18 @@ function CardSmall({ project }: { project: Project }) {
 
 // ── Mosaic layout ─────────────────────────────────────────────────────────────
 //
-// Row 1:  [Ocius — full width]
-// Row 2:  [MedVault — 6 cols] [MangRAG — 6 cols]
-// Row 3:  [RNA — 4 cols] [Llama — 4 cols] (+ empty 4 col if needed)
-//
-// CSS grid with 12 columns on md+, 1 column on mobile.
+// Row 1: MedVault     — full 12 cols — Featured
+// Row 2: Ocius        — full 12 cols — Highlight
+// Row 3: MangRAG (4) | RNA (4) | DeceptionArena (4)
+// Row 4: Llama        — 4 cols alone (last / smallest)
 
 export default function Projects() {
-  const [ocius, medvault, mangrag, rna, llama] = [
-    projects.find(p => p.placeholderVariant === "ocius"),
-    projects.find(p => p.placeholderVariant === "medvault"),
-    projects.find(p => p.placeholderVariant === "mangrag"),
-    projects.find(p => p.placeholderVariant === "rna"),
-    projects.find(p => p.placeholderVariant === "llama"),
-  ];
+  const medvault    = projects.find(p => p.placeholderVariant === "medvault");
+  const ocius       = projects.find(p => p.placeholderVariant === "ocius");
+  const mangrag     = projects.find(p => p.placeholderVariant === "mangrag");
+  const rna         = projects.find(p => p.placeholderVariant === "rna");
+  const deceptiona  = projects.find(p => p.placeholderVariant === "deceptiona");
+  const llama       = projects.find(p => p.placeholderVariant === "llama");
 
   return (
     <section id="projects" className="section-gap border-t border-border">
@@ -419,22 +537,21 @@ export default function Projects() {
         {/* Mosaic grid — 12-column base */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-5">
 
-          
           {/* Row 1: MedVault — full 12 cols */}
           {medvault && (
-            <AnimatedSection delay={0.10} className="md:col-span-12">
-              <CardFull project={medvault} badge="Highlight" />
-            </AnimatedSection>
-          )}
-          
-          {/* Row 2: Ocius — full 12 cols */}
-          {ocius && (
             <AnimatedSection delay={0.06} className="md:col-span-12">
-              <CardFull project={ocius} badge="Featured" />
+              <CardFull project={medvault} badge="Featured" />
             </AnimatedSection>
           )}
 
-          {/* Row 3: MangRAG (4) + RNA (4) + Llama (4) */}
+          {/* Row 2: Ocius — full 12 cols */}
+          {ocius && (
+            <AnimatedSection delay={0.10} className="md:col-span-12">
+              <CardFull project={ocius} badge="Highlight" />
+            </AnimatedSection>
+          )}
+
+          {/* Row 3: MangRAG (4) + RNA (4) + DeceptionArena (4) */}
           {mangrag && (
             <AnimatedSection delay={0.14} className="md:col-span-4">
               <CardSmall project={mangrag} />
@@ -445,8 +562,15 @@ export default function Projects() {
               <CardSmall project={rna} />
             </AnimatedSection>
           )}
-          {llama && (
+          {deceptiona && (
             <AnimatedSection delay={0.22} className="md:col-span-4">
+              <CardSmall project={deceptiona} />
+            </AnimatedSection>
+          )}
+
+          {/* Row 4: Llama — last / smallest */}
+          {llama && (
+            <AnimatedSection delay={0.26} className="md:col-span-4">
               <CardSmall project={llama} />
             </AnimatedSection>
           )}
