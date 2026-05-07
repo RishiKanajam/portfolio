@@ -20,8 +20,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   // Sync with the class already set by the inline script in layout.tsx
   useEffect(() => {
     const stored = localStorage.getItem("theme") as Theme | null;
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const resolved: Theme = stored ?? (prefersDark ? "dark" : "light");
+    // Default to dark — only switch to light if user explicitly chose it
+    const resolved: Theme = stored ?? "dark";
     setTheme(resolved);
     document.documentElement.classList.toggle("dark", resolved === "dark");
   }, []);

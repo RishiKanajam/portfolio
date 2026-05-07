@@ -1,6 +1,4 @@
 // ─── Site-wide content ────────────────────────────────────────────────────────
-// Edit this file to update copy across the entire portfolio.
-// Types are inlined so you get autocomplete without a separate types file.
 
 export const siteConfig = {
   name: "Rishi Madhur Kanajam",
@@ -10,7 +8,6 @@ export const siteConfig = {
   email: "rishikanajam@gmail.com",
   linkedIn: "https://linkedin.com/in/rishikanajam",
   github: "https://github.com/RishiKanajam",
-  // Pre-filled mailto for recruiters
   mailtoHref:
     "mailto:rishikanajam@gmail.com?subject=Re%3A%20Software%20Engineer%20opportunity&body=Hi%20Rishi%2C%0A%0A",
 };
@@ -18,40 +15,47 @@ export const siteConfig = {
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
 export const hero = {
-  // Shown on its own line below the one-liner — make it unmissable for recruiters
-  availabilityPill: "Available in Sydney · Full Australian work rights",
-  // Opens PDF in new tab — recruiters prefer to preview before saving
+  availabilityPill: "Available for work",
+  workRights: "Full Australian work rights · Sydney",
   resumeHref: "/resume.pdf",
-  askMeAnchor: "#ask-me",
 };
+
+// ─── Stats bar ────────────────────────────────────────────────────────────────
+
+export interface Stat {
+  value: string;
+  label: string;
+  numericTarget: number;
+  decimals?: number;
+  prefix?: string;
+  suffix?: string;
+}
+
+export const stats: Stat[] = [
+  { value: "9×", label: "Throughput Gain on Edge Hardware", numericTarget: 9, suffix: "×" },
+  { value: "0.984", label: "Kaggle RNA TM-Score", numericTarget: 0.984, decimals: 3 },
+  { value: "50+", label: "Students Mentored per Semester", numericTarget: 50, suffix: "+" },
+  { value: "5", label: "Production AI Systems Shipped", numericTarget: 5 },
+];
 
 // ─── About ────────────────────────────────────────────────────────────────────
 
 export const about = {
   paragraphs: [
     "I'm Rishi, a Software and AI engineer based in Sydney. I graduated with a Master of IT & IT Management (Data Analytics) from the University of Sydney. My work sits at the intersection of machine learning, systems engineering, and security — I build things that ship, not just things that demo.",
-    "Right now I'm going deep on AI security: adversarial ML, LLM red-teaming, and hardening production ML pipelines against real threats. I also teach Data Structures & Algorithms at USyd, contribute to open-source AI agent frameworks, and run OldTalkies — a Tenglish channel about tech case studies. On the side, I'm building healthcare AI infrastructure focused on bridging the Indian and Australian medical systems.",
-  ],
-  tech: [
-    "Python",
-    "C++",
-    "SQL",
-    "JavaScript",
-    "TypeScript",
-    "PyTorch",
-    "TensorFlow",
-    "LangChain",
-    "FastAPI",
-    "React",
-    "Next.js",
-    "MongoDB",
-    "PostgreSQL",
-    "AWS",
-    "GCP",
-    "Azure",
-    "Docker",
+    "Right now I'm going deep on AI security: adversarial ML, LLM red-teaming, and hardening production ML pipelines against real threats. I also teach Data Structures & Algorithms at USyd, engage with open-source AI agent frameworks, and run OldTalkies — a Tenglish channel about tech case studies. On the side, I'm building healthcare AI infrastructure focused on bridging the Indian and Australian medical systems.",
   ],
 };
+
+// ─── Marquee tech skills ──────────────────────────────────────────────────────
+
+export const marqueeRow1 = [
+  "Python", "C++", "TypeScript", "SQL", "PyTorch", "TensorFlow", "LangChain", "FastAPI",
+];
+
+export const marqueeRow2 = [
+  "React", "Next.js", "PostgreSQL", "MongoDB", "AWS", "GCP", "Docker", "Redis",
+];
 
 // ─── Experience ───────────────────────────────────────────────────────────────
 
@@ -61,6 +65,7 @@ export interface ExperienceItem {
   period: string;
   current?: boolean;
   bullets: string[];
+  tech?: string[];
 }
 
 export const experience: ExperienceItem[] = [
@@ -74,6 +79,19 @@ export const experience: ExperienceItem[] = [
       "Delivered debugging and problem-solving support in C++ and Python for complex assignments, reducing individual turnaround and rework by streamlining feedback workflows.",
       "Led improvements to lab support materials and grading aids, standardising examples and test cases to align tutorials with course learning outcomes.",
     ],
+    tech: ["C++", "Python", "DSA"],
+  },
+  {
+    role: "Computer Vision Engineer",
+    company: "Ocius Technology",
+    period: "Aug 2024 – Nov 2024",
+    current: false,
+    bullets: [
+      "Industry capstone project in a team of 4, delivering a real-time maritime object detection pipeline for autonomous unmanned surface vehicles.",
+      "Led model optimisation: INT8 quantisation, TensorRT, and inference batching — achieving a 9× throughput improvement to 394 FPS on NVIDIA Jetson hardware.",
+      "Containerised the pipeline with Docker and deployed to edge hardware; full production deployment at Ocius Technology.",
+    ],
+    tech: ["Python", "YOLOv8", "TensorRT", "Docker", "CUDA"],
   },
   {
     role: "Frontend Developer Intern",
@@ -84,6 +102,7 @@ export const experience: ExperienceItem[] = [
       "Integrated front-end with REST APIs and collaborated in a 6-member Agile team to scope and ship features to production.",
       "Implemented front-end unit tests and participated in code reviews to reduce regressions and improve maintainability.",
     ],
+    tech: ["Angular", "TypeScript", "REST APIs"],
   },
   {
     role: "Software Engineer Trainee",
@@ -94,6 +113,7 @@ export const experience: ExperienceItem[] = [
       "Operated in Agile teams (stand-ups, sprint planning) and led peer code reviews to accelerate delivery and knowledge transfer.",
       "Implemented client-side performance optimisations and cross-browser fixes to improve page load and UX consistency.",
     ],
+    tech: ["React", "JavaScript", "REST APIs"],
   },
 ];
 
@@ -122,19 +142,19 @@ export const openSource: OpenSourceItem[] = [
 
 // ─── Projects ─────────────────────────────────────────────────────────────────
 
+export type ProjectTag = "AI/ML" | "Full Stack" | "Research";
+
 export interface Project {
   title: string;
   description: string;
   tech: string[];
+  tags?: ProjectTag[];
   featured?: boolean;
   inProgress?: boolean;
-  // TODO: replace image with a real screenshot path when available, e.g. "/screenshots/ocius.png"
   image?: string;
   githubUrl?: string;
   liveUrl?: string;
-  // Link to a Medium/Substack case study about this project
   caseStudyUrl?: string;
-  // Internal key used to pick the SVG placeholder — do not remove
   placeholderVariant: "ocius" | "mangrag" | "rna" | "llama" | "medvault" | "deceptiona";
 }
 
@@ -142,40 +162,41 @@ export const projects: Project[] = [
   {
     title: "MedVault — Multi-Tenant Clinical AI Platform",
     description:
-      "Multi-tenant clinical AI platform built for healthcare in emerging markets. RxAI uses Google Gemini Pro Vision to analyse symptoms and medical images for medication suggestions. Includes IoT cold-chain monitoring (temperature, humidity, pressure), offline-first workflows via IndexedDB, and a drug intelligence hub with real-time lookup and clinical trial integration.",
-    tech: ["Next.js 15", "TypeScript", "Firebase", "Gemini Pro Vision", "Python Flask", "Google Cloud Run", "Tailwind CSS", "IndexedDB"],
+      "Multi-tenant clinical AI platform for healthcare in emerging markets. RxAI uses Gemini Pro Vision for symptom + medical image analysis. IoT cold-chain monitoring, offline-first via IndexedDB, drug intelligence hub with clinical trial integration.",
+    tech: ["Next.js 15", "TypeScript", "Firebase", "Gemini Pro Vision", "Python Flask", "Cloud Run", "Tailwind", "IndexedDB"],
+    tags: ["AI/ML", "Full Stack"],
     featured: true,
     placeholderVariant: "medvault",
     githubUrl: "https://github.com/RishiKanajam/MedVault",
-    liveUrl: undefined,
     caseStudyUrl: undefined,
   },
   {
     title: "Ocius Technology — Maritime Computer Vision",
     description:
-      "Real-time object detection pipeline for autonomous maritime surveillance. Optimised a YOLOv8 architecture to run at 394 FPS on edge hardware — fast enough for live decision-making aboard unmanned surface vehicles. Deployed in a production environment at Ocius Technology.",
-    tech: ["Python", "YOLOv8", "PyTorch", "CUDA", "OpenCV", "Edge Deploy"],
-    featured: false,
+      "Real-time object detection for autonomous maritime surveillance. Optimised YOLOv8 to 394 FPS on edge hardware (9× throughput via INT8 + TensorRT) for live decision-making aboard unmanned surface vehicles.",
+    tech: ["Python", "YOLOv8", "PyTorch", "CUDA", "OpenCV", "Docker", "TensorRT"],
+    tags: ["AI/ML"],
+    featured: true,
     placeholderVariant: "ocius",
-    githubUrl: undefined, // private repo
+    githubUrl: undefined,
     caseStudyUrl: undefined,
   },
   {
-    title: "MangRAG — Document Intelligence RAG System",
+    title: "MangRAG — Document Intelligence RAG",
     description:
-      "End-to-end retrieval-augmented generation system for document intelligence. Handles document ingestion, vector indexing, semantic retrieval, and grounded LLM responses with per-source attribution — so answers are always traceable back to the source material.",
+      "End-to-end RAG system with hybrid FAISS + BM25 retrieval, served through async FastAPI. Handles document ingestion, vector indexing, semantic retrieval, and grounded LLM responses with per-source attribution.",
     tech: ["Python", "FastAPI", "LangChain", "PostgreSQL", "pgvector"],
-    featured: false,
+    tags: ["AI/ML", "Full Stack"],
     placeholderVariant: "mangrag",
     githubUrl: "https://github.com/RishiKanajam/MangRAG",
     caseStudyUrl: undefined,
   },
   {
-    title: "Stanford RNA 3D Folding — Kaggle Competition",
+    title: "Stanford RNA 3D Folding — Kaggle",
     description:
-      "Kaggle competition entry predicting RNA tertiary structures using a hybrid TBM + RibonanzaNet + MDS pipeline. A sentinel-fix on the validation set lifted TM-score from 0.60 to 0.984 — demonstrating that careful data handling often outperforms model changes.",
+      "Kaggle competition entry predicting RNA tertiary structures using a hybrid TBM + RibonanzaNet + MDS pipeline. A sentinel-fix on the validation set lifted TM-score from 0.60 to 0.984.",
     tech: ["Python", "PyTorch", "RibonanzaNet", "NumPy", "SciPy"],
-    featured: false,
+    tags: ["AI/ML", "Research"],
     placeholderVariant: "rna",
     githubUrl: "https://github.com/RishiKanajam/stanford-rna-folding",
     caseStudyUrl: undefined,
@@ -183,9 +204,9 @@ export const projects: Project[] = [
   {
     title: "DeceptionArena — LLM Deception Benchmark",
     description:
-      "Cross-game benchmark measuring LLM deception capabilities across social deduction games (Coup + Secret Hitler). Multi-provider LLM agents via OpenRouter/OpenAI/Anthropic, with a React + Pixi.js 2D visualizer for spectating AI games. Includes human play mode, Deception ELO rating system, and tournament infrastructure. Solo-authored research project targeting arXiv publication.",
+      "Cross-game benchmark testing LLM deception across social deduction games. Coup engine complete with full deception tracking; multi-provider LLM agents, tournament ELO system. Targeting arXiv publication.",
     tech: ["Python", "asyncio", "React", "Pixi.js", "OpenRouter", "OpenAI API", "Anthropic API"],
-    featured: false,
+    tags: ["AI/ML", "Research"],
     inProgress: true,
     placeholderVariant: "deceptiona",
     githubUrl: "https://github.com/RishiKanajam/DeceptionArena",
@@ -194,21 +215,28 @@ export const projects: Project[] = [
   {
     title: "Llama-3 Latent Space Research",
     description:
-      "Exploratory research into representation analysis and latent space geometry in Llama-3 models. Investigates how concepts are encoded across layers and what internal structure emerges during fine-tuning — foundational work for interpretability and red-teaming.",
+      "Representation analysis and latent space geometry in Llama-3 models. Investigates concept encoding across layers — foundational work for interpretability and red-teaming.",
     tech: ["Python", "PyTorch", "Transformers", "Llama-3", "NumPy"],
-    featured: false,
+    tags: ["AI/ML", "Research"],
     placeholderVariant: "llama",
     githubUrl: undefined,
     caseStudyUrl: undefined,
   },
 ];
 
-// ─── Publications & Certifications ────────────────────────────────────────────
+// ─── Education & Certifications ───────────────────────────────────────────────
 
 export interface Certification {
   title: string;
   issuer: string;
   year?: string;
+}
+
+export interface EducationItem {
+  degree: string;
+  institution: string;
+  period: string;
+  location?: string;
 }
 
 export interface Publication {
@@ -223,11 +251,26 @@ export const certifications: Certification[] = [
   { title: "McKinsey Forward Program", issuer: "McKinsey & Company", year: "Apr–Jun 2026 · enrolled" },
 ];
 
+export const education: EducationItem[] = [
+  {
+    degree: "Master of IT & IT Management (Data Analytics)",
+    institution: "University of Sydney",
+    period: "2023 – 2025",
+    location: "Sydney, Australia",
+  },
+  {
+    degree: "B.Tech (Honours) — Computer Science & Engineering",
+    institution: "GMR Institute of Technology",
+    period: "2019 – 2023",
+    location: "India",
+  },
+];
+
 export const publications: Publication[] = [
   {
     title: "Measuring Deception in Large Language Models Across Social Deduction Games",
     venue: "arXiv (in preparation)",
-    year: "2026",
+    year: "2025",
   },
 ];
 

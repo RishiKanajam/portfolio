@@ -1,108 +1,153 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, X, Menu } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/components/ThemeProvider";
-import { siteConfig } from "@/content/content";
 
 const NAV_LINKS = [
-  { label: "About",        href: "#about" },
-  { label: "Experience",   href: "#experience" },
-  { label: "Projects",     href: "#projects" },
-  { label: "Writing",      href: "#writing" },
-  { label: "Contact",      href: "#contact" },
+  { label: "About",      href: "#about" },
+  { label: "Experience", href: "#experience" },
+  { label: "Projects",   href: "#projects" },
+  { label: "Writing",    href: "#writing" },
+  { label: "Contact",    href: "#contact" },
 ];
+
+const RESUME_HREF = "/resume.pdf";
 
 export default function Navigation() {
   const { theme, toggle } = useTheme();
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const [scrolled,  setScrolled]  = useState(false);
+  const [menuOpen,  setMenuOpen]  = useState(false);
+  const [mounted,   setMounted]   = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const onScroll = () => setScrolled(window.scrollY > 16);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const handleLink = (href: string) => {
+  const scrollTo = (href: string) => {
     setMenuOpen(false);
     const id = href.replace("#", "");
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
-        scrolled
-          ? "bg-bg/90 backdrop-blur-md border-b border-border"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="container-wide flex items-center justify-between h-14">
-        {/* Logo / initials */}
-        <a
-          href="#"
-          onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-          className="text-[15px] font-semibold text-text-1 tracking-tight hover:text-accent transition-colors"
-          aria-label="Back to top"
-        >
-          {siteConfig.initials}
-        </a>
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? "bg-bg/80 backdrop-blur-xl border-b border-border shadow-sm"
+            : "bg-transparent"
+        }`}
+      >
+        <div className="container-wide flex items-center h-16">
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-6" aria-label="Main navigation">
-          {NAV_LINKS.map(({ label, href }) => (
-            <button
-              key={href}
-              onClick={() => handleLink(href)}
-              className="text-[14px] text-text-3 hover:text-text-1 transition-colors"
-            >
-              {label}
-            </button>
-          ))}
-        </nav>
-
-        {/* Right: theme toggle + mobile menu */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={toggle}
-            aria-label="Toggle dark mode"
-            className="w-8 h-8 flex items-center justify-center rounded-md text-text-3 hover:text-text-1 hover:bg-surface transition-colors"
+          {/* Left: wordmark */}
+          <a
+            href="#"
+            onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+            className="text-[17px] font-bold text-text-1 tracking-tight hover:text-accent transition-colors shrink-0 mr-auto"
+            aria-label="Back to top"
           >
-            {mounted ? (theme === "dark" ? <Sun size={16} /> : <Moon size={16} />) : <span className="w-4 h-4" />}
-          </button>
+            rishi<span className="text-accent">.</span>
+          </a>
 
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMenuOpen((v) => !v)}
-            aria-label="Toggle menu"
-            className="md:hidden w-8 h-8 flex flex-col items-center justify-center gap-1.25 text-text-3 hover:text-text-1"
+          {/* Center: pill nav links — hidden on mobile */}
+          <nav
+            className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2"
+            aria-label="Main navigation"
           >
-            <span className={`block h-px w-5 bg-current transition-transform duration-200 ${menuOpen ? "translate-y-1.5 rotate-45" : ""}`} />
-            <span className={`block h-px w-5 bg-current transition-opacity duration-200 ${menuOpen ? "opacity-0" : ""}`} />
-            <span className={`block h-px w-5 bg-current transition-transform duration-200 ${menuOpen ? "-translate-y-1.5 -rotate-45" : ""}`} />
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="md:hidden border-t border-border bg-bg/95 backdrop-blur-md">
-          <nav className="container-wide py-4 flex flex-col gap-1" aria-label="Mobile navigation">
             {NAV_LINKS.map(({ label, href }) => (
               <button
                 key={href}
-                onClick={() => handleLink(href)}
-                className="text-left py-2 text-[15px] text-text-2 hover:text-accent transition-colors"
+                onClick={() => scrollTo(href)}
+                className="px-3.5 py-1.5 rounded-full text-[13px] font-medium text-text-3 hover:text-text-1 hover:bg-surface transition-all duration-150"
               >
                 {label}
               </button>
             ))}
           </nav>
+
+          {/* Right: theme toggle + Resume — hidden on mobile */}
+          <div className="hidden md:flex items-center gap-2 ml-auto">
+            <button
+              onClick={toggle}
+              aria-label="Toggle dark mode"
+              className="w-8 h-8 flex items-center justify-center rounded-full text-text-3 hover:text-text-1 hover:bg-surface transition-all"
+            >
+              {mounted
+                ? theme === "dark" ? <Sun size={15} /> : <Moon size={15} />
+                : <span className="w-4 h-4" />}
+            </button>
+            <a
+              href={RESUME_HREF}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-1.5 rounded-full bg-accent text-white text-[13px] font-semibold hover:opacity-90 transition-opacity"
+            >
+              Resume
+            </a>
+          </div>
+
+          {/* Mobile: theme toggle + hamburger */}
+          <div className="flex md:hidden items-center gap-1 ml-auto">
+            <button
+              onClick={toggle}
+              aria-label="Toggle dark mode"
+              className="w-10 h-10 flex items-center justify-center rounded-full text-text-3 hover:text-text-1 hover:bg-surface transition-all"
+            >
+              {mounted
+                ? theme === "dark" ? <Sun size={16} /> : <Moon size={16} />
+                : <span className="w-4 h-4" />}
+            </button>
+            <button
+              onClick={() => setMenuOpen((v) => !v)}
+              aria-label="Toggle menu"
+              aria-expanded={menuOpen}
+              className="w-10 h-10 flex items-center justify-center rounded-full text-text-3 hover:text-text-1 hover:bg-surface transition-all"
+            >
+              {menuOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
+          </div>
         </div>
-      )}
-    </header>
+      </header>
+
+      {/* Mobile drawer */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.16, ease: "easeOut" }}
+            className="fixed top-16 left-0 right-0 z-40 bg-bg/95 backdrop-blur-xl border-b border-border shadow-lg md:hidden"
+          >
+            <nav className="container-wide py-4 flex flex-col" aria-label="Mobile navigation">
+              {NAV_LINKS.map(({ label, href }) => (
+                <button
+                  key={href}
+                  onClick={() => scrollTo(href)}
+                  className="text-left py-3 px-1 text-[16px] font-medium text-text-2 hover:text-accent transition-colors border-b border-border/50 last:border-0"
+                >
+                  {label}
+                </button>
+              ))}
+              <a
+                href={RESUME_HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMenuOpen(false)}
+                className="mt-4 text-center py-3 px-6 rounded-full bg-accent text-white text-[15px] font-semibold hover:opacity-90 transition-opacity"
+              >
+                View Resume
+              </a>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
