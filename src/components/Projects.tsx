@@ -140,13 +140,170 @@ function DeceptionArenaIllustration() {
   );
 }
 
+// ── ChronoLens — Cultural Evidence OS ─────────────────────────────────────────
+// Nodes: center(380,108) + 4 main + 4 outer + 2 far — all precomputed, no Math.random()
+const CL_NODES = [
+  { x: 380, y: 108, r: 15, label: "Silk Rd", c: "#5CBB78" },
+  { x: 380, y: 50,  r: 10, label: "China",   c: "#60A5FA" },
+  { x: 438, y: 108, r: 10, label: "Persia",  c: "#A78BFA" },
+  { x: 380, y: 166, r: 10, label: "India",   c: "#F97316" },
+  { x: 322, y: 108, r: 10, label: "Rome",    c: "#FBBF24" },
+  { x: 306, y: 65,  r:  6, label: "",        c: "#60A5FA" },
+  { x: 454, y: 65,  r:  6, label: "",        c: "#A78BFA" },
+  { x: 454, y: 152, r:  6, label: "",        c: "#F97316" },
+  { x: 306, y: 152, r:  6, label: "",        c: "#FBBF24" },
+  { x: 512, y: 108, r:  5, label: "",        c: "#5CBB78" },
+] as const;
+const CL_EDGES = [[0,1],[0,2],[0,3],[0,4],[1,5],[2,6],[3,7],[4,8],[1,2],[2,3],[2,9]] as const;
+
+const CL_EVIDENCE = [
+  { badge: "FACT",        c: "#4ADE80", bg: "#0F2010", text: "Qin Dynasty standardised casting (221 BCE)" },
+  { badge: "CONTEXT",     c: "#60A5FA", bg: "#0E1A2C", text: "Bronze traditions shared — Central Asia" },
+  { badge: "HYPOTHESIS",  c: "#FBBF24", bg: "#221A08", text: "Artisan transfer via Silk Road networks" },
+  { badge: "NEEDS REVIEW",c: "#F87171", bg: "#221010", text: "Cross-cultural dating — expert required" },
+] as const;
+
+function ChronoLensIllustration() {
+  return (
+    <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      <rect width="560" height="220" fill="#070A12"/>
+      {Array.from({length:6},(_,i)=>(<line key={`v${i}`} x1={i*40} y1="0" x2={i*40} y2="220" stroke="#0C1220" strokeWidth="0.5"/>))}
+      {Array.from({length:6},(_,i)=>(<line key={`h${i}`} x1="0" y1={i*44} x2="232" y2={i*44} stroke="#0C1220" strokeWidth="0.5"/>))}
+
+      {/* Header + query */}
+      <text x="10" y="18" fontSize="8" fill="#5CBB78" fontFamily="monospace" fontWeight="bold">CHRONOLENS · CULTURAL EVIDENCE OS</text>
+      <rect x="10" y="24" width="214" height="14" rx="3" fill="#0E1A28" stroke="#1A3A5A" strokeWidth="1"/>
+      <text x="15" y="34" fontSize="7" fill="#2A5878" fontFamily="monospace">❯  Silk Road bronze metallurgy</text>
+
+      {/* Evidence classification cards */}
+      {CL_EVIDENCE.map(({badge,c,bg,text},i)=>(
+        <g key={i} transform={`translate(10,${44+i*42})`}>
+          <rect width="214" height="34" rx="4" fill={bg} stroke={c} strokeWidth="0.8"/>
+          <rect x="0" y="0" width={badge.length*5+12} height="13" rx="2" fill={c} opacity="0.9"/>
+          <text x="5" y="9" fontSize="6" fill="#050A08" fontFamily="monospace" fontWeight="bold">{badge}</text>
+          <text x="6" y="27" fontSize="7" fill="#8E9AA8" fontFamily="monospace">{text}</text>
+        </g>
+      ))}
+
+      {/* Source strip */}
+      <rect x="0" y="210" width="232" height="10" fill="#080E18"/>
+      {[{t:"OpenAlex",x:10},{t:"LoC",x:80},{t:"Met",x:116},{t:"MusicBrainz",x:150}].map(({t,x})=>(
+        <text key={t} x={x} y="218" fontSize="6" fill="#1A3A50" fontFamily="monospace">{t}</text>
+      ))}
+
+      {/* Divider */}
+      <line x1="232" y1="10" x2="232" y2="210" stroke="#0E1C2C" strokeWidth="1"/>
+
+      {/* Knowledge graph */}
+      {CL_EDGES.map(([a,b],i)=>(
+        <line key={i} x1={CL_NODES[a].x} y1={CL_NODES[a].y} x2={CL_NODES[b].x} y2={CL_NODES[b].y} stroke="#1A3050" strokeWidth="1.2" opacity="0.65"/>
+      ))}
+      {CL_NODES.map((n,i)=>(
+        <g key={i}>
+          <circle cx={n.x} cy={n.y} r={n.r+5} fill={n.c} opacity="0.07"/>
+          <circle cx={n.x} cy={n.y} r={n.r} fill="#080E18" stroke={n.c} strokeWidth="1.5"/>
+          {n.label && <text x={n.x} y={n.y+3} fontSize={n.r>10?7:6} fill={n.c} fontFamily="monospace" textAnchor="middle" fontWeight="bold">{n.label}</text>}
+        </g>
+      ))}
+      <text x="238" y="16" fontSize="7" fill="#1A3050" fontFamily="monospace">KNOWLEDGE GRAPH · 47 nodes · 128 edges</text>
+
+      {/* Legend */}
+      {[["#4ADE80","Fact"],["#60A5FA","Context"],["#FBBF24","Hypothesis"],["#F87171","Needs Review"]].map(([c,l],i)=>(
+        <g key={i} transform={`translate(${238+i*79},200)`}>
+          <circle cx="5" cy="5" r="4" fill={c} opacity="0.8"/>
+          <text x="13" y="9" fontSize="6" fill="#2A4A6A" fontFamily="monospace">{l}</text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+// ── PathFinder — Mental Health Triage ──────────────────────────────────────────
+// Smooth voice waveform as cubic bezier — no runtime math
+const PF_WAVE = "M10,55 C18,38 28,72 38,55 C48,38 58,72 68,55 C78,38 88,72 98,55 C108,38 118,72 128,55 C138,38 148,72 158,55 C164,48 170,60 180,55";
+
+const PF_QUEUE = [
+  { level: "HIGH", c: "#F87171", bg: "#1C0A0A", desc: "Anonymous · Voice · 2m ago",      quote: "everything feels pointless" },
+  { level: "MED",  c: "#FBBF24", bg: "#1C1408", desc: "Self-referred · QR portal · 18m", quote: "losing all motivation lately" },
+  { level: "LOW",  c: "#4ADE80", bg: "#0A1C0A", desc: "GP referral · Text · 1h ago",    quote: "anxiety and trouble sleeping" },
+] as const;
+
+function PathFinderIllustration() {
+  return (
+    <svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      <rect width="560" height="220" fill="#060910"/>
+
+      {/* Title */}
+      <text x="10" y="16" fontSize="8" fill="#60A5FA" fontFamily="monospace" fontWeight="bold">PATHFINDER · MENTAL HEALTH TRIAGE</text>
+      <text x="10" y="26" fontSize="6" fill="#1A2A50" fontFamily="monospace">Lake Macquarie &amp; Newcastle SPN</text>
+
+      {/* Voice intake panel */}
+      <rect x="10" y="32" width="188" height="54" rx="4" fill="#080F1C" stroke="#1A2A4A" strokeWidth="1"/>
+      <text x="16" y="43" fontSize="7" fill="#2A4A7A" fontFamily="monospace">● VOICE INTAKE · ACTIVE</text>
+      <path d={PF_WAVE} stroke="#60A5FA" strokeWidth="1.8" fill="none" opacity="0.85" transform="translate(0,10)"/>
+      <path d={PF_WAVE} stroke="#60A5FA" strokeWidth="4"   fill="none" opacity="0.08" transform="translate(0,10)"/>
+      <text x="16" y="82" fontSize="6" fill="#1A3060" fontFamily="monospace">Azure STT · tone analysis · confidence 0.97</text>
+
+      {/* Risk assessment */}
+      <rect x="10" y="92" width="188" height="52" rx="4" fill="#080F1C" stroke="#1A2A4A" strokeWidth="1"/>
+      <text x="16" y="104" fontSize="7" fill="#2A4A7A" fontFamily="monospace">RISK ASSESSMENT ENGINE</text>
+      {[{k:"Keywords",v:"HIGH",c:"#F87171"},{k:"Sentiment",v:"-0.87",c:"#FBBF24"},{k:"Voice tone",v:"distress",c:"#F87171"},{k:"Linguistic",v:"absolutist",c:"#F87171"}].map(({k,v,c},i)=>(
+        <g key={i} transform={`translate(16,${110+i*8})`}>
+          <text x="0" y="0" fontSize="6" fill="#1A3060" fontFamily="monospace">{k}:</text>
+          <text x="62" y="0" fontSize="6" fill={c} fontFamily="monospace" fontWeight="bold">{v}</text>
+        </g>
+      ))}
+
+      {/* Escalation protocol */}
+      <rect x="10" y="150" width="188" height="50" rx="4" fill="#1C0A0A" stroke="#3A1010" strokeWidth="1"/>
+      <text x="16" y="162" fontSize="7" fill="#F87171" fontFamily="monospace" fontWeight="bold">⚠ HIGH RISK · ESCALATING</text>
+      {["→ Clinician alert sent","→ Supervisor notified","→ CEO backup in 10 min"].map((t,i)=>(
+        <text key={i} x="16" y={172+i*9} fontSize="6" fill="#5A2020" fontFamily="monospace">{t}</text>
+      ))}
+
+      {/* Crisis bar */}
+      <rect x="0" y="208" width="205" height="12" fill="#100808"/>
+      <text x="10" y="217" fontSize="6" fill="#5A2020" fontFamily="monospace">Lifeline 13 11 14  ·  000  ·  Beyond Blue</text>
+
+      {/* Divider */}
+      <line x1="205" y1="10" x2="205" y2="208" stroke="#0E1C2C" strokeWidth="1"/>
+
+      {/* Admin dashboard title */}
+      <text x="214" y="16" fontSize="9" fill="#2A4A7A" fontFamily="monospace" fontWeight="bold">ADMIN DASHBOARD · Evolve Hub</text>
+      <text x="214" y="26" fontSize="6" fill="#1A2A4A" fontFamily="monospace">14 programs · 15 staff · Live</text>
+
+      {/* Risk priority queue */}
+      {PF_QUEUE.map(({level,c,bg,desc,quote},i)=>(
+        <g key={i} transform={`translate(214,${32+i*54})`}>
+          <rect width="338" height="48" rx="4" fill={bg} stroke={c} strokeWidth="0.8"/>
+          <rect x="0" y="0" width={level.length*7+10} height="14" rx="2" fill={c} opacity="0.9"/>
+          <text x="5" y="10" fontSize="7" fill="#060910" fontFamily="monospace" fontWeight="bold">{level}</text>
+          <text x={level.length*7+14} y="10" fontSize="6" fill="#6B7280" fontFamily="monospace">{desc}</text>
+          <text x="10" y="34" fontSize="8" fill={c} fontFamily="monospace" opacity="0.85">{quote}</text>
+        </g>
+      ))}
+
+      {/* Analytics strip */}
+      <rect x="214" y="198" width="338" height="20" rx="3" fill="#080F1C" stroke="#1A2A4A" strokeWidth="1"/>
+      {[{l:"Referrals",v:"12",c:"#60A5FA"},{l:"Avg resp.",v:"3.2m",c:"#4ADE80"},{l:"High risk",v:"2",c:"#F87171"},{l:"QR scans",v:"8",c:"#FBBF24"}].map(({l,v,c},i)=>(
+        <g key={l} transform={`translate(${224+i*82},203)`}>
+          <text x="0" y="7" fontSize="6" fill="#1A3060" fontFamily="monospace">{l}</text>
+          <text x="0" y="16" fontSize="8" fill={c} fontFamily="monospace" fontWeight="bold">{v}</text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
 const ILLUSTRATIONS: Record<Project["placeholderVariant"], React.FC> = {
-  medvault:  MedVaultIllustration,
-  ocius:     OciusIllustration,
-  mangrag:   MangRAGIllustration,
-  rna:       RNAIllustration,
-  llama:     LlamaIllustration,
+  medvault:   MedVaultIllustration,
+  ocius:      OciusIllustration,
+  mangrag:    MangRAGIllustration,
+  rna:        RNAIllustration,
+  llama:      LlamaIllustration,
   deceptiona: DeceptionArenaIllustration,
+  chronolens: ChronoLensIllustration,
+  pathfinder: PathFinderIllustration,
 };
 
 // ── Filter chips ──────────────────────────────────────────────────────────────

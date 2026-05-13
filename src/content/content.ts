@@ -43,7 +43,7 @@ export const stats: Stat[] = [
 export const about = {
   paragraphs: [
     "I'm Rishi, a Software and AI engineer based in Sydney. I graduated with a Master of IT & IT Management (Data Analytics) from the University of Sydney. My work sits at the intersection of machine learning, systems engineering, and security — I build things that ship, not just things that demo.",
-    "Right now I'm going deep on AI security: adversarial ML, LLM red-teaming, and hardening production ML pipelines against real threats. I also teach Data Structures & Algorithms at USyd, engage with open-source AI agent frameworks, and run OldTalkies — a Tenglish channel about tech case studies. On the side, I'm building healthcare AI infrastructure focused on bridging the Indian and Australian medical systems.",
+    "Right now I'm going deep on AI security: adversarial ML, LLM red-teaming, and hardening production ML pipelines against real threats. I also teach Data Structures & Algorithms at USyd, contribute to open-source AI agent frameworks, and run OldTalkies — a Tenglish channel about tech case studies. On the side, I'm building healthcare AI infrastructure focused on bridging the Indian and Australian medical systems.",
   ],
 };
 
@@ -69,6 +69,18 @@ export interface ExperienceItem {
 }
 
 export const experience: ExperienceItem[] = [
+  {
+    role: "Founder",
+    company: "Nirvya Labs",
+    period: "Apr 2026 – present",
+    current: true,
+    bullets: [
+      "Building the Python-first open-source ABDM/FHIR R4 developer toolkit for India's unified health data network — targeting 770M+ connected citizens and 36,000+ hospitals under mandatory compliance.",
+      "Designed async webhook handler with guaranteed 5-second callback reliability for ABDM certification, Pydantic models for all API types, and a local mock gateway eliminating sandbox geo-restrictions.",
+      "Identified genuinely unoccupied competitive slot (Python-first, developer-obsessed) vs Medblocks, EHR.Network, and reference Java implementations; architecting 4-phase roadmap to Andhra Pradesh government pilot.",
+    ],
+    tech: ["Python", "FastAPI", "FHIR R4", "Pydantic", "PostgreSQL", "AWS"],
+  },
   {
     role: "Academic Tutor — Data Structures & Algorithms",
     company: "University of Sydney",
@@ -155,7 +167,7 @@ export interface Project {
   githubUrl?: string;
   liveUrl?: string;
   caseStudyUrl?: string;
-  placeholderVariant: "ocius" | "mangrag" | "rna" | "llama" | "medvault" | "deceptiona";
+  placeholderVariant: "ocius" | "mangrag" | "rna" | "llama" | "medvault" | "deceptiona" | "chronolens" | "pathfinder";
 }
 
 export const projects: Project[] = [
@@ -182,6 +194,29 @@ export const projects: Project[] = [
     caseStudyUrl: undefined,
   },
   {
+    title: "ChronoLens — Cultural Evidence OS",
+    description:
+      "AI research platform where every claim about cultural heritage is classified by confidence level and linked to real sources. Evidence classification engine labels each AI-generated claim as Fact, Context, Hypothesis, or Needs Expert Review — no hallucination disguised as truth. Includes knowledge graph mapping, multi-archive search (OpenAlex, Library of Congress, Met Museum, MusicBrainz), geography mapping, architecture analysis, and study pack generation. Built solo in ~5 hours at OpenAI Codex Hackathon Sydney (April 2026, UTS Startups).",
+    tech: ["Next.js 14", "TypeScript", "Tailwind", "OpenAI Codex", "Groq", "Google Gemini", "Three.js", "Vercel"],
+    tags: ["AI/ML", "Full Stack"],
+    featured: true,
+    placeholderVariant: "chronolens",
+    githubUrl: "https://github.com/RishiKanajam/ChronoLens",
+    liveUrl: "https://chrono-lens-six.vercel.app",
+    caseStudyUrl: undefined,
+  },
+  {
+    title: "PathFinder — Mental Health Triage & Referral",
+    description:
+      "Voice + text intake system with real-time risk assessment for the Lake Macquarie & Newcastle Suicide Prevention Network — filling the 5pm–9am gap. Three interfaces: 24/7 client chatbot with Azure Speech real-time transcription and vocal tone extraction, a QR-code referral portal for informal referrers (bartenders, gaming centre staff, GPs), and an admin dashboard with the first-ever analytics for the organisation. 3-tier risk classification with 5-layer escalation cascade to CEO. Built at NGM Group Hackathon (May 2026, Newcastle) after directly interviewing LMNSPN staff.",
+    tech: ["React 18", "Vite", "FastAPI", "Azure Speech", "Azure AI Language", "Azure OpenAI GPT-4o-mini", "SQLite", "Recharts"],
+    tags: ["AI/ML", "Full Stack"],
+    featured: true,
+    placeholderVariant: "pathfinder",
+    githubUrl: undefined,
+    caseStudyUrl: undefined,
+  },
+  {
     title: "MangRAG — Document Intelligence RAG",
     description:
       "End-to-end RAG system with hybrid FAISS + BM25 retrieval, served through async FastAPI. Handles document ingestion, vector indexing, semantic retrieval, and grounded LLM responses with per-source attribution.",
@@ -204,7 +239,7 @@ export const projects: Project[] = [
   {
     title: "DeceptionArena — LLM Deception Benchmark",
     description:
-      "Cross-game benchmark testing LLM deception across social deduction games. Coup engine complete with full deception tracking; multi-provider LLM agents, tournament ELO system. Targeting arXiv publication.",
+      "Cross-game benchmark testing LLM deception across social deduction games. Coup engine complete with full deception tracking; multi-provider LLM agents, tournament ELO system. Additional game engines and React + Pixi.js visualizer in progress. Targeting arXiv publication.",
     tech: ["Python", "asyncio", "React", "Pixi.js", "OpenRouter", "OpenAI API", "Anthropic API"],
     tags: ["AI/ML", "Research"],
     inProgress: true,
@@ -269,7 +304,7 @@ export const education: EducationItem[] = [
 export const publications: Publication[] = [
   {
     title: "Measuring Deception in Large Language Models Across Social Deduction Games",
-    venue: "arXiv (in preparation)",
+    venue: "In preparation — targeting arXiv",
     year: "2025",
   },
 ];

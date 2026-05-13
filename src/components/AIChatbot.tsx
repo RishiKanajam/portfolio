@@ -24,15 +24,38 @@ interface Message {
 async function stubAsk(messages: Message[]): Promise<string> {
   await new Promise((r) => setTimeout(r, 500));
   const q = messages[messages.length - 1].content.toLowerCase();
-  if (q.includes("visa") || q.includes("work right") || q.includes("sponsor"))
-    return "I hold a Subclass 485 graduate visa valid until September 2028 — full Australian work rights, no sponsorship needed.";
-  if (q.includes("ocius") || q.includes("maritime") || q.includes("yolo"))
-    return "The Ocius project was a real-time maritime CV pipeline — YOLOv8 at 394 FPS on edge hardware, deployed for autonomous surveillance. Happy to go deeper.";
-  if (q.includes("availab") || q.includes("hire") || q.includes("opportunit"))
-    return "Actively looking for Software Engineer, AI/ML Engineer, or Data Engineer roles, ideally with a healthcare or AI security angle. Email is the fastest path — see the Contact section.";
-  if (q.includes("project") || q.includes("work"))
-    return "My strongest pieces are the Ocius maritime CV pipeline (394 FPS YOLOv8), MangRAG (RAG document intelligence), and RNA 3D folding (TM-score 0.984). Ask me about any specific one.";
-  return "I'm Rishi's portfolio assistant. Ask me about his experience, projects, tech stack, publications, or availability.";
+
+  if (q.includes("visa") || q.includes("work right") || q.includes("sponsor") || q.includes("citizen"))
+    return "I have full Australian work rights — no sponsorship needed. Based in Sydney and open to on-site, hybrid, or remote roles.";
+
+  if (q.includes("ocius") || q.includes("maritime") || q.includes("yolo") || q.includes("computer vision"))
+    return "At Ocius Technology I built a real-time maritime CV pipeline — optimised YOLOv8 to 394 FPS on NVIDIA Jetson via INT8 quantisation and TensorRT (9× throughput gain). Deployed to production for autonomous surface vehicle surveillance.";
+
+  if (q.includes("medvault") || q.includes("clinical") || q.includes("health") || q.includes("gemini"))
+    return "MedVault is a multi-tenant clinical AI platform for healthcare in emerging markets. The RxAI module uses Gemini Pro Vision to analyse symptoms and medical images for medication suggestions. It also includes IoT cold-chain monitoring and offline-first workflows via IndexedDB. Google APAC Solution Challenge project.";
+
+  if (q.includes("deception") || q.includes("arena") || q.includes("llm") || q.includes("benchmark"))
+    return "DeceptionArena is my solo research project — a cross-game benchmark measuring LLM deception capabilities across social deduction games (Coup + Secret Hitler). Multi-provider agents via OpenRouter/OpenAI/Anthropic, tournament ELO system, and a React + Pixi.js visualizer. The paper is in preparation, not yet published. Currently in active development.";
+
+  if (q.includes("open source") || q.includes("hive") || q.includes("contribution"))
+    return "I contribute to Hive, a YC-backed AI agent framework — proposed and built a new Saavy tool integration, and fixed a deprecated asyncio.get_event_loop pattern in the ConcurrentStorage module.";
+
+  if (q.includes("mckinsey") || q.includes("aws") || q.includes("cert"))
+    return "I hold an AWS Certified AI Practitioner (Sep 2025) and am enrolled in the McKinsey Forward Program (Apr–Jun 2026). My Master's is from the University of Sydney — Data Analytics.";
+
+  if (q.includes("availab") || q.includes("hire") || q.includes("opportunit") || q.includes("role") || q.includes("job"))
+    return "Actively looking for Software Engineer, AI/ML Engineer, or Data Engineer roles — especially in healthcare AI and security. Based in Sydney with full Australian work rights. Email via the Contact section is the fastest path.";
+
+  if (q.includes("project") || q.includes("built") || q.includes("work"))
+    return "My key projects: MedVault (clinical AI platform), Ocius maritime CV (394 FPS YOLOv8), MangRAG (RAG document intelligence), Stanford RNA folding (TM-score 0.984), and DeceptionArena (LLM deception benchmark, in progress). Ask me about any one.";
+
+  if (q.includes("teach") || q.includes("tutor") || q.includes("usyd") || q.includes("university"))
+    return "I teach Data Structures & Algorithms (COMP2123/COMP9123) at the University of Sydney — mentoring 50+ students per semester in C++ and Python. I also led improvements to lab support materials and grading rubrics.";
+
+  if (q.includes("stack") || q.includes("tech") || q.includes("language") || q.includes("framework"))
+    return "Primary stack: Python, PyTorch, LangChain, FastAPI for AI/ML work; TypeScript, React, Next.js for full-stack. Infrastructure: AWS, GCP, Docker. For AI security specifically I work with adversarial ML tooling and custom red-teaming pipelines.";
+
+  return "I'm Rishi's portfolio assistant. Ask me about his projects, experience, tech stack, open-source work, certifications, or availability.";
 }
 
 export default function AIChatbot() {
