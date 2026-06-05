@@ -1,4 +1,4 @@
-import { Mail, MapPin } from "lucide-react";
+import { Mail } from "lucide-react";
 import AnimatedSection from "@/components/AnimatedSection";
 import { siteConfig, contact } from "@/content/content";
 
@@ -24,47 +24,43 @@ export default function Contact() {
       <div className="container-wide py-24 md:py-32">
         <AnimatedSection className="max-w-2xl">
           <span className="section-label">Contact</span>
-          <h2 className="text-[40px] md:text-[56px] lg:text-[64px] font-bold leading-[1.05] tracking-tight mb-6 text-[#E8E8E8]">
-            Let&apos;s build something<br />together.
+          <h2
+            className="text-[40px] md:text-[56px] lg:text-[64px] font-bold leading-[1.05] tracking-tight mb-6 text-[#EDEDEE]"
+            style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
+          >
+            Let&apos;s build<br />something together.
           </h2>
-          <p className="text-[17px] leading-relaxed mb-10" style={{ color: "#8E8E93" }}>
+          <p className="text-[17px] leading-relaxed mb-10" style={{ color: "#8A8A8F" }}>
             {contact.pitch}
           </p>
 
-          {/* Location */}
-          <div className="flex items-center gap-2 mb-10" style={{ color: "#48484A" }}>
-            <MapPin size={14} />
-            <span className="text-[13px]">Sydney, Australia — available for on-site, hybrid, or remote</span>
-          </div>
-
-          {/* CTAs */}
           <div className="flex flex-wrap gap-3">
             <a
               href={siteConfig.mailtoHref}
-              className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-[15px] font-semibold transition-opacity hover:opacity-90"
+              className="inline-flex items-center gap-2.5 min-h-[44px] px-6 py-2.5 rounded-xl text-[14px] font-semibold transition-opacity hover:opacity-90"
               style={{ backgroundColor: "#5CBB78", color: "#fff" }}
             >
-              <Mail size={17} />
+              <Mail size={15} />
               Email me
             </a>
             <a
               href={siteConfig.linkedIn}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-[15px] font-semibold border transition-colors"
-              style={{ borderColor: "#2D2D2D", color: "#BEBEBE" }}
+              className="inline-flex items-center gap-2.5 min-h-[44px] px-6 py-2.5 rounded-xl text-[14px] font-semibold border transition-colors hover:border-[#3D3D42]"
+              style={{ borderColor: "#2D2D32", color: "#BEBEC6" }}
             >
-              <LinkedinIcon size={17} />
+              <LinkedinIcon size={15} />
               LinkedIn
             </a>
             <a
               href={siteConfig.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-[15px] font-semibold border transition-colors"
-              style={{ borderColor: "#2D2D2D", color: "#BEBEBE" }}
+              className="inline-flex items-center gap-2.5 min-h-[44px] px-6 py-2.5 rounded-xl text-[14px] font-semibold border transition-colors hover:border-[#3D3D42]"
+              style={{ borderColor: "#2D2D32", color: "#BEBEC6" }}
             >
-              <GithubIcon size={17} />
+              <GithubIcon size={15} />
               GitHub
             </a>
           </div>

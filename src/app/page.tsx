@@ -1,16 +1,15 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import Stats from "@/components/Stats";
-import About from "@/components/About";
-import Marquee from "@/components/Marquee";
 import Experience from "@/components/Experience";
-import OpenSource from "@/components/OpenSource";
 import Projects from "@/components/Projects";
+import TechList from "@/components/TechList";
 import Writing from "@/components/Writing";
 import Education from "@/components/Education";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-import AIChatbot from "@/components/AIChatbot";
+import CommandPalette from "@/components/CommandPalette";
+import IntelligenceBar from "@/components/IntelligenceBar";
 
 export default function Home() {
   return (
@@ -19,18 +18,17 @@ export default function Home() {
       <main>
         <Hero />
         <Stats />
-        <About />
-        <Marquee />
         <Experience />
-        <OpenSource />
         <Projects />
+        <TechList />
         <Writing />
         <Education />
-        {/* TODO: testimonials section — add when LinkedIn recommendations are available */}
         <Contact />
       </main>
       <Footer />
-      <AIChatbot />
+      {/* Global overlays — not in document flow */}
+      <CommandPalette />
+      <IntelligenceBar />
     </>
   );
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Fraunces } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/ThemeProvider";
@@ -12,41 +12,48 @@ const inter = Inter({
 });
 
 const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-mono",
+  variable: "--font-jetbrains",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Rishi Kanajam — Software & AI Engineer",
+  title: "Rishi Kanajam — Founder · AI & Data Engineer",
   description:
-    "Software & AI Engineer building healthcare AI and securing ML systems — based in Sydney. Open to Software Engineer, AI/ML Engineer, and Data Engineer roles.",
+    "Founder of Nirvya Labs, building open-source healthcare infrastructure for India. AI & Data Engineer based in Sydney. Open to AI Engineering, Software Engineering, and Data Engineering roles.",
   keywords: [
-    "Software Engineer",
     "AI Engineer",
-    "ML Engineer",
+    "Software Engineer",
     "Data Engineer",
     "Healthcare AI",
-    "AI Security",
+    "FHIR R4",
+    "ABDM",
+    "Open Source",
     "Sydney",
     "Australia",
     "LLM",
-    "RAG",
-    "Computer Vision",
+    "DeceptionArena",
+    "Krama Core",
   ],
   authors: [{ name: "Rishi Kanajam" }],
   openGraph: {
-    title: "Rishi Kanajam — Software & AI Engineer",
+    title: "Rishi Kanajam — Founder · AI & Data Engineer",
     description:
-      "Software & AI Engineer building healthcare AI and securing ML systems — based in Sydney.",
+      "Founder of Nirvya Labs, building open-source healthcare infrastructure for India. Based in Sydney.",
     type: "website",
     locale: "en_AU",
   },
   twitter: {
     card: "summary",
-    title: "Rishi Kanajam — Software & AI Engineer",
+    title: "Rishi Kanajam — Founder · AI & Data Engineer",
     description:
-      "Software & AI Engineer building healthcare AI and securing ML systems — based in Sydney.",
+      "Founder of Nirvya Labs, building open-source healthcare infrastructure for India. Based in Sydney.",
   },
 };
 
@@ -56,7 +63,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${inter.variable} ${jetbrainsMono.variable} ${fraunces.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         {/* Default to dark — visitors without a stored preference get dark mode */}
         <script

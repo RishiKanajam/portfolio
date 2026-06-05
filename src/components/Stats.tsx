@@ -9,6 +9,10 @@ function useCountUp(target: number, decimals: number, enabled: boolean) {
 
   useEffect(() => {
     if (!enabled) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setValue(target);
+      return;
+    }
     let frame: number;
     const startTime = performance.now();
     const duration = 1300;
@@ -27,10 +31,10 @@ function useCountUp(target: number, decimals: number, enabled: boolean) {
   return value;
 }
 
-function StatItem({ stat }: { stat: Stat }) {
+function StatItem({ stat, index }: { stat: Stat; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
-  const counted = useCountUp(stat.numericTarget, stat.decimals ?? 0, inView);
+  const counted = useCountUp(stat.numericTarget ?? 0, stat.decimals ?? 0, inView && !stat.isText);
 
   useEffect(() => {
     const el = ref.current;
@@ -43,9 +47,11 @@ function StatItem({ stat }: { stat: Stat }) {
     return () => obs.disconnect();
   }, []);
 
-  const formatted = inView
-    ? `${stat.prefix ?? ""}${counted.toFixed(stat.decimals ?? 0)}${stat.suffix ?? ""}`
-    : stat.value;
+  const displayValue = stat.isText
+    ? stat.value
+    : inView
+      ? `${counted.toFixed(stat.decimals ?? 0)}${stat.suffix ?? ""}`
+      : stat.value;
 
   return (
     <motion.div
@@ -53,14 +59,23 @@ function StatItem({ stat }: { stat: Stat }) {
       initial={{ opacity: 0, y: 8 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-      className="flex flex-col items-center text-center px-4 py-6 sm:py-8"
+      transition={{ delay: index * 0.07, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+      className="flex flex-col items-center text-center px-4 py-7 sm:py-10"
     >
-      <span className="text-[38px] sm:text-[46px] font-bold tracking-tight text-text-1 font-[var(--font-mono)] tabular-nums leading-none mb-2">
-        {formatted}
+      <span
+        className="text-[28px] sm:text-[36px] font-bold tracking-tight text-text-1 leading-none mb-1.5 tabular-nums"
+        style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
+      >
+        {displayValue}
       </span>
-      <span className="text-[12px] sm:text-[13px] text-text-3 leading-snug max-w-[130px]">
+      <span
+        className="text-[11px] font-semibold tracking-wider uppercase text-accent mb-0.5"
+        style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
+      >
         {stat.label}
+      </span>
+      <span className="text-[12px] text-text-3 leading-snug">
+        {stat.sublabel}
       </span>
     </motion.div>
   );
@@ -68,26 +83,19 @@ function StatItem({ stat }: { stat: Stat }) {
 
 export default function Stats() {
   return (
-    <div className="border-y border-border bg-bg-subtle">
+    <div id="stats" className="border-y border-border bg-bg-subtle">
       <div className="container-wide">
-        {/*
-         * Mobile: 2×2 grid (2 cols, 2 rows)
-         * Desktop: 4 across — divide-x only on md+ to avoid broken borders in 2-col wrap
-         */}
         <div className="grid grid-cols-2 md:grid-cols-4">
           {stats.map((s, i) => (
             <div
               key={s.label}
               className={[
-                // vertical dividers between columns
                 "md:border-l md:first:border-l-0 border-border",
-                // horizontal divider between the two mobile rows
                 i >= 2 ? "border-t border-border" : "",
-                // on mobile col 2 items get a left border
                 i % 2 === 1 ? "border-l border-border md:border-l-0" : "",
               ].join(" ")}
             >
-              <StatItem stat={s} />
+              <StatItem stat={s} index={i} />
             </div>
           ))}
         </div>

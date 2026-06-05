@@ -1,6 +1,6 @@
 import AnimatedSection from "@/components/AnimatedSection";
-import { certifications, education, publications } from "@/content/content";
-import { GraduationCap, Award, FileText } from "lucide-react";
+import { certifications, education } from "@/content/content";
+import { GraduationCap, Award, FlaskConical } from "lucide-react";
 
 export default function Education() {
   return (
@@ -8,25 +8,31 @@ export default function Education() {
       <div className="container-wide">
         <AnimatedSection>
           <span className="section-label">Background</span>
-          <h2 className="text-[32px] md:text-[42px] font-bold text-text-1 tracking-tight leading-tight mb-12">
+          <h2
+            className="text-[32px] md:text-[44px] font-bold text-text-1 tracking-tight leading-tight mb-12"
+            style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
+          >
             Credentials.
           </h2>
         </AnimatedSection>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
 
           {/* Certifications */}
           <AnimatedSection delay={0.06}>
             <div className="flex items-center gap-2 mb-5">
-              <Award size={16} className="text-accent" />
-              <h3 className="text-[12px] font-semibold text-text-4 uppercase tracking-widest">
+              <Award size={15} className="text-accent" aria-hidden="true" />
+              <h3
+                className="text-[11px] font-semibold text-text-4 uppercase tracking-widest"
+                style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
+              >
                 Certifications
               </h3>
             </div>
             <ul className="space-y-5">
               {certifications.map((cert) => (
                 <li key={cert.title} className="flex items-start gap-3">
-                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" aria-hidden="true"/>
+                  <span className="mt-2 w-1 h-1 rounded-full bg-accent shrink-0" aria-hidden="true" />
                   <div>
                     <p className="text-[15px] font-semibold text-text-1 leading-snug">{cert.title}</p>
                     <p className="text-[12px] text-text-4 mt-0.5">
@@ -41,22 +47,25 @@ export default function Education() {
           {/* Education */}
           <AnimatedSection delay={0.10}>
             <div className="flex items-center gap-2 mb-5">
-              <GraduationCap size={16} className="text-accent" />
-              <h3 className="text-[12px] font-semibold text-text-4 uppercase tracking-widest">
+              <GraduationCap size={15} className="text-accent" aria-hidden="true" />
+              <h3
+                className="text-[11px] font-semibold text-text-4 uppercase tracking-widest"
+                style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
+              >
                 Education
               </h3>
             </div>
             <ul className="space-y-5">
               {education.map((edu) => (
                 <li key={edu.degree} className="flex items-start gap-3">
-                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" aria-hidden="true"/>
+                  <span className="mt-2 w-1 h-1 rounded-full bg-accent shrink-0" aria-hidden="true" />
                   <div>
                     <p className="text-[15px] font-semibold text-text-1 leading-snug">{edu.degree}</p>
                     <p className="text-[12px] text-text-4 mt-0.5">
                       {edu.institution} · {edu.period}
                     </p>
                     {edu.location && (
-                      <p className="text-[11px] text-text-4/70 mt-0.5">{edu.location}</p>
+                      <p className="text-[11px] text-text-4/60 mt-0.5">{edu.location}</p>
                     )}
                   </div>
                 </li>
@@ -67,30 +76,29 @@ export default function Education() {
           {/* Research */}
           <AnimatedSection delay={0.14}>
             <div className="flex items-center gap-2 mb-5">
-              <FileText size={16} className="text-accent" />
-              <h3 className="text-[12px] font-semibold text-text-4 uppercase tracking-widest">
+              <FlaskConical size={15} className="text-accent" aria-hidden="true" />
+              <h3
+                className="text-[11px] font-semibold text-text-4 uppercase tracking-widest"
+                style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
+              >
                 Research
               </h3>
             </div>
             <ul className="space-y-5">
-              {publications.map((pub) => (
-                <li key={pub.title} className="flex items-start gap-3">
-                  <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" aria-hidden="true"/>
-                  <div>
-                    {pub.url ? (
-                      <a href={pub.url} target="_blank" rel="noopener noreferrer"
-                        className="text-[15px] font-semibold text-text-1 leading-snug hover:text-accent transition-colors">
-                        {pub.title}
-                      </a>
-                    ) : (
-                      <p className="text-[15px] font-semibold text-text-1 leading-snug">{pub.title}</p>
-                    )}
-                    <p className="text-[12px] text-text-4 mt-0.5">{pub.venue} · {pub.year}</p>
-                  </div>
-                </li>
-              ))}
+              <li className="flex items-start gap-3">
+                <span className="mt-2 w-1 h-1 rounded-full bg-accent shrink-0" aria-hidden="true" />
+                <div>
+                  <p className="text-[15px] font-semibold text-text-1 leading-snug">
+                    Measuring Deception in LLMs Across Social Deduction Games
+                  </p>
+                  <p className="text-[12px] text-text-4 mt-0.5">
+                    In preparation — targeting arXiv · 2025
+                  </p>
+                </div>
+              </li>
             </ul>
           </AnimatedSection>
+
         </div>
       </div>
     </section>

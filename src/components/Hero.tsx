@@ -1,229 +1,154 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import { ArrowDown, FileText, MessageCircle } from "lucide-react";
+import { MapPin, ArrowDown } from "lucide-react";
 import { siteConfig, hero } from "@/content/content";
 
-// ── Terminal animation ────────────────────────────────────────────────────────
-
-const TERMINAL_LINES = [
-  { cmd: true,  text: "python train.py --model yolov8x --device cuda" },
-  { cmd: false, text: "Epoch 100/100 · Loss 0.041 · mAP50: 0.94 · 394 FPS ✓" },
-  { cmd: true,  text: "docker build -t medvault-api && cloud-run deploy" },
-  { cmd: false, text: "Build successful · Deployed to Cloud Run ✓" },
-  { cmd: true,  text: "python arena.py --game coup --agents gpt4o claude" },
-  { cmd: false, text: "Round 3 · GPT-4o plays Duke (deceptive) · ELO: 1847 ▲" },
-];
-
-function Terminal() {
-  const [visible, setVisible] = useState(0);
+function SplitText({ text, className }: { text: string; className?: string }) {
+  const [prefersReduced, setPrefersReduced] = useState(false);
 
   useEffect(() => {
-    if (visible >= TERMINAL_LINES.length) return;
-    const t = setTimeout(() => setVisible((v) => v + 1), 550);
-    return () => clearTimeout(t);
-  }, [visible]);
+    setPrefersReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }, []);
+
+  if (prefersReduced) {
+    return <span className={className}>{text}</span>;
+  }
 
   return (
-    <div className="rounded-2xl border border-border bg-surface shadow-2xl overflow-hidden font-[var(--font-mono)] text-sm">
-      {/* Title bar */}
-      <div className="flex items-center gap-2 px-4 py-3 bg-bg-subtle border-b border-border">
-        <span className="w-3 h-3 rounded-full bg-red-500/60" />
-        <span className="w-3 h-3 rounded-full bg-yellow-500/60" />
-        <span className="w-3 h-3 rounded-full bg-green-500/60" />
-        <span className="ml-3 text-[11px] text-text-4 tracking-wide">~/rishi — zsh</span>
-      </div>
-      {/* Lines */}
-      <div className="p-5 space-y-2 min-h-[192px]">
-        {TERMINAL_LINES.slice(0, visible).map((line, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, x: -4 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.2 }}
-            className={`text-[12.5px] leading-relaxed ${
-              line.cmd ? "text-accent font-medium" : "text-text-3"
-            }`}
-          >
-            <span className="text-text-4 select-none">{line.cmd ? "$ " : "> "}</span>
-            {line.text}
-          </motion.div>
-        ))}
-        {visible < TERMINAL_LINES.length && (
-          <div className="text-[12.5px] text-accent">
-            <span className="text-text-4 select-none">$ </span>
-            <span className="terminal-cursor" />
-          </div>
-        )}
-      </div>
-    </div>
+    <span className={className} aria-label={text}>
+      {text.split("").map((char, i) => (
+        <motion.span
+          key={i}
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            delay: 0.1 + i * 0.028,
+            duration: 0.45,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          style={{ display: char === " " ? "inline" : "inline-block" }}
+          aria-hidden="true"
+        >
+          {char === " " ? " " : char}
+        </motion.span>
+      ))}
+    </span>
   );
 }
 
-// ── Hero ──────────────────────────────────────────────────────────────────────
-
-const SPRING = { type: "spring" as const, stiffness: 72, damping: 18, mass: 0.9 };
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 24 },
-  animate: { opacity: 1, y: 0 },
-  transition: { ...SPRING, delay },
-});
-
 export default function Hero() {
+  const scrollDown = () => {
+    document.getElementById("stats")?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <section
-      id="home"
-      className="relative min-h-dvh flex flex-col justify-center pt-24 pb-20"
+      className="relative flex flex-col justify-center min-h-[100svh] pt-[108px] pb-16 md:pt-[120px] md:pb-24"
+      aria-label="Introduction"
     >
-      {/* Subtle ambient glow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 overflow-hidden"
-      >
-        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-accent/5 blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-accent/3 blur-3xl" />
-      </div>
+      <div className="container-wide">
+        <div className="max-w-[860px]">
 
-      <div className="container-wide relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_0.75fr] gap-14 lg:gap-20 items-center">
-
-          {/* ── Left column ── */}
-          <div>
-            {/* Availability badge */}
-            <motion.div {...fadeUp(0)} className="mb-7">
-              <span className="inline-flex items-center gap-2 text-[13px] font-medium text-text-2 bg-surface border border-border px-3.5 py-1.5 rounded-full">
-                <span className="relative flex h-2 w-2 shrink-0" aria-hidden="true">
-                  <span className="animate-ping absolute h-full w-full rounded-full bg-dot-green opacity-60" />
-                  <span className="relative h-2 w-2 rounded-full bg-dot-green" />
-                </span>
-                {hero.availabilityPill}
-              </span>
-            </motion.div>
-
-            {/* Name */}
-            <motion.h1
-              {...fadeUp(0.07)}
-              className="text-[36px] xs:text-[44px] sm:text-[54px] md:text-[62px] lg:text-[66px] font-bold text-text-1 tracking-tight leading-[1.0] mb-4"
-            >
-              Rishi Madhur<br />Kanajam
-            </motion.h1>
-
-            {/* Role in accent green */}
-            <motion.p
-              {...fadeUp(0.13)}
-              className="text-[20px] sm:text-[22px] md:text-[26px] font-semibold text-accent mb-3 tracking-tight"
-            >
-              Software &amp; AI Engineer
-            </motion.p>
-
-            {/* Work rights + location */}
-            <motion.p
-              {...fadeUp(0.17)}
-              className="text-[14px] sm:text-[15px] text-text-3 mb-7"
-            >
-              {hero.workRights}
-            </motion.p>
-
-            {/* About teaser */}
-            <motion.p
-              {...fadeUp(0.21)}
-              className="text-[16px] text-text-2 leading-relaxed max-w-[520px] mb-10"
-            >
-              I build things that ship — from 394 FPS maritime CV pipelines to clinical AI platforms. Currently going deep on AI security and LLM red-teaming.
-            </motion.p>
-
-            {/* CTAs */}
-            <motion.div {...fadeUp(0.26)} className="flex flex-wrap gap-3">
-              <button
-                onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
-                className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full bg-accent text-white text-[14px] sm:text-[15px] font-semibold hover:opacity-90 transition-opacity shadow-lg shadow-accent/20 min-h-[44px]"
-              >
-                View my work
-                <ArrowDown size={14} />
-              </button>
-              <a
-                href={hero.resumeHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full border border-border text-[14px] sm:text-[15px] font-semibold text-text-2 hover:border-border-strong hover:text-text-1 transition-all min-h-[44px]"
-              >
-                <FileText size={14} />
-                Resume
-              </a>
-              <button
-                onClick={() => window.dispatchEvent(new Event("open-chatbot"))}
-                className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full border border-border text-[14px] sm:text-[15px] font-semibold text-text-2 hover:border-border-strong hover:text-text-1 transition-all min-h-[44px]"
-              >
-                <MessageCircle size={14} />
-                Ask me
-              </button>
-            </motion.div>
-
-            {/* Social links */}
-            <motion.div {...fadeUp(0.30)} className="flex items-center gap-5 mt-8">
-              <a href={siteConfig.github} target="_blank" rel="noopener noreferrer"
-                className="text-[13px] text-text-4 hover:text-accent transition-colors" aria-label="GitHub">
-                <GithubIcon size={18} />
-              </a>
-              <a href={siteConfig.linkedIn} target="_blank" rel="noopener noreferrer"
-                className="text-[13px] text-text-4 hover:text-accent transition-colors" aria-label="LinkedIn">
-                <LinkedinIcon size={18} />
-              </a>
-              <a href={siteConfig.mailtoHref}
-                className="text-[13px] text-text-4 hover:text-accent transition-colors">
-                <span className="text-[13px]">rishikanajam@gmail.com</span>
-              </a>
-            </motion.div>
-          </div>
-
-          {/* ── Right column: terminal ── */}
+          {/* Location pill */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ ...SPRING, delay: 0.18 }}
-            className="hidden lg:block"
+            transition={{ delay: 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="inline-flex items-center gap-1.5 mb-8"
           >
-            <Terminal />
-            <p className="mt-3 text-[11px] text-text-4 text-center tracking-wider uppercase">
-              Things I&apos;ve actually shipped
+            <MapPin size={11} className="text-accent shrink-0" aria-hidden="true" />
+            <span
+              className="text-[12px] text-text-3"
+              style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
+            >
+              {hero.locationPill}
+            </span>
+          </motion.div>
+
+          {/* Display name — Fraunces serif */}
+          <h1
+            className="mb-5 leading-[0.92] tracking-tight"
+            style={{
+              fontFamily: "var(--font-fraunces), Georgia, serif",
+              fontSize: "clamp(58px, 10vw, 128px)",
+              fontWeight: 700,
+            }}
+          >
+            <SplitText text="Rishi" />
+            <br />
+            <SplitText text="Kanajam" />
+            <motion.span
+              className="text-accent"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.9, duration: 0.3 }}
+              style={{ display: "inline-block", fontSize: "0.55em", verticalAlign: "0.12em" }}
+              aria-hidden="true"
+            >
+              •
+            </motion.span>
+          </h1>
+
+          {/* Headline + one-liner */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="mb-10"
+          >
+            <p className="text-[18px] md:text-[22px] text-text-2 leading-relaxed max-w-[600px]">
+              <span className="text-text-1 font-semibold">{siteConfig.headline}</span>
+              {" "}
+              {siteConfig.oneLiner}
             </p>
+          </motion.div>
+
+          {/* CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.85, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="flex flex-wrap items-center gap-3"
+          >
+            <a
+              href={siteConfig.mailtoHref}
+              className="inline-flex items-center justify-center min-h-[44px] px-6 rounded-xl bg-accent text-white text-[14px] font-semibold hover:opacity-90 transition-opacity"
+            >
+              Get in touch
+            </a>
+            <a
+              href={hero.resumeHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center min-h-[44px] px-6 rounded-xl border border-border text-[14px] font-medium text-text-2 hover:text-text-1 hover:border-border-strong transition-all"
+            >
+              View resume
+            </a>
+            <a
+              href={siteConfig.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center min-h-[44px] px-6 rounded-xl border border-border text-[14px] font-medium text-text-2 hover:text-text-1 hover:border-border-strong transition-all"
+            >
+              GitHub
+            </a>
           </motion.div>
         </div>
 
-        {/* Scroll indicator */}
-        <motion.div
+        {/* Scroll nudge */}
+        <motion.button
+          onClick={scrollDown}
+          aria-label="Scroll down"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 2.0, duration: 0.6 }}
-          className="hidden md:flex items-center gap-2 mt-20 text-text-4"
-          aria-hidden="true"
+          transition={{ delay: 1.4, duration: 0.5 }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-text-4 hover:text-text-2 transition-colors cursor-pointer"
         >
-          <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
-          >
-            <ArrowDown size={16} />
-          </motion.div>
-          <span className="text-[11px] tracking-widest uppercase">Scroll</span>
-        </motion.div>
+          <ArrowDown size={16} className="animate-bounce" />
+        </motion.button>
       </div>
     </section>
-  );
-}
-
-function GithubIcon({ size = 18 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-    </svg>
-  );
-}
-
-function LinkedinIcon({ size = 18 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-    </svg>
   );
 }

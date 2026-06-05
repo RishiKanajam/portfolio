@@ -9,19 +9,22 @@
   --accent:        #2B5C3A;
   --accent-light:  #DCFCE7;
 
-  --bg:            #FAFAFA;
-  --bg-subtle:     #F4F4F5;
+  /* Light theme — warm parchment */
+  --bg:            #F7F4EE;
+  --bg-subtle:     #EDE9E1;
   --surface:       #FFFFFF;
 
-  --border:        #E5E7EB;
-  --border-strong: #D1D5DB;
+  --border:        #D8D3C9;
+  --border-strong: #C2BDB1;
 
-  --text-1:        #1A1A1A;
-  --text-2:        #374151;
-  --text-3:        #6B7280;
+  --text-1:        #0B0B0C;
+  --text-2:        #2E2E33;
+  --text-3:        #6B6B72;
   --text-4:        #9CA3AF;
 
   --dot-green:     #16a34a;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .dark {
@@ -29,16 +32,16 @@
   --accent:        #5CBB78;
   --accent-light:  #1A3D28;
 
-  --bg:            #0A0A0A;
-  --bg-subtle:     #111111;
-  --surface:       #161616;
+  --bg:            #0B0B0C;
+  --bg-subtle:     #141416;
+  --surface:       #141416;
 
-  --border:        #1F1F1F;
-  --border-strong: #2D2D2D;
+  --border:        #1F1F22;
+  --border-strong: #2D2D32;
 
-  --text-1:        #E8E8E8;
-  --text-2:        #BEBEBE;
-  --text-3:        #8E8E93;
+  --text-1:        #EDEDEE;
+  --text-2:        #BEBEC6;
+  --text-3:        #8A8A8F;
   --text-4:        #48484A;
 
   --dot-green:     #4ade80;
@@ -58,6 +61,9 @@
   --color-text-3:        var(--text-3);
   --color-text-4:        var(--text-4);
   --color-dot-green:     var(--dot-green);
+
+  --font-serif:          var(--font-fraunces);
+  --font-mono:           var(--font-jetbrains);
 }
 
 /* ── Base ─────────────────────────────────────────────────────────────────── */
@@ -73,10 +79,11 @@ body {
   color: var(--text-1);
   font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, ui-sans-serif, system-ui, sans-serif;
   line-height: 1.6;
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 ::selection {
@@ -112,7 +119,7 @@ body {
   padding-right: 1.5rem;
 }
 
-/* ── Section rhythm — 120px on desktop ───────────────────────────────────── */
+/* ── Section rhythm ───────────────────────────────────────────────────────── */
 .section-gap {
   padding-top: 5rem;
   padding-bottom: 5rem;
@@ -122,6 +129,11 @@ body {
     padding-top: 7.5rem;
     padding-bottom: 7.5rem;
   }
+}
+
+/* ── Section scroll-margin so fixed header doesn't obscure anchors ─────────── */
+section[id], div[id="stats"] {
+  scroll-margin-top: 84px;
 }
 
 /* ── Focus ring ───────────────────────────────────────────────────────────── */
@@ -140,52 +152,23 @@ body {
   color: var(--accent);
   margin-bottom: 1rem;
   display: block;
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
 }
 
 /* ── Dark contact/footer section ─────────────────────────────────────────── */
 .section-dark {
-  background-color: #0A0A0A;
-  color: #E8E8E8;
+  background-color: #0B0B0C;
+  color: #EDEDEE;
 }
 .section-dark .section-label { color: #5CBB78; }
 
-/* ── Marquee animations ───────────────────────────────────────────────────── */
-@keyframes marquee-left {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-@keyframes marquee-right {
-  from { transform: translateX(-50%); }
-  to   { transform: translateX(0); }
-}
-
-.animate-marquee-left {
-  animation: marquee-left 35s linear infinite;
-}
-.animate-marquee-right {
-  animation: marquee-right 35s linear infinite;
-}
-.animate-marquee-left:hover,
-.animate-marquee-right:hover {
-  animation-play-state: paused;
-}
-
-/* ── Terminal cursor blink ────────────────────────────────────────────────── */
-@keyframes cursor-blink {
+/* ── Status line dot blink ────────────────────────────────────────────────── */
+@keyframes status-blink {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0; }
 }
-
-.terminal-cursor {
-  display: inline-block;
-  width: 7px;
-  height: 1em;
-  background-color: var(--accent);
-  vertical-align: text-bottom;
-  margin-bottom: 1px;
-  animation: cursor-blink 1s step-end infinite;
-  border-radius: 1px;
+.status-dot {
+  animation: status-blink 1s step-end infinite;
 }
 
 /* ── In-progress pulse badge ─────────────────────────────────────────────── */
@@ -195,4 +178,33 @@ body {
 }
 .animate-pulse-badge {
   animation: pulse-badge 1.8s ease-in-out infinite;
+}
+
+/* ── cmdk command palette overlay ────────────────────────────────────────── */
+[cmdk-overlay] {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+}
+
+[cmdk-dialog] {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 20vh;
+  z-index: 201;
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
 }
