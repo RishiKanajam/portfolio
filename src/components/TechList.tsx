@@ -4,8 +4,9 @@ import AnimatedSection from "@/components/AnimatedSection";
 import {
   SiPython, SiTypescript, SiJavascript, SiCplusplus,
   SiPytorch, SiTensorflow, SiLangchain, SiFastapi, SiOpenai, SiAnthropic,
-  SiReact, SiNextdotjs, SiExpo, SiNodedotjs, SiPostgresql, SiMongodb,
-  SiPandas, SiDocker, SiVercel, SiGithubactions, SiApacheairflow, SiSnowflake,
+  SiHuggingface, SiReact, SiNextdotjs, SiExpo, SiNodedotjs, SiPostgresql,
+  SiMongodb, SiNumpy, SiPandas, SiDocker, SiVercel, SiGithubactions,
+  SiApacheairflow, SiSnowflake, SiNvidia,
 } from "react-icons/si";
 import type { IconType } from "react-icons";
 
@@ -35,12 +36,22 @@ const TECH_GROUPS: TechGroup[] = [
   {
     label: "AI / ML",
     items: [
-      { name: "PyTorch",          Icon: SiPytorch,    color: "#EE4C2C" },
-      { name: "TensorFlow",       Icon: SiTensorflow, color: "#FF6F00" },
-      { name: "LangChain",        Icon: SiLangchain,  color: "#1C7C5C" },
-      { name: "OpenAI Agents SDK",Icon: SiOpenai,     color: "#412991" },
-      { name: "Anthropic API",    Icon: SiAnthropic,  color: "#D97757" },
-      { name: "FHIR R4",          color: "#E03C31" },
+      { name: "PyTorch",           Icon: SiPytorch,      color: "#EE4C2C" },
+      { name: "TensorFlow",        Icon: SiTensorflow,   color: "#FF6F00" },
+      { name: "Hugging Face",      Icon: SiHuggingface,  color: "#FFD21E" },
+      { name: "LangChain",         Icon: SiLangchain,    color: "#1C7C5C" },
+      { name: "OpenAI Agents SDK", Icon: SiOpenai,       color: "#412991" },
+      { name: "Anthropic API",     Icon: SiAnthropic,    color: "#D97757" },
+      { name: "RAG",               color: "#5CBB78" },
+      { name: "Fine-tuning",       color: "#8B5CF6" },
+    ],
+  },
+  {
+    label: "Healthcare Data",
+    items: [
+      { name: "FHIR R4", color: "#E03C31" },
+      { name: "ABDM",    color: "#FF9933" },
+      { name: "HL7",     color: "#0072CE" },
     ],
   },
   {
@@ -57,11 +68,12 @@ const TECH_GROUPS: TechGroup[] = [
   {
     label: "Data",
     items: [
-      { name: "PostgreSQL", Icon: SiPostgresql,    color: "#336791" },
-      { name: "MongoDB",    Icon: SiMongodb,       color: "#47A248" },
-      { name: "Pandas",     Icon: SiPandas,        color: "#150458" },
-      { name: "Snowflake",  Icon: SiSnowflake,     color: "#29B5E8", note: true },
-      { name: "Airflow",    Icon: SiApacheairflow, color: "#017CEE", note: true },
+      { name: "PostgreSQL",    Icon: SiPostgresql,    color: "#336791" },
+      { name: "MongoDB Atlas", Icon: SiMongodb,       color: "#47A248" },
+      { name: "Pandas",        Icon: SiPandas,        color: "#150458" },
+      { name: "NumPy",         Icon: SiNumpy,         color: "#4DABCF" },
+      { name: "Snowflake",     Icon: SiSnowflake,     color: "#29B5E8", note: true },
+      { name: "Airflow",       Icon: SiApacheairflow, color: "#017CEE", note: true },
     ],
   },
   {
@@ -70,9 +82,11 @@ const TECH_GROUPS: TechGroup[] = [
       { name: "AWS",            color: "#FF9900" },
       { name: "Azure",          color: "#0078D4" },
       { name: "GCP",            color: "#4285F4" },
-      { name: "Docker",         Icon: SiDocker,         color: "#2496ED" },
-      { name: "GitHub Actions", Icon: SiGithubactions,  color: "#2088FF" },
-      { name: "Vercel",         Icon: SiVercel,         color: "#888888" },
+      { name: "Docker",         Icon: SiDocker,        color: "#2496ED" },
+      { name: "GitHub Actions", Icon: SiGithubactions, color: "#2088FF" },
+      { name: "Vercel",         Icon: SiVercel,        color: "#888888" },
+      { name: "CUDA",           Icon: SiNvidia,        color: "#76B900" },
+      { name: "TensorRT",       Icon: SiNvidia,        color: "#76B900" },
     ],
   },
 ];

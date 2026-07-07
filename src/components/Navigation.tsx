@@ -7,9 +7,9 @@ import { useTheme } from "@/components/ThemeProvider";
 import { hero, statusLine } from "@/content/content";
 
 const NAV_LINKS = [
-  { label: "Experience", href: "#experience" },
+  { label: "About",      href: "#about" },
+  { label: "Companies",  href: "#companies" },
   { label: "Projects",   href: "#projects" },
-  { label: "Writing",    href: "#writing" },
   { label: "Contact",    href: "#contact" },
 ];
 

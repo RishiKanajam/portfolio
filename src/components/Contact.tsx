@@ -63,7 +63,22 @@ export default function Contact() {
               <GithubIcon size={15} />
               GitHub
             </a>
+            <a
+              href={siteConfig.githubOrg}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 min-h-[44px] px-6 py-2.5 rounded-xl text-[14px] font-semibold border transition-colors hover:border-[#3D3D42]"
+              style={{ borderColor: "#2D2D32", color: "#BEBEC6" }}
+            >
+              <GithubIcon size={15} />
+              Nirvya Labs
+            </a>
           </div>
+
+          {/* OldTalkies — link when live */}
+          <p className="mt-8 text-[13px]" style={{ color: "#48484A" }}>
+            <span style={{ color: "#8A8A8F" }}>OldTalkies</span> — a platform for Telugu cinema, launching September 2026.
+          </p>
         </AnimatedSection>
       </div>
     </section>

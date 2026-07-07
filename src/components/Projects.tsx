@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight, GitBranch, ExternalLink } from "lucide-react";
 import AnimatedSection from "@/components/AnimatedSection";
-import { projects, type Project } from "@/content/content";
+import { projects, siteConfig, type Project } from "@/content/content";
 
 // ── Status badge ──────────────────────────────────────────────────────────────
 
@@ -266,6 +266,27 @@ export default function Projects() {
             More work
           </div>
           <ProjectGrid items={gridProjects} />
+
+          {/* More on GitHub */}
+          <AnimatedSection delay={0.1}>
+            <div className="mt-12 flex justify-center">
+              <a
+                href={siteConfig.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 text-[14px] text-text-3 hover:text-text-1 transition-colors"
+              >
+                <span
+                  className="font-semibold text-text-2"
+                  style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
+                >
+                  {projects.length} shipped
+                </span>
+                <span className="text-text-4">— more on GitHub</span>
+                <ArrowUpRight size={15} className="text-text-4 group-hover:text-accent transition-colors" aria-hidden="true" />
+              </a>
+            </div>
+          </AnimatedSection>
         </div>
       </div>
     </section>

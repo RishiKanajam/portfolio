@@ -5,7 +5,7 @@ import { Command } from "cmdk";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, ArrowUpRight, Mail, FileText, Link, ExternalLink } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
-import { siteConfig, experience, projects, hero } from "@/content/content";
+import { siteConfig, experience, projects, companies, hero } from "@/content/content";
 
 interface PaletteItem {
   id: string;
@@ -21,6 +21,15 @@ function buildItems(toggleTheme: () => void): PaletteItem[] {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
+
+  const companyItems: PaletteItem[] = companies.map((c) => ({
+    id: `company-${c.name}`,
+    label: c.name,
+    sublabel: `${c.role} · ${c.tagline}`,
+    group: "Companies",
+    icon: <span className="text-accent text-[11px]">◆</span>,
+    action: () => nav("companies"),
+  }));
 
   const expItems: PaletteItem[] = experience.map((e) => ({
     id: `exp-${e.company}`,
@@ -85,7 +94,7 @@ function buildItems(toggleTheme: () => void): PaletteItem[] {
     },
   ];
 
-  return [...actionItems, ...expItems, ...projectItems];
+  return [...actionItems, ...companyItems, ...expItems, ...projectItems];
 }
 
 export default function CommandPalette() {

@@ -1,6 +1,8 @@
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/Hero";
 import Stats from "@/components/Stats";
+import About from "@/components/About";
+import Companies from "@/components/Companies";
 import Experience from "@/components/Experience";
 import Projects from "@/components/Projects";
 import TechList from "@/components/TechList";
@@ -18,6 +20,8 @@ export default function Home() {
       <main>
         <Hero />
         <Stats />
+        <About />
+        <Companies />
         <Experience />
         <Projects />
         <TechList />
