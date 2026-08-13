@@ -1,293 +1,255 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowUpRight, GitBranch, ExternalLink } from "lucide-react";
-import AnimatedSection from "@/components/AnimatedSection";
+import { useEffect, useRef } from "react";
+import { ArrowUpRight } from "lucide-react";
 import { projects, siteConfig, type Project } from "@/content/content";
 
-// ── Status badge ──────────────────────────────────────────────────────────────
+/*
+ * Index-First.
+ *
+ * The page is a manifest of work: hairline-ruled rows, metadata in mono, prose
+ * in the body face. The four leads open into full case studies in place — no
+ * separate route, no accordion, nothing to click before you can read.
+ *
+ * What's deliberately absent:
+ *  · Numbered labels (01 / 02 / …). They were ordinal decoration on content
+ *    that isn't ordinal, and the number-left / title-right pairing is the most
+ *    reliable templated-editorial tell there is.
+ *  · Cards. Rows and rules carry the structure instead.
+ *  · Scroll reveals on everything. Only the four case-study rows reveal, once
+ *    each; the compact rows and spec sheets are simply there when you arrive.
+ */
 
-const STATUS_LABELS: Record<string, string> = {
-  "in-progress": "In progress",
-  shipped: "Shipped",
-  concept: "Concept",
-};
+const SERIF = { fontFamily: "var(--font-display)" } as const;
 
-const STATUS_COLORS: Record<string, string> = {
-  "in-progress": "text-yellow-500 border-yellow-500/30 bg-yellow-500/10",
-  shipped: "text-dot-green border-dot-green/30 bg-dot-green/10",
-  concept: "text-text-3 border-border bg-bg-subtle",
-};
+/**
+ * Reveal-once on intersection.
+ *
+ * Toggles a class on the node directly rather than holding React state — this
+ * is a visual flag, not data, and re-rendering the row to change its opacity
+ * would be work for nothing. Honours prefers-reduced-motion by showing the row
+ * immediately, and disconnects after the first hit so nothing keeps observing.
+ */
+function useRevealOnce<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
 
-function StatusBadge({ status }: { status: string }) {
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    if (
+      typeof IntersectionObserver === "undefined" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      el.classList.add("is-in");
+      return;
+    }
+
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        el.classList.add("is-in");
+        obs.disconnect();
+      },
+      /*
+       * Trigger line at 78% of viewport height, on any pixel crossing it.
+       *
+       * These rows are 700–900px tall, so a percentage threshold is the wrong
+       * instrument: 5% of a 900px row is 45px, which fired the reveal while the
+       * row's top edge was still grazing the bottom of the screen — the
+       * transition then finished off-screen and you never saw it. threshold 0
+       * plus a deeper bottom margin means the row's top has to reach the lower
+       * quarter, where the reader is actually looking, before anything moves.
+       */
+      { threshold: 0, rootMargin: "0px 0px -22% 0px" }
+    );
+
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  return ref;
+}
+
+function StatusMark({ project }: { project: Project }) {
+  if (!project.status) return null;
+  const live = project.status === "shipped";
   return (
-    <span
-      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[10px] font-semibold tracking-wide uppercase ${STATUS_COLORS[status] ?? STATUS_COLORS.concept} ${status === "in-progress" ? "animate-pulse-badge" : ""}`}
-      style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
-    >
-      {STATUS_LABELS[status] ?? status}
+    <span className="inline-flex items-center gap-1.5 label" style={{ color: "var(--muted)" }}>
+      <span
+        className="w-1 h-1 rounded-full shrink-0"
+        style={{ backgroundColor: live ? "var(--signal)" : "var(--faint)" }}
+        aria-hidden="true"
+      />
+      {live ? "Shipped" : project.status === "in-progress" ? "In progress" : "Concept"}
     </span>
   );
 }
 
-function ProjectLinks({ project }: { project: Project }) {
+/** Every project links to real source, or says plainly that there isn't any. */
+function Links({ project }: { project: Project }) {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex flex-wrap items-center gap-x-6 gap-y-0">
       {project.githubUrl && (
-        <a
-          href={project.githubUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`GitHub — ${project.shortTitle}`}
-          className="w-8 h-8 flex items-center justify-center rounded-lg border border-border text-text-3 hover:text-text-1 hover:border-border-strong transition-all"
-        >
-          <GitBranch size={13} />
+        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="link-t text-[14px]">
+          Source
+          <ArrowUpRight size={12} className="text-text-4" aria-hidden="true" />
         </a>
       )}
       {project.liveUrl && (
-        <a
-          href={project.liveUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`Live — ${project.shortTitle}`}
-          className="w-8 h-8 flex items-center justify-center rounded-lg border border-border text-text-3 hover:text-text-1 hover:border-border-strong transition-all"
-        >
-          <ExternalLink size={13} />
+        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="link-t text-[14px]">
+          {project.liveLabel ?? "Live"}
+          <ArrowUpRight size={12} className="text-text-4" aria-hidden="true" />
         </a>
+      )}
+      {project.repoNote && (
+        <span className="label inline-flex items-center min-h-[44px]">{project.repoNote}</span>
       )}
     </div>
   );
 }
 
-function TechTag({ label }: { label: string }) {
+function Tech({ items }: { items: string[] }) {
   return (
-    <span
-      className="px-2 py-0.5 rounded-md border border-border text-[11px] text-text-3"
-      style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
-    >
-      {label}
-    </span>
+    <p className="label leading-relaxed" style={{ textTransform: "none", letterSpacing: "0.04em" }}>
+      {items.join("  ·  ")}
+    </p>
   );
 }
 
-// ── Sticky scene (01 + 02) ───────────────────────────────────────────────────
+// ── Case study ────────────────────────────────────────────────────────────────
 
-function StickyScene({ project }: { project: Project }) {
+function CaseStudy({ project }: { project: Project }) {
+  const ref = useRevealOnce<HTMLElement>();
+
   return (
-    <div className="relative md:grid md:grid-cols-[1fr_1fr] md:gap-16 py-12 md:py-0">
-      <div className="md:sticky md:top-[100px] md:self-start md:pb-24 mb-6 md:mb-0">
-        <AnimatedSection>
-          <div
-            className="text-[12px] text-text-4 mb-4 font-semibold"
-            style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
-          >
-            {project.number}
-          </div>
-          {project.tags && project.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 mb-4">
-              {project.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2 py-0.5 rounded-full border border-accent/30 text-[11px] text-accent font-medium"
-                  style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
+    <article ref={ref} className="idx__row reveal-row">
+      <div className="idx__case">
+        {/* Left rail: identity and metadata */}
+        <div className="flex flex-col gap-4">
           <h3
-            className="text-[32px] md:text-[46px] font-bold text-text-1 leading-tight tracking-tight mb-4"
-            style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
+            className="text-text-1"
+            style={{ ...SERIF, fontSize: "1.65rem", fontWeight: 600, lineHeight: 1.15, letterSpacing: "-0.02em" }}
           >
             {project.title}
           </h3>
-          {project.award && (
-            <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-accent/10 border border-accent/20 mb-4">
-              <span className="text-[12px] font-semibold text-accent">{project.award}</span>
-            </div>
-          )}
-          {project.status && (
-            <div className="mb-6">
-              <StatusBadge status={project.status} />
-            </div>
-          )}
-          <ProjectLinks project={project} />
-        </AnimatedSection>
-      </div>
 
-      <div className="flex flex-col gap-5 md:py-24">
-        <AnimatedSection delay={0.1}>
-          <p className="text-[16px] md:text-[17px] text-text-2 leading-relaxed">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <StatusMark project={project} />
+            {project.award && (
+              <span className="label" style={{ color: "var(--accent)" }}>{project.award}</span>
+            )}
+            {project.credit && <span className="label">{project.credit}</span>}
+          </div>
+
+          <Tech items={project.tech} />
+          <Links project={project} />
+        </div>
+
+        {/* Right: the reading column. Continuous prose, inline heads. */}
+        <div className="measure">
+          <p className="text-text-1" style={{ fontSize: "var(--text-md)", lineHeight: 1.6 }}>
             {project.description}
           </p>
-          {project.longDescription && (
-            <p className="text-[15px] text-text-3 leading-relaxed mt-3">
-              {project.longDescription}
+
+          {project.problem && (
+            <p className="mt-5 text-text-2 leading-[1.7]">
+              <span className="head-inline">The problem. </span>
+              {project.problem}
             </p>
           )}
-        </AnimatedSection>
-        {project.tech.length > 0 && (
-          <AnimatedSection delay={0.15}>
-            <div className="flex flex-wrap gap-2 pt-1">
-              {project.tech.map((t) => <TechTag key={t} label={t} />)}
-            </div>
-          </AnimatedSection>
-        )}
+
+          {project.built && (
+            <p className="mt-4 text-text-2 leading-[1.7]">
+              <span className="head-inline">What I built. </span>
+              {project.built}
+            </p>
+          )}
+
+          {project.decision && (
+            <p className="mt-4 text-text-2 leading-[1.7]">
+              <span className="head-inline">One decision. </span>
+              <strong className="font-semibold text-text-1">{project.decision.label}.</strong>{" "}
+              {project.decision.body}
+            </p>
+          )}
+
+          {project.caveat && (
+            <p className="mt-4 text-text-3 leading-[1.7] text-[15px]">
+              <span className="head-inline">Scope, honestly. </span>
+              {project.caveat}
+            </p>
+          )}
+        </div>
       </div>
-    </div>
+    </article>
   );
 }
 
-// ── Grid card (03–10) ────────────────────────────────────────────────────────
+// ── Compact row ───────────────────────────────────────────────────────────────
 
-function GridCard({ project, wide }: { project: Project; wide: boolean }) {
+function CompactRow({ project }: { project: Project }) {
   return (
-    <AnimatedSection className="h-full">
-      <motion.div
-        className="relative rounded-2xl border border-border bg-bg-subtle p-6 md:p-7 h-full flex flex-col group"
-        whileHover={{ y: -4, boxShadow: "0 12px 40px rgba(0,0,0,0.10)" }}
-        transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <div className="flex items-start justify-between mb-4 gap-3">
-          <span
-            className="text-[12px] text-text-4 font-semibold shrink-0"
-            style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
+    <article className="idx__row idx__row--tight">
+      <div className="grid gap-3 lg:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] lg:gap-x-10">
+        <div className="flex flex-col gap-2">
+          <h3
+            className="text-text-1"
+            style={{ ...SERIF, fontSize: "1.15rem", fontWeight: 600, lineHeight: 1.25, letterSpacing: "-0.015em" }}
           >
-            {project.number}
-          </span>
-          <div className="flex items-center gap-2 shrink-0 flex-wrap justify-end">
-            {project.award && (
-              <span className="px-2 py-0.5 rounded-full bg-accent/10 border border-accent/20 text-[10px] font-semibold text-accent">
-                {project.award}
-              </span>
-            )}
-            {project.status && <StatusBadge status={project.status} />}
-          </div>
+            {project.title}
+          </h3>
+          <div className="lg:hidden"><Tech items={project.tech} /></div>
         </div>
 
-        <h3
-          className="text-[19px] md:text-[21px] font-bold text-text-1 leading-snug mb-3"
-          style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
-        >
-          {project.title}
-        </h3>
-
-        <p className="text-[14px] text-text-2 leading-relaxed flex-1 mb-5">
-          {project.description}
-        </p>
-
-        {project.tech.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mb-4">
-            {project.tech.slice(0, wide ? 8 : 5).map((t) => <TechTag key={t} label={t} />)}
-            {project.tech.length > (wide ? 8 : 5) && (
-              <span className="px-2 py-0.5 rounded-md border border-border text-[11px] text-text-4">
-                +{project.tech.length - (wide ? 8 : 5)}
-              </span>
-            )}
-          </div>
-        )}
-
-        <div className="flex items-center justify-between gap-3 mt-auto">
-          <div className="flex flex-wrap gap-1.5">
-            {project.tags?.map((tag) => (
-              <span
-                key={tag}
-                className="px-2 py-0.5 rounded-full border border-accent/20 text-[10px] text-accent font-medium"
-                style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-          <ProjectLinks project={project} />
+        <div>
+          <p className="text-text-2 leading-[1.65] measure">{project.description}</p>
+          <div className="hidden lg:block mt-3"><Tech items={project.tech} /></div>
+          <div className="mt-1 lg:mt-2"><Links project={project} /></div>
         </div>
-
-        <ArrowUpRight
-          size={13}
-          className="absolute top-5 right-[72px] text-text-4 opacity-0 group-hover:opacity-60 transition-opacity"
-          aria-hidden="true"
-        />
-      </motion.div>
-    </AnimatedSection>
-  );
-}
-
-// ── Asymmetric grid ───────────────────────────────────────────────────────────
-
-function ProjectGrid({ items }: { items: Project[] }) {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-      {items.map((project, i) => {
-        const wide = i % 3 === 0;
-        return (
-          <div key={project.number} className={`flex flex-col ${wide ? "lg:col-span-2" : "lg:col-span-1"}`}>
-            <GridCard project={project} wide={wide} />
-          </div>
-        );
-      })}
-    </div>
+      </div>
+    </article>
   );
 }
 
 // ── Main export ───────────────────────────────────────────────────────────────
 
 export default function Projects() {
-  const stickyProjects = projects.filter((p) => p.stickyScene);
-  const gridProjects = projects.filter((p) => !p.stickyScene);
+  const caseStudies = projects.filter((p) => p.caseStudy);
+  const alsoBuilt = projects.filter((p) => !p.caseStudy);
 
   return (
-    <section id="projects" className="section-gap border-t border-border">
+    <section id="projects" className="section-gap">
       <div className="container-wide">
-        <AnimatedSection>
-          <span className="section-label">Projects</span>
-          <h2
-            className="text-[32px] md:text-[44px] font-bold text-text-1 tracking-tight leading-tight mb-4"
-            style={{ fontFamily: "var(--font-fraunces), Georgia, serif" }}
-          >
-            What I&apos;ve built.
-          </h2>
-          <p className="text-[15px] text-text-3 max-w-[520px] mb-16">
-            Research, products, and experiments — numbered by impact.
-          </p>
-        </AnimatedSection>
+        {/* Index-First opens with a label and one short paragraph. No display type. */}
+        <span className="section-label">Selected work</span>
+        <p className="measure text-text-2 leading-[1.7] mb-10 md:mb-14">
+          Four of these get the full treatment: the problem, the build, and the
+          one decision worth remembering. Everything else is listed underneath.
+          Each entry links to source, or says why it can&rsquo;t.
+        </p>
 
-        <div className="divide-y divide-border mb-16">
-          {stickyProjects.map((project) => (
-            <StickyScene key={project.number} project={project} />
+        <div className="idx">
+          {caseStudies.map((project) => (
+            <CaseStudy key={project.title} project={project} />
           ))}
         </div>
 
-        <div className="border-t border-border pt-12">
-          <div
-            className="text-[11px] text-text-4 font-semibold mb-8 tracking-wider uppercase"
-            style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
-          >
-            More work
+        <div className="mt-14 md:mt-20">
+          <span className="label">Also built</span>
+          <div className="idx mt-4">
+            {alsoBuilt.map((project) => (
+              <CompactRow key={project.title} project={project} />
+            ))}
           </div>
-          <ProjectGrid items={gridProjects} />
-
-          {/* More on GitHub */}
-          <AnimatedSection delay={0.1}>
-            <div className="mt-12 flex justify-center">
-              <a
-                href={siteConfig.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 text-[14px] text-text-3 hover:text-text-1 transition-colors"
-              >
-                <span
-                  className="font-semibold text-text-2"
-                  style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
-                >
-                  {projects.length} shipped
-                </span>
-                <span className="text-text-4">— more on GitHub</span>
-                <ArrowUpRight size={15} className="text-text-4 group-hover:text-accent transition-colors" aria-hidden="true" />
-              </a>
-            </div>
-          </AnimatedSection>
         </div>
+
+        <p className="mt-8">
+          <a href={siteConfig.github} target="_blank" rel="noopener noreferrer" className="link-t text-[14px]">
+            The rest of it on GitHub
+            <ArrowUpRight size={13} className="text-text-4" aria-hidden="true" />
+          </a>
+        </p>
       </div>
     </section>
   );

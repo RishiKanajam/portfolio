@@ -1,70 +1,21 @@
-"use client";
+/*
+ * Was: an IntersectionObserver that faded and slid every section into view.
+ *
+ * That's "animate-on-scroll on everything" — the page never settled, and it
+ * spent the whole motion budget on content the reader had already arrived at.
+ * There is now exactly one orchestrated entrance (the masthead, on load).
+ *
+ * Kept as a pass-through so the remaining call sites stay valid. `delay` is
+ * accepted and ignored.
+ */
 
-import { motion } from "framer-motion";
-import { ReactNode } from "react";
-
-interface Props {
-  children: ReactNode;
+export default function AnimatedSection({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
   className?: string;
   delay?: number;
-  /** Pass stagger=true on a wrapper whose direct children should stagger in */
-  stagger?: boolean;
+}) {
+  return <div className={className}>{children}</div>;
 }
-
-// Apple-style spring: gentle, not bouncy.
-const SPRING = { type: "spring" as const, stiffness: 85, damping: 18, mass: 0.9 };
-
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.07, delayChildren: 0 },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 18, scale: 0.97 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: SPRING,
-  },
-};
-
-const defaultVariants = {
-  hidden: { opacity: 0, y: 18, scale: 0.97 },
-  visible: { opacity: 1, y: 0, scale: 1 },
-};
-
-export default function AnimatedSection({ children, className = "", delay = 0, stagger = false }: Props) {
-  if (stagger) {
-    return (
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-50px" }}
-        variants={containerVariants}
-        style={{ transitionDelay: `${delay}s` }}
-        className={className}
-      >
-        {children}
-      </motion.div>
-    );
-  }
-
-  return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-50px" }}
-      variants={defaultVariants}
-      transition={{ ...SPRING, delay }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-// Export item variant for use inside staggered parents
-export { itemVariants };

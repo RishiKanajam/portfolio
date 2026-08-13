@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, FormEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, X, Sparkles, ChevronDown } from "lucide-react";
+import { Send, X, ChevronDown } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -109,17 +109,17 @@ export default function IntelligenceBar() {
           {expanded && (
             <motion.div
               key="chat-panel"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
+              initial={{ opacity: 0, scaleY: 0.96 }}
+              animate={{ opacity: 1, scaleY: 1 }}
+              exit={{ opacity: 0, scaleY: 0.96 }}
               transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
               className="overflow-hidden mb-2"
             >
-              <div className="rounded-2xl border border-border bg-bg/95 backdrop-blur-xl shadow-2xl overflow-hidden">
+              <div className="rounded-2xl border border-border bg-bg/95 backdrop-blur-xl overflow-hidden">
                 {/* Chat header */}
                 <div className="flex items-center justify-between px-4 py-2.5 border-b border-border bg-bg-subtle/50">
                   <div className="flex items-center gap-2">
-                    <Sparkles size={13} className="text-accent" aria-hidden="true" />
+                    <span className="text-accent text-[12px] font-mono" aria-hidden="true">&gt;</span>
                     <span
                       className="text-[12px] font-semibold text-text-2"
                       style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
@@ -130,7 +130,7 @@ export default function IntelligenceBar() {
                   <button
                     onClick={() => setExpanded(false)}
                     aria-label="Minimise"
-                    className="w-7 h-7 flex items-center justify-center rounded-lg text-text-4 hover:text-text-2 hover:bg-bg-subtle transition-all"
+                    className="w-7 h-7 flex items-center justify-center rounded-lg text-text-4 hover:text-text-2 hover:bg-bg-subtle transition-colors"
                   >
                     <ChevronDown size={14} />
                   </button>
@@ -153,13 +153,18 @@ export default function IntelligenceBar() {
                     >
                       {msg.role === "assistant" && (
                         <div className="w-5 h-5 rounded-full bg-accent/10 flex items-center justify-center shrink-0 mt-0.5">
-                          <Sparkles size={9} className="text-accent" />
+                          <span className="text-accent text-[10px] font-mono leading-none" aria-hidden="true">&gt;</span>
                         </div>
                       )}
                       <div
+                        style={
+                          msg.role === "user"
+                            ? { color: "var(--accent-ink)" }
+                            : undefined
+                        }
                         className={`max-w-[85%] px-3 py-2 rounded-xl text-[13px] leading-relaxed ${
                           msg.role === "user"
-                            ? "bg-accent text-white rounded-br-sm"
+                            ? "bg-accent rounded-br-sm"
                             : "bg-surface text-text-2 border border-border rounded-bl-sm"
                         }`}
                       >
@@ -170,7 +175,7 @@ export default function IntelligenceBar() {
                   {loading && (
                     <div className="flex gap-2 justify-start">
                       <div className="w-5 h-5 rounded-full bg-accent/10 flex items-center justify-center shrink-0 mt-0.5">
-                        <Sparkles size={9} className="text-accent" />
+                        <span className="text-accent text-[10px] font-mono leading-none" aria-hidden="true">&gt;</span>
                       </div>
                       <div className="px-3 py-2.5 rounded-xl bg-surface border border-border rounded-bl-sm">
                         <span className="flex gap-1">
@@ -204,19 +209,19 @@ export default function IntelligenceBar() {
         </AnimatePresence>
 
         {/* Bottom bar */}
-        <div className="rounded-full border border-border bg-bg/90 backdrop-blur-xl shadow-xl overflow-hidden">
+        <div className="rounded-full border border-border bg-bg/90 backdrop-blur-xl overflow-hidden">
           <form
             onSubmit={send}
             className="flex items-center gap-2 px-4 py-2.5"
           >
-            {/* Sparkle icon */}
+            {/* Prompt marker */}
             <button
               type="button"
               onClick={() => setExpanded((v) => !v)}
               aria-label={expanded ? "Minimise chat" : "Open AI chat"}
               className="w-7 h-7 flex items-center justify-center rounded-full bg-accent/10 shrink-0 hover:bg-accent/20 transition-colors"
             >
-              <Sparkles size={13} className="text-accent" />
+              <span className="text-accent text-[12px] font-mono leading-none" aria-hidden="true">&gt;</span>
             </button>
 
             {/* Input or rotating placeholder */}
@@ -256,7 +261,8 @@ export default function IntelligenceBar() {
                 type="submit"
                 disabled={!input.trim() || loading}
                 aria-label="Send"
-                className="w-7 h-7 rounded-full bg-accent text-white flex items-center justify-center disabled:opacity-40 hover:opacity-90 transition-opacity shrink-0"
+                style={{ color: "var(--accent-ink)" }}
+                className="w-7 h-7 rounded-full bg-accent flex items-center justify-center disabled:opacity-40 hover:opacity-90 transition-opacity shrink-0"
               >
                 <Send size={11} />
               </button>
@@ -273,7 +279,7 @@ export default function IntelligenceBar() {
           </form>
         </div>
 
-        {/* Quick suggestions — shown only when expanded and no messages yet */}
+        {/* Quick suggestions: shown only when expanded and no messages yet */}
         <AnimatePresence>
           {expanded && messages.length === 0 && (
             <motion.div
@@ -287,7 +293,7 @@ export default function IntelligenceBar() {
                 <button
                   key={s}
                   onClick={() => handleSuggestionClick(s)}
-                  className="px-3 py-1 rounded-full border border-border bg-bg/80 backdrop-blur text-[11px] text-text-3 hover:text-text-1 hover:border-border-strong transition-all"
+                  className="px-3 py-1 rounded-full border border-border bg-bg/80 backdrop-blur text-[11px] text-text-3 hover:text-text-1 hover:border-border-strong transition-colors"
                 >
                   {s}
                 </button>

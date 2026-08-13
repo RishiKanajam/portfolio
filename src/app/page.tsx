@@ -6,7 +6,6 @@ import Companies from "@/components/Companies";
 import Experience from "@/components/Experience";
 import Projects from "@/components/Projects";
 import TechList from "@/components/TechList";
-import Writing from "@/components/Writing";
 import Education from "@/components/Education";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -20,12 +19,12 @@ export default function Home() {
       <main>
         <Hero />
         <Stats />
-        <About />
-        <Companies />
-        <Experience />
+        {/* Projects lead: an engineer clicking through from a CV starts here. */}
         <Projects />
+        <About />
+        <Experience />
+        <Companies />
         <TechList />
-        <Writing />
         <Education />
         <Contact />
       </main>

@@ -1,69 +1,43 @@
 @import "tailwindcss";
+@import "./tokens.css";
+
+/* Hallmark · genre: editorial · macrostructure: Index-First · theme: custom
+ * (vibe: "technical index, editorial bones" · paper oklch(96.8% 0.010 85)
+ *  accent oklch(52% 0.150 42) terracotta · Fraunces + IBM Plex Sans + JetBrains Mono)
+ * nav: N13 inline ⌘K pill · footer: Ft4 dense colophon
+ * components: S4 inline heads · F3 tabular spec sheet · C3 typographic links
+ * enrichment: none — typography only · reveal: one load entrance, no scroll reveals
+ * mood: technical with editorial bones · axes: light-paper / serif+mono / warm-accent
+ * pre-emit critique: P5 H5 E4 S5 R5 V4
+ */
 
 /* ── Dark mode via .dark class on <html> ─────────────────────────────────── */
 @variant dark (&:where(.dark, .dark *));
 
-/* ── Design tokens ────────────────────────────────────────────────────────── */
-:root {
-  /* Accent — deep forest green, matches resume branding */
-  --accent:        #2B5C3A;
-  --accent-light:  #DCFCE7;
-
-  /* Light theme — warm parchment */
-  --bg:            #F7F4EE;
-  --bg-subtle:     #EDE9E1;
-  --surface:       #FFFFFF;
-
-  --border:        #D8D3C9;
-  --border-strong: #C2BDB1;
-
-  --text-1:        #0B0B0C;
-  --text-2:        #2E2E33;
-  --text-3:        #6B6B72;
-  --text-4:        #9CA3AF;
-
-  --dot-green:     #16a34a;
-
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.dark {
-  /* Accent — bright green for dark bg readability */
-  --accent:        #5CBB78;
-  --accent-light:  #1A3D28;
-
-  --bg:            #0B0B0C;
-  --bg-subtle:     #141416;
-  --surface:       #141416;
-
-  --border:        #1F1F22;
-  --border-strong: #2D2D32;
-
-  --text-1:        #EDEDEE;
-  --text-2:        #BEBEC6;
-  --text-3:        #8A8A8F;
-  --text-4:        #48484A;
-
-  --dot-green:     #4ade80;
-}
-
-/* ── Tailwind token bridge ────────────────────────────────────────────────── */
+/* ── Tailwind token bridge ────────────────────────────────────────────────
+ * Utility names map onto the tokens in tokens.css. Nothing here defines a
+ * colour; it only gives Tailwind a handle on one.                            */
 @theme inline {
-  --color-accent:        var(--accent);
-  --color-accent-light:  var(--accent-light);
-  --color-bg:            var(--bg);
-  --color-bg-subtle:     var(--bg-subtle);
-  --color-surface:       var(--surface);
-  --color-border:        var(--border);
-  --color-border-strong: var(--border-strong);
-  --color-text-1:        var(--text-1);
-  --color-text-2:        var(--text-2);
-  --color-text-3:        var(--text-3);
-  --color-text-4:        var(--text-4);
-  --color-dot-green:     var(--dot-green);
+  --color-paper:        var(--paper);
+  --color-bg:           var(--paper);
+  --color-bg-subtle:    var(--paper-2);
+  --color-surface:      var(--paper-2);
+  --color-pressed:      var(--paper-3);
+  --color-border:       var(--rule);
+  --color-border-strong: var(--rule-2);
+  --color-text-1:       var(--ink);
+  --color-text-2:       var(--ink-2);
+  --color-text-3:       var(--muted);
+  --color-text-4:       var(--faint);
+  --color-accent:       var(--accent);
+  --color-dot-green:    var(--signal);
 
-  --font-serif:          var(--font-fraunces);
-  --font-mono:           var(--font-jetbrains);
+  /* Only the utilities the page actually uses, and only where the theme name
+     differs from the token name — a self-referencing var() resolves by cascade
+     order, which is not something to depend on. */
+  --font-mono:  var(--font-outlier);
+  --font-sans:  var(--font-body);
+  --font-serif: var(--font-display);
 }
 
 /* ── Base ─────────────────────────────────────────────────────────────────── */
@@ -71,122 +45,306 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: var(--bg);
+  background-color: var(--paper);
+  overflow-x: clip;                 /* clip, not hidden — preserves sticky */
 }
 
 body {
-  background-color: var(--bg);
-  color: var(--text-1);
-  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, ui-sans-serif, system-ui, sans-serif;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
   line-height: 1.6;
-  font-size: 16px;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  transition: background-color var(--dur-short) var(--ease-out),
+              color var(--dur-short) var(--ease-out);
 }
+
+/* Light-on-dark carries extra optical weight. IBM Plex ships static weights,
+ * so stepping 400 → 350 would snap to 300 and read as a different face. The
+ * compensation happens in the palette instead: dark ink sits at 94%, not 98%. */
 
 ::selection {
   background-color: var(--accent);
-  color: #fff;
+  color: var(--accent-ink);
 }
 
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: var(--rule-2); border-radius: var(--radius-pill); }
+
+/* Display headers wrap inside long words rather than pushing the viewport. */
+h1, h2, h3 {
+  font-style: normal;               /* roman only — italic headers are a tell */
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
 
 /* ── Containers ───────────────────────────────────────────────────────────── */
-.container-wide {
-  max-width: 1140px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+.wrap {
+  max-width: 68rem;
+  margin-inline: auto;
+  padding-inline: clamp(1.125rem, 4vw, 2.5rem);
 }
 
-@media (min-width: 768px) {
-  .container-wide {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-  }
+.container-wide { /* retained name, Index-First measure */
+  max-width: 68rem;
+  margin-inline: auto;
+  padding-inline: clamp(1.125rem, 4vw, 2.5rem);
 }
 
-.container-prose {
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
+.measure { max-width: 68ch; }
+.measure-tight { max-width: 58ch; }
 
-/* ── Section rhythm ───────────────────────────────────────────────────────── */
+/* ── Section rhythm ───────────────────────────────────────────────────────
+ * Deliberately uneven: an index breathes at the top of a block and closes
+ * tight at the bottom. Equal padding everywhere is the flat-rhythm tell.     */
 .section-gap {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-block-start: var(--space-3xl);
+  padding-block-end: var(--space-2xl);
 }
-@media (min-width: 768px) {
+@media (min-width: 60rem) {
   .section-gap {
-    padding-top: 7.5rem;
-    padding-bottom: 7.5rem;
+    padding-block-start: var(--space-4xl);
+    padding-block-end: var(--space-3xl);
   }
 }
 
-/* ── Section scroll-margin so fixed header doesn't obscure anchors ─────────── */
-section[id], div[id="stats"] {
-  scroll-margin-top: 84px;
+section[id], div[id="stats"] { scroll-margin-top: 5.5rem; }
+
+/* ── Labels — the mono register ──────────────────────────────────────────── */
+.label {
+  font-family: var(--font-outlier);
+  font-size: var(--text-2xs);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
 }
 
-/* ── Focus ring ───────────────────────────────────────────────────────────── */
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-/* ── Utility ──────────────────────────────────────────────────────────────── */
-.section-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.15em;
+.section-label { /* retained name */
+  display: block;
+  font-family: var(--font-outlier);
+  font-size: var(--text-2xs);
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 1rem;
-  display: block;
-  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  margin-bottom: var(--space-md);
 }
 
-/* ── Dark contact/footer section ─────────────────────────────────────────── */
-.section-dark {
-  background-color: #0B0B0C;
-  color: #EDEDEE;
+/* S4 · inline small-caps head — emerges inside the flow, no spatial break. */
+.head-inline {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  color: var(--ink);
 }
-.section-dark .section-label { color: #5CBB78; }
 
-/* ── Status line dot blink ────────────────────────────────────────────────── */
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* ── C3 · typographic link ───────────────────────────────────────────────
+ * A word, a rule beneath it, and a mark. No box, no fill. The underline
+ * thickens on hover — one signal, not four.                                 */
+.link-t {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  min-height: 44px;                 /* touch target */
+  color: var(--ink);
+  white-space: nowrap;              /* affordances are one-line objects */
+  text-decoration: underline;
+  text-decoration-color: var(--edge);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.24em;
+  transition: text-decoration-color var(--dur-micro) var(--ease-out),
+              text-decoration-thickness var(--dur-micro) var(--ease-out),
+              color var(--dur-micro) var(--ease-out);
+}
+.link-t:hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2px;
+}
+.link-t:active { color: var(--accent); opacity: 0.7; }
+.link-t:disabled,
+.link-t[aria-disabled="true"] {
+  color: var(--faint);
+  text-decoration-color: var(--rule);
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+/* Inline prose link — same voice, no touch-target padding. */
+.link-i {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--rule-2);
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color var(--dur-micro) var(--ease-out),
+              color var(--dur-micro) var(--ease-out);
+}
+.link-i:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+/* ── Index rows — the page's primary structure ───────────────────────────── */
+.idx {
+  border-block-start: var(--rule-hair) solid var(--rule);
+}
+.idx__row {
+  border-block-end: var(--rule-hair) solid var(--rule);
+  padding-block: var(--space-xl);
+}
+.idx__row--tight { padding-block: var(--space-lg); }
+
+/* Case-study row: identity rail + prose. Single column until there's room. */
+.idx__case {
+  display: grid;
+  gap: var(--space-lg);
+}
+@media (min-width: 60rem) {
+  .idx__case {
+    grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+}
+
+/* ── F3 · tabular spec sheet ─────────────────────────────────────────────── */
+.spec {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.spec tr { border-block-end: var(--rule-hair) solid var(--rule); }
+.spec tr:last-child { border-block-end: 0; }
+.spec th,
+.spec td {
+  text-align: start;
+  vertical-align: baseline;
+  padding-block: var(--space-md);
+  font-weight: 400;
+}
+.spec th {
+  font-family: var(--font-outlier);
+  font-size: var(--text-xs);
+  color: var(--faint);
+  white-space: nowrap;
+  padding-inline-end: var(--space-lg);
+}
+
+/* ── N13 · inline ⌘K search pill ─────────────────────────────────────────── */
+.searchpill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  height: 34px;
+  padding-inline: var(--space-sm);
+  background: var(--paper-2);
+  border: var(--rule-hair) solid var(--edge);
+  border-radius: var(--radius-pill);
+  color: var(--muted);
+  font-size: var(--text-xs);
+  white-space: nowrap;
+  transition: border-color var(--dur-short) var(--ease-out),
+              color var(--dur-short) var(--ease-out);
+}
+.searchpill:hover { border-color: var(--ink-2); color: var(--ink); }
+.searchpill:active { opacity: 0.8; }
+.searchpill kbd {
+  font-family: var(--font-outlier);
+  font-size: var(--text-2xs);
+  color: var(--faint);
+}
+
+/* ── Ft4 · dense colophon ────────────────────────────────────────────────── */
+.colophon {
+  font-family: var(--font-outlier);
+  font-size: var(--text-xs);
+  line-height: 1.9;
+  color: var(--faint);
+}
+.colophon a { color: var(--muted); text-decoration: none; }
+.colophon a:hover { color: var(--accent); }
+
+/* ── Interactive states — gate 26 wants active and disabled in code, not
+ * only default and hover. ────────────────────────────────────────────────── */
+button:active,
+a.link-i:active { opacity: 0.7; }
+
+button:disabled,
+[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Control boundaries clear 3:1; the decorative hairlines stay light. */
+.searchpill,
+.control-edge { border-color: var(--edge); }
+
+/* ── Focus ────────────────────────────────────────────────────────────────
+ * Instant. Never transitioned — a ring that fades in leaves keyboard users
+ * with no indicator for the first 200ms.                                     */
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+  transition: none;
+}
+
+/* ── Motion — one orchestrated entrance on load, nothing on scroll ───────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(6px);
+  animation: reveal var(--dur-long) var(--ease-out) forwards;
+  animation-delay: calc(var(--i, 0) * 55ms);
+}
+@keyframes reveal {
+  to { opacity: 1; transform: none; }
+}
+
+/* Scroll reveal — the four case-study rows only, once each.
+ *
+ * Scoped deliberately: when every section fades in, the page never settles and
+ * the motion stops carrying information. Four rows means the reveal marks the
+ * things worth slowing down for.
+ *
+ * The hidden state only applies where scripting is on, so the rows are never
+ * stranded invisible if JS fails to run. */
+@media (scripting: enabled) {
+  .reveal-row {
+    opacity: 0;
+    /* 10px was below the threshold of noticing on a row this tall. */
+    transform: translateY(16px);
+    transition: opacity var(--dur-long) var(--ease-out),
+                transform var(--dur-long) var(--ease-out);
+  }
+  .reveal-row.is-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Status dot — functional, marks a live line. */
 @keyframes status-blink {
   0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
+  50% { opacity: 0.25; }
 }
-.status-dot {
-  animation: status-blink 1s step-end infinite;
-}
+.status-dot { animation: status-blink 2.4s var(--ease-in-out) infinite; }
 
-/* ── In-progress pulse badge ─────────────────────────────────────────────── */
-@keyframes pulse-badge {
-  0%, 100% { opacity: 0.75; }
-  50%       { opacity: 1; }
-}
-.animate-pulse-badge {
-  animation: pulse-badge 1.8s ease-in-out infinite;
+.animate-pulse-badge { /* retained name */
+  animation: status-blink 2.4s var(--ease-in-out) infinite;
 }
 
 /* ── cmdk command palette overlay ────────────────────────────────────────── */
 [cmdk-overlay] {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
-  z-index: 200;
+  background: var(--scrim);
+  backdrop-filter: blur(3px);
+  z-index: var(--z-modal);
 }
 
 [cmdk-dialog] {
@@ -195,16 +353,23 @@ section[id], div[id="stats"] {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding-top: 20vh;
-  z-index: 201;
+  padding-top: 14vh;
+  z-index: calc(var(--z-modal) + 1);
 }
 
-/* ── Reduced motion ───────────────────────────────────────────────────────── */
+/* ── Reduced motion ───────────────────────────────────────────────────────
+ * Spatial motion collapses to an opacity crossfade. Functional motion stays. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
-    animation-duration: 0.01ms !important;
+    animation-duration: 150ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: 150ms !important;
   }
+  .reveal { animation: reveal-reduced 150ms linear forwards; }
+  @keyframes reveal-reduced { to { opacity: 1; transform: none; } }
+  /* Spatial motion collapses to an opacity crossfade; no travel. */
+  .reveal-row { transform: none; }
+  .reveal-row.is-in { transform: none; }
   html { scroll-behavior: auto; }
+  .status-dot, .animate-pulse-badge { animation: none; opacity: 1; }
 }

@@ -3,9 +3,9 @@
 export const siteConfig = {
   name: "Rishi Kanajam",
   initials: "RK",
-  headline: "Founder · AI & Data Engineer.",
+  headline: "I build AI systems that know what they don't know.",
   oneLiner:
-    "Building open-source healthcare infrastructure for India's last mile — from Sydney.",
+    "Retrieval pipelines, LLM benchmarks, and health-data infrastructure: each one shipped with the evaluation harness, escalation path, or audit trail that tells you when it's wrong.",
   email: "kanajamrishi@gmail.com",
   linkedIn: "https://linkedin.com/in/rishi-madhur-kanajam",
   github: "https://github.com/RishiKanajam",
@@ -17,12 +17,12 @@ export const siteConfig = {
 // ─── Status line (editable weekly) ───────────────────────────────────────────
 
 export const statusLine =
-  "Open to AI Engineering roles in Sydney · Krama Core live on PyPI · Last shipped: DeceptionArena paper draft (Jun 2026)";
+  "Open to engineering roles in Sydney · Krama Core v1.0.0-alpha.4 live on PyPI · Now building: DeceptionArena benchmark harness";
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
 export const hero = {
-  locationPill: "Available in Sydney · Full work rights until Sep 2028",
+  locationPill: "Sydney, Australia · Full Australian work rights through Sept 2028",
   resumeHref: "/resume.pdf",
 };
 
@@ -40,23 +40,22 @@ export interface Stat {
 
 export const stats: Stat[] = [
   {
-    value: "Live on PyPI",
+    value: "v1.0.0-alpha.4",
     label: "Krama Core",
-    sublabel: "ABDM/FHIR R4 toolkit",
+    sublabel: "live on PyPI · MIT",
     isText: true,
   },
   {
-    value: "998 / 998",
+    value: "1000 / 1000",
     label: "DeceptionArena",
-    sublabel: "stress tests passing",
+    sublabel: "engine stress tests passing",
     isText: true,
   },
   {
-    value: "0.984",
-    label: "Kaggle TM-Score",
-    sublabel: "Stanford RNA 3D Folding",
-    numericTarget: 0.984,
-    decimals: 3,
+    value: "Idea Disruptor",
+    label: "PathFinder",
+    sublabel: "NGM Group hackathon · 2026",
+    isText: true,
   },
   {
     value: "50+",
@@ -67,7 +66,7 @@ export const stats: Stat[] = [
   },
 ];
 
-// ─── About (editorial — three movements) ─────────────────────────────────────
+// ─── About (editorial, three movements) ─────────────────────────────────────
 // Bold spans marked with **double asterisks** are parsed by the About component.
 
 export interface AboutMovement {
@@ -78,31 +77,32 @@ export interface AboutMovement {
 export const about = {
   movements: [
     {
-      label: "Origin",
+      label: "The through-line",
       paragraphs: [
-        "I'm from Andhra Pradesh — Telugu, with family roots in villages where the nearest hospital is 60 kilometres away. When my grandmother needed care, our family carried her records on paper. That memory is why **Nirvya Labs** exists.",
+        "Every system I've built has the same signature: it tells you how much to trust it. **I build AI systems that know what they don't know.**",
       ],
     },
     {
-      label: "What I'm building",
+      label: "What that looks like",
       paragraphs: [
-        "I'm the Founder of **Nirvya Labs**, a healthcare-access infrastructure company. Our first product line, **Krama**, is Python-first open-source tooling for India's Ayushman Bharat Digital Mission (ABDM) — the compliance and FHIR layer that gets the last mile online. **Krama Core v0.1.0** is live on PyPI. Beyond healthcare, I'm building a second product line around deep-science research tools (archaeology, oceanography, carbon dating), starting with **ChronoLens**.",
-        "I'm also the solo founder of **OldTalkies**, a platform for Telugu cinema — editorial content in the spirit of Variety and Bloomberg, a verified marketplace of industry professionals (DOPs, music directors, editors, lyricists), AI craft tools, and community — deliberately architected to be free of the fan-war toxicity that defines most cinema discourse. Public launch: mid-to-late September 2026.",
+        "**PDF-Rag** ships with an LLM-as-judge harness that scores its own faithfulness. **ChronoLens** labels every claim fact, context, hypothesis, or needs-review. **PathFinder** hardcodes crisis phone numbers into static HTML so they outlive a backend outage. **Pinch Recovery** attaches a human-readable reasoning string to every decision it makes about someone's money. **Krama Core** runs a compliance check that returns blockers before health data moves. **DeceptionArena** labels each game engine by simulation fidelity so no claim outruns what's actually implemented.",
+        "None of that is the interesting part of building a model. It's the part that decides whether anyone can use it.",
       ],
     },
     {
       label: "Day-to-day",
       paragraphs: [
-        "I engineer AI systems and healthcare data pipelines. I tutor Data Structures & Algorithms to 50+ students per semester at the University of Sydney. I've worked on the Data team at St Vincent de Paul Society NSW. And I ship — **DeceptionArena**, **PathFinder** (NGM “Most Disruptive” winner), **CareBridge**, a Kaggle RNA folding pipeline that hit 0.984 TM-score, an autonomous-maritime CV pipeline at Ocius.",
-        "If you're building healthtech, agentic AI, or infrastructure — I'd like to talk.",
+        "I'm from Andhra Pradesh (Telugu), with family in villages where the nearest hospital is 60 kilometres away. When my grandmother needed care, our records travelled on paper. That's why I maintain **Krama Core**, an open-source FHIR and compliance SDK for India's ABDM health network, published under **Nirvya Labs**.",
+        "I tutor Data Structures & Algorithms to 50+ students a semester at the University of Sydney. Before that: the Data team at St Vincent de Paul Society NSW, and a real-time computer-vision pipeline for autonomous maritime craft at Ocius.",
+        "If you're building AI systems, developer tooling, or health infrastructure, I'd like to talk.",
       ],
     },
   ] as AboutMovement[],
   sidebar: [
     "BASED · SYDNEY, AU · ROOTS · ANDHRA PRADESH, IN",
+    "RIGHTS · SUBCLASS 485 · FULL WORK RIGHTS TO SEP 2028",
     "EDU · M.IT (DATA ANALYTICS) · UNIVERSITY OF SYDNEY",
     "EDU · B.TECH (HONS) CSE · GMR INSTITUTE OF TECHNOLOGY",
-    "RIGHTS · SUBCLASS 485 · FULL WORK RIGHTS TO SEP 2028",
   ],
 };
 
@@ -129,39 +129,29 @@ export interface Company {
 export const companies: Company[] = [
   {
     name: "Nirvya Labs",
-    role: "Founder",
-    tagline: "Healthcare-access infrastructure for India's last mile",
+    role: "Engineer & Maintainer, Krama Core (open source)",
+    tagline: "Open-source healthcare integration tooling",
     brand: "portfolio",
-    what: "A parent company building open-source developer tools and end-user products around India's ABDM (Ayushman Bharat Digital Mission) healthcare rails, plus a second product line for deep-science research.",
-    productLines: [
-      {
-        name: "Krama",
-        description:
-          "The healthcare arm. Krama Core (open-source FHIR toolkit, live) → Krama Link (cross-facility record transfer) → PHC pilot with the Andhra Pradesh government → clinical AI on the Krama data rails.",
-      },
-      {
-        name: "Deep-science line",
-        description:
-          "Advanced research tools starting with ChronoLens (cultural heritage), with planned expansion into oceanography, marine biology, carbon dating, and landscape science.",
-      },
+    what: "Nirvya Labs is the org the work is published under. Krama Core is its first release: a Python SDK for FHIR R4, consent and data-exchange flows, encryption, and country-aware compliance, starting with India's ABDM network and architected so the same call site works elsewhere.",
+    points: [
+      "Layered on purpose: clinical domains define what care is documented, country adapters define how it's identified and protected, compliance policies define what must be checked before data moves.",
+      "MIT licensed, published to PyPI, CI across Python 3.10–3.12 with pytest, ruff, bandit and pip-audit. Contributions welcome.",
     ],
-    why: "Owning the compliance and data-transformation layer is a defensible moat. Once the rails exist, everything on top — federated learning, clinical AI, patient identity — becomes possible.",
     links: [
-      { label: "GitHub", href: "https://github.com/NirvyaLabs" },
+      { label: "GitHub", href: "https://github.com/NirvyaLabs/krama-core" },
       { label: "Krama Core · PyPI", href: "https://pypi.org/project/krama-core/" },
     ],
   },
   {
     name: "OldTalkies",
-    role: "Solo Founder",
+    role: "Solo Founder, side project",
     tagline: "A Timeless Space",
     brand: "oldtalkies",
-    status: "Launching September 2026",
-    what: "A platform for Telugu cinema. Four surfaces on one product: editorial content with Variety / Bloomberg energy, a verified marketplace of industry professionals (DOPs, music directors, editors, lyricists), AI craft tools, and community features.",
+    status: "In build",
+    what: "A platform for Telugu cinema, built nights and weekends: editorial content, a verified marketplace of industry professionals (DOPs, music directors, editors, lyricists), craft tools, and community.",
     points: [
-      "English-primary editorial voice with strategic Tenglish (Telugu + English) accents. Cinema for people who care about craft, not scoreboards.",
       "Anti-toxicity by design: no star comparisons, no box-office tracking, film-centric organisation, AI moderation on community surfaces.",
-      "Roadmap: public launch mid-to-late September 2026, with planned expansion into Tamil, Malayalam, and Kannada cinema after the Telugu vertical stabilises.",
+      "Not launched. Target: mid-to-late September 2026.",
     ],
     links: [],
   },
@@ -180,24 +170,24 @@ export interface ExperienceItem {
 
 export const experience: ExperienceItem[] = [
   {
-    role: "Founder",
+    role: "Engineer & Maintainer, Krama Core (open source)",
     company: "Nirvya Labs",
     period: "Apr 2026 – present",
     current: true,
     bullets: [
-      "Building Krama — open-source Python tooling for India's ABDM healthcare rails.",
-      "Published Krama Core v0.1.0 to PyPI (`pip install krama-core`). Three FHIR R4 bundle generators (OP Consult, Prescription, Discharge Summary). 21 tests, CI/CD across Python 3.10–3.12, MIT licensed.",
-      "Roadmap: Krama Link (hospital cross-facility record transfer) → Andhra Pradesh PHC pilot → clinical AI on the Krama data rails.",
+      "Maintain Krama Core, a Python SDK for India's ABDM health network: ABHA identity, HIP/HIU consent and data-exchange flows, FHIR R4 bundle builders, and clinical templates across 12 medical domains.",
+      "Built the security and resilience layer (ECDH X25519 key exchange with AES-GCM encryption, gateway retries and circuit breakers) and a compliance engine with rule packs for India, Australia, the US and the UK.",
+      "Published v1.0.0-alpha.4 to PyPI (`pip install --pre krama-core`). MIT licensed, 130 tests, CI across Python 3.10–3.12 with pytest, ruff, bandit and pip-audit.",
     ],
-    tech: ["Python", "FastAPI", "FHIR R4", "Pydantic", "PostgreSQL", "AWS"],
+    tech: ["Python", "FHIR R4", "Pydantic", "Cryptography", "GitHub Actions"],
   },
   {
-    role: "Academic Tutor — Data Structures & Algorithms",
+    role: "Academic Tutor, Data Structures & Algorithms",
     company: "University of Sydney",
     period: "Jan 2024 – Nov 2026",
     current: true,
     bullets: [
-      "Teach COMP2123 / COMP9123 tutorials — binary trees, priority queues, graph traversals, dynamic programming, complexity analysis — to 50+ students per semester across undergraduate and postgraduate cohorts.",
+      "Teach COMP2123 / COMP9123 tutorials (binary trees, priority queues, graph traversals, dynamic programming, complexity analysis) to 50+ students per semester across undergraduate and postgraduate cohorts.",
       "Lead improvements to lab materials, grading aids, and test cases; designing better tooling with iterative testing and feedback loops.",
       "2+ years translating complex algorithmic concepts to varied audiences, mentoring on debugging and problem-solving in C++ and Python.",
     ],
@@ -220,7 +210,7 @@ export const experience: ExperienceItem[] = [
     company: "Ocius Technology",
     period: "Aug 2024 – Nov 2024",
     bullets: [
-      "Industry capstone in a team of 4 — delivered a real-time maritime object detection pipeline for autonomous unmanned surface vehicles.",
+      "Industry capstone in a team of 4: delivered a real-time maritime object detection pipeline for autonomous unmanned surface vehicles (Bluebottle USVs).",
       "Led the model-optimisation workstream: INT8 quantisation, TensorRT, and inference batching. Team-wide effort achieved a 9× throughput gain on NVIDIA Jetson edge hardware.",
       "Containerised the pipeline with Docker and shipped to production at Ocius Technology.",
     ],
@@ -261,194 +251,189 @@ export interface Project {
   number: string;
   title: string;
   shortTitle: string;
+  /** One-line summary. Used in the compact grid, the command palette, and as the case-study standfirst. */
   description: string;
-  longDescription?: string;
+  /** Case-study fields: only set on the four lead projects. */
+  problem?: string;
+  built?: string;
+  decision?: { label: string; body: string };
+  /** Honest caveat rendered inline. Use when the work could be read as claiming more than it does. */
+  caveat?: string;
+  /** Credit line, e.g. team size. */
+  credit?: string;
   tech: string[];
   tags?: ProjectTag[];
   status?: ProjectStatus;
-  featured?: boolean;
-  stickyScene?: boolean;
+  caseStudy?: boolean;
   githubUrl?: string;
   liveUrl?: string;
+  liveLabel?: string;
+  /** Shown in place of a repo link when there is no public source. */
+  repoNote?: string;
   award?: string;
 }
 
 export const projects: Project[] = [
+  // ── Case studies ───────────────────────────────────────────────────────────
   {
     number: "01",
-    title: "DeceptionArena",
-    shortTitle: "DeceptionArena",
-    description:
-      "Cross-game LLM deception benchmark spanning five social deduction games: Skull, Coup, The Resistance, One Night Ultimate Werewolf, Secret Hitler. Sole author.",
-    longDescription:
-      "All five engines built and stress-tested — 998/998 tests passing. Full evaluation pipeline (1,000 games in ~3 seconds). Publication-quality figures (radar, win-rate bars, ELO progression, bluff analysis). Complete LaTeX paper draft. Target: arXiv preprint → NeurIPS 2026 workshop.",
-    tech: ["Python", "asyncio", "OpenAI API", "Anthropic API", "DeepSeek", "Llama", "matplotlib", "LaTeX"],
-    tags: ["Research", "AI/ML"],
-    status: "in-progress",
-    featured: true,
-    stickyScene: true,
-    githubUrl: "https://github.com/RishiKanajam/DeceptionArena",
-  },
-  {
-    number: "02",
     title: "Krama Core",
     shortTitle: "Krama Core",
     description:
-      "The Python-first, developer-obsessed open-source toolkit for building on India's ABDM. Generates ABDM-compliant FHIR R4 clinical document bundles. The first public product from Nirvya Labs.",
-    longDescription:
-      "v0.1.0 live on PyPI as krama-core. Zero runtime dependencies beyond Pydantic. 21-test suite. CI/CD across Python 3.10/3.11/3.12 with bandit + pip-audit. MIT licensed.",
-    tech: ["Python", "Pydantic", "FHIR R4", "GitHub Actions"],
+      "Open-source FHIR R4 and compliance SDK for India's ABDM health network. Published to PyPI, MIT licensed.",
+    problem:
+      "A clinic in rural Andhra Pradesh wants to send a discharge summary to a hospital in the next district. Between them sits ABDM: ABHA identity, consent artefacts, encrypted exchange, and a gateway with strict async callback contracts. A two-person team can't build all of that before they build the thing they actually set out to build.",
+    built:
+      "A Python SDK covering the whole path: ABHA identity, HIP/HIU consent and data-exchange flows, FHIR R4 bundle builders, ECDH X25519 key exchange with AES-GCM encryption, gateway resilience through retries and circuit breakers, clinical templates across 12 medical domains, and a compliance engine with rule packs for India, Australia, the US and the UK. v1.0.0-alpha.4 on PyPI, MIT, 130 tests, CI on Python 3.10–3.12 with pytest, ruff, bandit and pip-audit.",
+    decision: {
+      label: "Compliance returns blockers, not warnings",
+      body:
+        "The compliance engine is a pre-flight check: purpose, lawful basis, encryption, residency, minimum-necessary sharing. Each failed check comes back as a blocker with a source URL, and the result only passes when the blocker list is empty. It would have been friendlier to emit warnings and let the caller proceed, but the failure mode you're designing against is an engineer shipping on a deadline, and a warning is something you ship past. Country rules live in swappable policy packs, so the same call site is legal in India and refuses in Australia when it should be.",
+    },
+    tech: ["Python", "FHIR R4", "Pydantic", "Cryptography", "GitHub Actions", "PyPI"],
     tags: ["Open Source", "Healthcare"],
     status: "shipped",
-    featured: true,
-    stickyScene: true,
+    caseStudy: true,
     githubUrl: "https://github.com/NirvyaLabs/krama-core",
     liveUrl: "https://pypi.org/project/krama-core/",
+    liveLabel: "PyPI",
+  },
+  {
+    number: "02",
+    title: "DeceptionArena",
+    shortTitle: "DeceptionArena",
+    description:
+      "Cross-game LLM deception benchmark: five social deduction games behind one engine interface, with structured decision traces.",
+    problem:
+      "If a model is persuasive under incomplete information, you want to know that before you put it somewhere consequential. Most evaluations ask a model to answer honestly. Almost none put it in a game where deceiving another player is the winning move and then measure what it does.",
+    built:
+      "Skull, Coup, The Resistance, One Night Ultimate Werewolf and Secret Hitler implemented as pure state machines behind a single interface; 1000/1000 randomised stress tests, 200 seeded games per engine. On top of that: Deception ELO ratings, a 10-axis capability taxonomy, an aiohttp WebSocket server, SQLite run persistence, and a four-screen React dashboard for run setup, live monitoring, analytics, and replay. 15 models across 5 providers are wired in.",
+    decision: {
+      label: "Score the public rationale, not the chain-of-thought",
+      body:
+        "Every model turn writes a structured decision trace: stated rationale, confidence, suspected deceivers, tactic, risk assessment, latency, provider. The dashboard deliberately surfaces the public rationale and not hidden reasoning. A deception benchmark that scores a model on its private thoughts is measuring the wrong object: deception is made of what the other players can observe. Each engine also carries a simulation-fidelity label, so a number never implies more game than the engine actually implements.",
+    },
+    caveat:
+      "Real-API runs so far are small: one game per level, two models. The larger multi-model run was an offline deterministic stand-in, and the exports say so. What exists is benchmark infrastructure, not findings.",
+    tech: ["Python", "asyncio", "aiohttp", "SQLite", "React", "OpenAI", "Anthropic", "Groq", "OpenRouter"],
+    tags: ["Research", "AI/ML"],
+    status: "in-progress",
+    caseStudy: true,
+    repoNote: "Source not public yet",
   },
   {
     number: "03",
-    title: "ChronoLens — Cultural Evidence OS",
-    shortTitle: "ChronoLens",
+    title: "PathFinder",
+    shortTitle: "PathFinder",
     description:
-      "Cultural Evidence OS built at OpenAI Codex Hackathon Sydney 2026 (UTS Startups). Multi-agent AI that classifies every claim as Fact / Hypothesis / Possible Connection / Needs Expert Review.",
-    longDescription:
-      "Real-archive integrations: OpenAlex, Library of Congress, Met Museum, MusicBrainz. Knowledge-connections graph, geographic cultural-transmission flows, and image analysis with region selection. The first release from the Nirvya Labs deep-science line.",
-    tech: ["Next.js", "TypeScript", "OpenAI Agents SDK", "multi-API"],
-    tags: ["AI/ML", "Full Stack", "Hackathon"],
+      "AI triage and referral platform for the Lake Macquarie & Newcastle Suicide Prevention Network. Built with a teammate at NGM Group's hackathon, May 2026.",
+    problem:
+      "Someone reaches out to a small suicide-prevention network at 11pm. The staff who could help are asleep, the intake form is a PDF, and whoever picks it up tomorrow has no way to tell whether this person needs a callback next week or a phone call right now.",
+    built:
+      "A 24/7 intake chatbot, a QR-based referral portal for frontline staff, and a dashboard that gave the organisation its first analytics. Rule-based risk scoring routes each referral to staff by the training level it requires, across 14 programs, backed by a five-layer escalation protocol and 35+ documented edge cases. FastAPI, Azure AI Language, React. LMNSPN's CEO has since met with us about taking it into production.",
+    decision: {
+      label: "Crisis numbers survive the backend",
+      body:
+        "Lifeline's number is hardcoded in static HTML. If the API is down, the model is rate-limited, or the deploy is broken, the page still shows a human being to call. Everything else in the system is best-effort; that one element is not permitted to depend on anything. The same instinct drove the risk engine: it's rules, not a model, because when it's wrong we need to be able to read why, and borderline cases escalate rather than resolve.",
+    },
+    credit: "Built with a teammate",
+    tech: ["FastAPI", "Azure AI Language", "React", "Python"],
+    tags: ["Hackathon", "AI/ML", "Full Stack"],
     status: "shipped",
-    githubUrl: "https://github.com/RishiKanajam/ChronoLens",
-    liveUrl: "https://chrono-lens-six.vercel.app",
+    caseStudy: true,
+    githubUrl: "https://github.com/RishiKanajam/PathFinder",
+    award: "Idea Disruptor Award · NGM Group",
   },
   {
     number: "04",
-    title: "PathFinder — Mental Health Triage",
-    shortTitle: "PathFinder",
+    title: "ChronoLens",
+    shortTitle: "ChronoLens",
     description:
-      "Triage and routing system for LMNSPN, a mental-health network. 24/7 intake chatbot, QR-based referral portal, and an admin dashboard with the org's first-ever analytics.",
-    longDescription:
-      "3-tier risk classification with a 5-layer escalation cascade. Built at the NGM Hackathon after directly interviewing LMNSPN staff.",
-    tech: ["React", "FastAPI", "Azure AI Services", "Azure Speech", "Azure OpenAI"],
-    tags: ["Hackathon", "AI/ML", "Full Stack"],
+      "Cultural research workspace that labels every AI claim by how far you should trust it. Built solo in about five hours at the OpenAI Codex Hackathon, Sydney.",
+    problem:
+      "A researcher asking about a 14th-century trade route gets back a fluent paragraph with no way to tell which sentence came out of an archive and which one the model inferred. The fluency is the problem: it makes an inference and a citation look identical.",
+    built:
+      "One query fans out to ten analysis surfaces and six live archive APIs, producing a knowledge graph, geographic transmission flows, image analysis with bounding boxes, and PDF/PowerPoint export. Next.js 14, TypeScript, GPT-4.1.",
+    decision: {
+      label: "Every claim carries its epistemic status",
+      body:
+        "Output is labelled fact, context, hypothesis, or needs-expert-review, and the label travels with the claim all the way into the exported deck. It makes the system look less confident than a plain summary would, which is the point: a researcher can act on a fact and go verify a hypothesis, but a paragraph that blends the two can't be checked at all.",
+    },
+    tech: ["Next.js 14", "TypeScript", "GPT-4.1", "Multi-API"],
+    tags: ["AI/ML", "Full Stack", "Hackathon"],
     status: "shipped",
-    award: "Most Disruptive · NGM Hackathon",
+    caseStudy: true,
+    githubUrl: "https://github.com/RishiKanajam/ChronoLens",
   },
+
+  // ── Also built ─────────────────────────────────────────────────────────────
   {
     number: "05",
-    title: "CareBridge — Multi-Agent Healthcare AI",
-    shortTitle: "CareBridge",
+    title: "PDF-Rag",
+    shortTitle: "PDF-Rag",
     description:
-      "Care-transition system with six parallel agents processing hospital discharge summaries to catch medication errors before they reach patients.",
-    longDescription:
-      "Six agents: Clinical Extractor, Risk Stratifier, Care Plan Writer, Clinic Scheduler, Privacy Guardian, Reconciliation Orchestrator.",
-    tech: ["OpenAI Agents SDK", "FHIR R4", "FastAPI", "React", "Vercel"],
-    tags: ["AI/ML", "Full Stack", "Healthcare"],
-    status: "shipped",
-  },
-  {
-    number: "06",
-    title: "Stanford RNA 3D Folding",
-    shortTitle: "RNA Folding",
-    description:
-      "Kaggle competition: validation TM-Score 0.984 using template-based modelling + RibonanzaNet + classical MDS + GPU spring refinement.",
-    longDescription:
-      "Key debugging insight: a sentinel value -1e18 masquerading as valid coordinates was poisoning training. Fixing it lifted TM-Score from 0.60 → 0.984.",
-    tech: ["PyTorch", "RibonanzaNet", "NumPy", "SciPy", "CUDA"],
-    tags: ["AI/ML", "Research"],
-    status: "shipped",
-    githubUrl: "https://github.com/RishiKanajam/stanford-rna-folding",
-  },
-  {
-    number: "07",
-    title: "MedVault — Multi-Tenant Clinical AI",
-    shortTitle: "MedVault",
-    description:
-      "Multi-tenant clinical AI platform for healthcare in emerging markets. RxAI for symptom + medical-image analysis, IoT cold-chain monitoring, offline-first via IndexedDB, drug intelligence hub.",
-    tech: ["Next.js 15", "TypeScript", "Firebase", "Gemini Pro Vision", "Python Flask", "Cloud Run", "IndexedDB"],
-    tags: ["AI/ML", "Full Stack", "Healthcare"],
-    status: "shipped",
-    githubUrl: "https://github.com/RishiKanajam/MedVault",
-  },
-  {
-    number: "08",
-    title: "Ocius Maritime CV Pipeline",
-    shortTitle: "Ocius",
-    description:
-      "Real-time computer-vision pipeline on autonomous maritime craft (Bluebottle unmanned surface vehicles). Led the model-optimisation workstream — team-wide effort delivered a 9× throughput gain on edge hardware.",
-    tech: ["Python", "YOLOv8", "PyTorch", "TensorRT", "Docker", "OpenCV"],
+      "Hybrid retrieval done properly: BM25 and dense search merged with Reciprocal Rank Fusion, then cross-encoder re-ranking. Sentence-aware NLTK chunking, conversational memory, and an LLM-as-judge harness that scores faithfulness, relevancy and context quality.",
+    tech: ["Python", "LangChain", "ChromaDB", "BM25", "Cross-Encoder", "Groq", "Streamlit"],
     tags: ["AI/ML"],
-    status: "shipped",
-  },
-  {
-    number: "09",
-    title: "LLM Latent Space Manipulation",
-    shortTitle: "LLM Steering",
-    description:
-      "Neuron-level interventions in Llama-3, probing attention-head representations to steer model outputs via internal activation steering.",
-    longDescription:
-      "Iterative work deriving MLP concept vectors and applying them as activation steering directions.",
-    tech: ["PyTorch", "Hugging Face Transformers", "Jupyter"],
-    tags: ["AI/ML", "Research"],
-    status: "in-progress",
-    githubUrl: "https://github.com/RishiKanajam/LLM_Steering",
-  },
-  {
-    number: "10",
-    title: "MangRAG — Document Intelligence RAG",
-    shortTitle: "MangRAG",
-    description:
-      "Production-ready RAG pipeline: upload PDFs and ask questions in natural language, with per-source attribution for traceable answers, served through async FastAPI.",
-    longDescription:
-      "PDF ingestion → chunking → local embedding generation → MongoDB Atlas vector search → LLM response. HuggingFace embeddings, Groq (LLaMA 3.3), Streamlit front-end.",
-    tech: ["Python", "FastAPI", "MongoDB Atlas", "HuggingFace", "Groq", "Streamlit"],
-    tags: ["AI/ML", "Full Stack"],
-    status: "shipped",
-    githubUrl: "https://github.com/RishiKanajam/MangRAG",
-  },
-  {
-    number: "11",
-    title: "PDF-RAG — Chat With Your Documents",
-    shortTitle: "PDF-RAG",
-    description:
-      "Production-quality RAG system to chat with PDF and text documents — built from scratch with a learning-first approach, every module annotated with the concepts behind it.",
-    longDescription:
-      "Hybrid BM25 + semantic retrieval, cross-encoder reranking, conversational memory. Streamlit web interface and CLI.",
-    tech: ["Python", "LangChain", "BM25", "Cross-Encoder", "Streamlit"],
-    tags: ["AI/ML", "Full Stack"],
     status: "shipped",
     githubUrl: "https://github.com/RishiKanajam/PDF-Rag",
   },
   {
-    number: "12",
-    title: "anomaly-detector — Log AIOps",
+    number: "06",
+    title: "MangRAG",
+    shortTitle: "MangRAG",
+    description:
+      "Production RAG service over your PDFs: MongoDB Atlas Vector Search, Groq (LLaMA 3.3), local HuggingFace embeddings, served three ways through FastAPI, Streamlit and a CLI. Dockerised, with pytest.",
+    tech: ["Python", "FastAPI", "MongoDB Atlas", "HuggingFace", "Groq", "Streamlit", "Docker"],
+    tags: ["AI/ML", "Full Stack"],
+    status: "shipped",
+    githubUrl: "https://github.com/RishiKanajam/MangRAG",
+    liveUrl: "https://mangrag.streamlit.app",
+  },
+  {
+    number: "07",
+    title: "Pinch Recovery Engine",
+    shortTitle: "Pinch Recovery",
+    description:
+      "Failed direct debits aren't all the same: insufficient funds is a timing problem, a cancelled authority is churn. Reads the dishonour code, picks a strategy per failure class, never retries a hard failure, never schedules a retry on a day the banks are shut, and attaches a human-readable reasoning string to every decision.",
+    tech: ["Python", "FastAPI", "PostgreSQL", "Alembic", "Jinja2", "Docker"],
+    tags: ["Full Stack"],
+    status: "shipped",
+    githubUrl: "https://github.com/RishiKanajam/pinch-recovery",
+  },
+  {
+    number: "08",
+    title: "MedVault",
+    shortTitle: "MedVault",
+    description:
+      "Multi-tenant clinical platform: Gemini Pro Vision multimodal decision support, IoT cold-chain monitoring, offline-first via IndexedDB, and tenant isolation enforced through Firebase custom claims and Firestore security rules rather than application code.",
+    tech: ["Next.js 15", "TypeScript", "Firebase", "Gemini Pro Vision", "Cloud Run", "IndexedDB"],
+    tags: ["AI/ML", "Full Stack", "Healthcare"],
+    status: "shipped",
+    githubUrl: "https://github.com/RishiKanajam/MedVault",
+    liveUrl: "https://medvault-596655096468.us-central1.run.app/",
+  },
+  {
+    number: "09",
+    title: "anomaly-detector",
     shortTitle: "Anomaly Detector",
     description:
-      "AI-powered log anomaly detection (AIOps). A Flask app that analyses cloud log files and flags anomalies via Isolation Forest, One-Class SVM, and an ensemble voting approach.",
+      "Log AIOps: a Flask app that reads cloud log files and flags anomalies via Isolation Forest, One-Class SVM, and an ensemble vote across both.",
     tech: ["Python", "Flask", "scikit-learn", "Isolation Forest"],
     tags: ["AI/ML"],
     status: "shipped",
     githubUrl: "https://github.com/RishiKanajam/anomaly-detector",
   },
   {
-    number: "13",
-    title: "AgentDOM — Browser Agent Middleware",
-    shortTitle: "AgentDOM",
+    number: "10",
+    title: "DSA_Learning_Web",
+    shortTitle: "DSA Learning",
     description:
-      "Middleware on Playwright / Chrome DevTools Protocol that emits structured DOM representations instead of screenshots, enabling faster and cheaper browser-agent interactions.",
-    longDescription:
-      "Phase 2: the AMRW protocol paper proposing a formal spec for agent-friendly web interfaces — a robots.txt for agents. Scoped after DeceptionArena submission.",
-    tech: ["Python", "Playwright", "Chrome DevTools Protocol"],
-    tags: ["AI/ML", "Research"],
-    status: "concept",
-  },
-  {
-    number: "14",
-    title: "Minto — Personal Finance",
-    shortTitle: "Minto",
-    description:
-      "React Native + Expo personal-finance app. Hero feature: natural-language expense entry — \"Dinner 120 split 4 ways\" — parsed on-device.",
-    tech: ["Expo SDK 55", "React Native", "Zustand", "SQLite", "NativeWind", "Victory Native"],
+      "Interactive platform for learning data structures: write code, watch the structure change step by step. Built out of two years of tutoring COMP2123, for the concepts students got stuck on most.",
+    tech: ["React", "Vite", "Tailwind", "Framer Motion", "Recharts"],
     tags: ["Full Stack", "Side"],
-    status: "in-progress",
+    status: "shipped",
+    githubUrl: "https://github.com/RishiKanajam/DSA_Learning_Web",
   },
 ];
 
@@ -467,24 +452,23 @@ export const techGroups: TechGroup[] = [
   },
   {
     label: "AI / ML",
-    items: ["PyTorch", "TensorFlow", "Hugging Face", "LangChain", "OpenAI Agents SDK", "Anthropic API", "RAG", "Fine-tuning"],
+    items: ["PyTorch", "Hugging Face", "LangChain", "RAG", "OpenAI API", "Anthropic API", "Groq", "Evaluation harnesses"],
   },
   {
     label: "Healthcare Data",
     items: ["FHIR R4", "ABDM", "HL7"],
   },
   {
-    label: "Web & Mobile",
-    items: ["Next.js", "React", "React Native", "Expo", "FastAPI", "Node.js"],
+    label: "Web & Backend",
+    items: ["Next.js", "React", "FastAPI", "Flask", "Node.js", "Streamlit"],
   },
   {
     label: "Data",
-    items: ["PostgreSQL", "MongoDB Atlas", "Pandas", "NumPy", "Snowflake", "Airflow"],
-    note: "Snowflake · Airflow — learning",
+    items: ["PostgreSQL", "MongoDB Atlas", "ChromaDB", "SQLite", "Pandas", "NumPy"],
   },
   {
     label: "Cloud & DevOps",
-    items: ["AWS", "Azure", "GCP", "Docker", "GitHub Actions", "Vercel", "CUDA", "TensorRT"],
+    items: ["AWS", "Azure", "GCP", "Firebase", "Docker", "GitHub Actions", "Vercel", "TensorRT"],
   },
 ];
 
@@ -530,7 +514,7 @@ export const education: EducationItem[] = [
     location: "Sydney, Australia",
   },
   {
-    degree: "B.Tech (Honours) — Computer Science & Engineering",
+    degree: "B.Tech (Honours) in Computer Science & Engineering",
     institution: "GMR Institute of Technology",
     period: "2019 – 2023",
     location: "India · Bioinformatics focus",
@@ -541,7 +525,7 @@ export const education: EducationItem[] = [
 
 export const contact = {
   pitch:
-    "Open to Software Engineer, AI/ML Engineer, and Data Engineer roles — especially in healthcare AI and infrastructure. If you're building something that matters, let's talk.",
+    "I'm looking for engineering roles at startups: AI/ML, backend, or full stack. Sydney-based, full Australian work rights through Sept 2028. If you're building something where being right matters, let's talk.",
   socials: [
     { label: "Email", href: "mailto:kanajamrishi@gmail.com", value: "kanajamrishi@gmail.com" },
     { label: "GitHub", href: "https://github.com/RishiKanajam", value: "github.com/RishiKanajam" },
@@ -555,30 +539,34 @@ export const contact = {
 export const chatbotSystemPrompt = `You are an AI assistant on Rishi Kanajam's portfolio website. Answer questions about Rishi factually using the context below. If asked something you don't know, say so honestly. Keep answers concise (2-4 sentences).
 
 ABOUT RISHI:
-Rishi Kanajam is a Founder and AI & Data Engineer based in Sydney, Australia, with family roots in Andhra Pradesh, India. He has full Australian work rights (Subclass 485) until Sep 2028. He is open to AI Engineering, Software Engineering, and Data Engineering roles.
+Rishi Kanajam is a full-stack and AI engineer based in Sydney, Australia, with family roots in Andhra Pradesh, India. He has full Australian work rights (Subclass 485) through Sep 2028. He is looking for engineering roles at startups: AI/ML, backend, or full stack.
 
-COMPANIES:
-- Nirvya Labs (Founder): Healthcare-access infrastructure for India's last mile. Building Krama — Python-first open-source tooling for India's ABDM (Ayushman Bharat Digital Mission). Product ladder: Krama Core (live on PyPI) → Krama Link → Andhra Pradesh PHC pilot → clinical AI. Also a deep-science research line starting with ChronoLens.
-- OldTalkies (Solo Founder): A platform for Telugu cinema — editorial, a verified marketplace of industry professionals, AI craft tools, and community. Anti-toxicity by design. Launching mid-to-late September 2026. Planned later expansion to Tamil/Malayalam/Kannada. It is a platform in build, NOT a YouTube channel and NOT launched yet.
+THE THROUGH-LINE: He builds AI systems that know what they don't know: every project ships with the evaluation harness, escalation path, epistemic labelling, or audit trail that tells you when the system is wrong.
 
 CURRENT / RECENT WORK:
-- Founder, Nirvya Labs (current): Published Krama Core v0.1.0 to PyPI (pip install krama-core), MIT licensed, 21 tests, CI/CD Python 3.10-3.12.
+- Engineer & Maintainer, Krama Core (open source), published under Nirvya Labs (Apr 2026 – present).
 - Academic Tutor, University of Sydney (Jan 2024 – Nov 2026): COMP2123/COMP9123 (Data Structures & Algorithms), 50+ students/semester.
 - Systems Engineer, St Vincent de Paul Society NSW (Apr 2025 – Apr 2026, ended): ETL pipelines across SAP, Workday, Azure.
+- Computer Vision Engineer, Ocius Technology (Aug 2024 – Nov 2024): industry capstone, team of 4, maritime object detection for autonomous USVs. Rishi led the model-optimisation workstream; the 9x throughput gain on NVIDIA Jetson was a team-wide result.
 
-KEY PROJECTS (14 total, more on GitHub):
-- DeceptionArena: Cross-game LLM deception benchmark, 5 social deduction game engines, 998/998 stress tests passing, LaTeX paper draft complete, targeting arXiv/NeurIPS 2026. Sole author, in active development, not yet published.
-- Krama Core: Open-source FHIR R4 bundle generator, live on PyPI.
-- ChronoLens: Cultural Evidence OS, built at OpenAI Codex Hackathon Sydney 2026. Live at chrono-lens-six.vercel.app.
-- PathFinder: Mental health triage system, won "Most Disruptive" at NGM Hackathon.
-- CareBridge: Six-agent healthcare AI for care transitions.
-- Stanford RNA Folding: Kaggle, TM-Score 0.984.
-- MedVault: Multi-tenant clinical AI platform (standalone project, NOT a Nirvya Labs product).
-- Ocius (team effort): Maritime CV pipeline, 9x throughput gain on edge hardware. Rishi led the model-optimisation workstream.
-- LLM Steering, MangRAG, PDF-RAG, anomaly-detector, AgentDOM (concept), Minto (in progress).
+LEAD PROJECTS:
+- Krama Core: open-source FHIR R4 + compliance SDK for India's ABDM health network. ABHA identity, HIP/HIU consent and data-exchange flows, ECDH X25519 with AES-GCM encryption, gateway retries and circuit breakers, clinical templates across 12 medical domains, compliance rule packs for India/Australia/US/UK. v1.0.0-alpha.4 on PyPI, MIT, 130 tests, CI on Python 3.10-3.12 with pytest, ruff, bandit, pip-audit. github.com/NirvyaLabs/krama-core
+- DeceptionArena: cross-game LLM deception benchmark. Five social deduction games (Skull, Coup, The Resistance, One Night Ultimate Werewolf, Secret Hitler) as pure state machines behind one interface. 1000/1000 randomised stress tests (200 per engine across 5 engines). Deception ELO ratings, 10-axis capability taxonomy, structured decision traces exposing public rationale rather than hidden chain-of-thought, aiohttp WebSocket server, SQLite persistence, four-screen React dashboard, 15 models across 5 providers. IMPORTANT: real-API runs so far are small (1 game per level, 2 models); the larger multi-model run was an offline deterministic stand-in. Describe it as benchmark infrastructure targeting an arXiv preprint. Never present ELO figures as results. The source is not public yet.
+- PathFinder: AI triage and referral platform for the Lake Macquarie & Newcastle Suicide Prevention Network, built with a teammate at NGM Group's hackathon in May 2026. Won the Idea Disruptor Award; LMNSPN's CEO has since met with them about production. Rule-based risk scoring routed to staff by required training level across 14 programs, five-layer escalation protocol, 35+ documented edge cases, crisis numbers hardcoded in static HTML so they survive a backend outage. FastAPI, Azure AI Language, React. github.com/RishiKanajam/PathFinder
+- ChronoLens: cultural research workspace, built solo in about five hours at the OpenAI Codex Hackathon, Sydney. Ten analysis surfaces from one query, six live archive APIs, knowledge graph, image analysis with bounding boxes, PDF/PowerPoint export. Every claim labelled fact / context / hypothesis / needs-review. Next.js 14, TypeScript, GPT-4.1. github.com/RishiKanajam/ChronoLens
+
+ALSO BUILT:
+- PDF-Rag: the hybrid-retrieval project: BM25 + dense search merged with Reciprocal Rank Fusion, cross-encoder re-ranking, sentence-aware NLTK chunking, conversational memory, and an LLM-as-judge evaluation harness scoring faithfulness, relevancy and context quality. ChromaDB, LangChain, Groq.
+- MangRAG: a production RAG service: MongoDB Atlas Vector Search, Groq (LLaMA 3.3), local HuggingFace embeddings, served through FastAPI + Streamlit + CLI, Dockerised, pytest. Live at mangrag.streamlit.app. It is NOT the hybrid-retrieval project.
+- Pinch Recovery Engine: failed direct-debit recovery that reads the dishonour code and picks a strategy per failure class; hard failures are never retried, retries never land on a bank holiday, and every decision carries a human-readable reasoning string. FastAPI, Postgres.
+- MedVault: multi-tenant clinical platform. Next.js 15 + TypeScript + Firebase, Gemini Pro Vision multimodal, IoT cold-chain monitoring, offline-first via IndexedDB, tenant isolation through Firebase custom claims and Firestore security rules. It does NOT have FHIR support or a test suite; both are on its roadmap. FHIR work belongs to Krama Core, not MedVault.
+- anomaly-detector: log anomaly detection (AIOps) via Isolation Forest, One-Class SVM, ensemble voting. Flask.
+- DSA_Learning_Web: interactive data-structures learning platform with step-by-step visualisation. React, Vite.
+
+SIDE: OldTalkies (solo founder): a platform for Telugu cinema, in build, not launched, targeting mid-to-late September 2026. It is a platform in build, NOT a YouTube channel.
 
 TECH STACK:
-Python, TypeScript, PyTorch, Hugging Face, LangChain, OpenAI Agents SDK, Anthropic API, RAG, FHIR R4, ABDM, Next.js, React, FastAPI, AWS, Azure, Docker.
+Python, TypeScript, PyTorch, Hugging Face, LangChain, RAG, evaluation harnesses, OpenAI/Anthropic/Groq APIs, FHIR R4, ABDM, Next.js, React, FastAPI, PostgreSQL, MongoDB Atlas, ChromaDB, AWS, Azure, GCP, Docker.
 
 EDUCATION:
 - Master of IT (Data Analytics & Management), University of Sydney, 2023-2025
@@ -586,4 +574,4 @@ EDUCATION:
 
 CERTIFICATIONS: AWS Certified AI Practitioner (Sep 2025), McKinsey Forward Program (enrolled Apr-Jun 2026).
 
-Do not fabricate details not listed above. Do not describe Ocius work as solo. Do not describe OldTalkies as launched or as a YouTube channel.`;
+Do not fabricate details not listed above. Do not describe Ocius work as solo. Do not describe MedVault as having FHIR support or tests. Do not present DeceptionArena ELO numbers as published findings. Do not describe OldTalkies as launched.`;

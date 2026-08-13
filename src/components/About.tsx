@@ -1,19 +1,23 @@
-"use client";
-
 import { Fragment } from "react";
-import AnimatedSection from "@/components/AnimatedSection";
 import { about } from "@/content/content";
 
-// Parse **bold** spans in the movement copy and render them with accent emphasis.
+/*
+ * Prose with S4 inline heads — the movement label opens the paragraph rather
+ * than sitting in its own left column. The old layout put a mono label in a
+ * narrow left rail with the text beside it, which is the templated-editorial
+ * pattern this page is trying not to be.
+ *
+ * The metadata sidebar became a spec row at the foot: it's reference data, and
+ * reference data belongs in the same tabular voice as everything else here.
+ */
+
 function Emphasis({ text }: { text: string }) {
   const parts = text.split("**");
   return (
     <>
       {parts.map((part, i) =>
         i % 2 === 1 ? (
-          <strong key={i} className="font-semibold text-text-1">
-            {part}
-          </strong>
+          <strong key={i} className="font-semibold text-text-1">{part}</strong>
         ) : (
           <Fragment key={i}>{part}</Fragment>
         )
@@ -26,73 +30,60 @@ export default function About() {
   return (
     <section id="about" className="section-gap border-t border-border">
       <div className="container-wide">
-        <AnimatedSection>
-          <span className="section-label">About</span>
-        </AnimatedSection>
+        <span className="section-label">About</span>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-x-16 gap-y-12 mt-4">
-          {/* Left — three movements */}
-          <div className="max-w-[680px]">
-            {about.movements.map((movement, mi) => (
-              <AnimatedSection key={movement.label} delay={mi * 0.08}>
-                <div className={mi === 0 ? "" : "mt-14"}>
-                  {/* Movement label — mono footnote marker */}
-                  <div className="flex items-center gap-3 mb-5">
-                    <span
-                      className="text-[11px] font-semibold tracking-wider uppercase text-accent"
-                      style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
-                    >
-                      {String(mi + 1).padStart(2, "0")} · {movement.label}
-                    </span>
-                    <span className="flex-1 h-px bg-border" aria-hidden="true" />
-                  </div>
-
-                  {movement.paragraphs.map((para, pi) => (
-                    <p
-                      key={pi}
-                      className={
-                        mi === 0
-                          ? "text-[21px] md:text-[26px] leading-[1.5] text-text-2 tracking-tight"
-                          : "text-[16px] md:text-[17px] leading-[1.7] text-text-2 mb-4 last:mb-0"
-                      }
-                      style={
-                        mi === 0
-                          ? { fontFamily: "var(--font-fraunces), Georgia, serif" }
-                          : undefined
-                      }
-                    >
-                      <Emphasis text={para} />
-                    </p>
-                  ))}
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-
-          {/* Right — sticky mono metadata sidebar */}
-          <AnimatedSection delay={0.1}>
-            <div className="lg:sticky lg:top-[100px]">
-              <ul className="space-y-4 border-l border-border pl-5">
-                {about.sidebar.map((line) => {
-                  const [key, ...rest] = line.split(" · ");
-                  return (
-                    <li key={line} className="flex flex-col gap-0.5">
-                      <span
-                        className="text-[15px] leading-snug text-text-2"
-                        style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
-                      >
-                        <span className="text-text-4">{key}</span>
-                        {rest.length > 0 && (
-                          <span className="text-text-3"> · {rest.join(" · ")}</span>
-                        )}
-                      </span>
-                    </li>
-                  );
-                })}
-              </ul>
+        <div className="measure">
+          {about.movements.map((movement, mi) => (
+            <div key={movement.label} className={mi === 0 ? "" : "mt-8"}>
+              {movement.paragraphs.map((para, pi) => (
+                <p
+                  key={pi}
+                  className={
+                    mi === 0
+                      ? "text-text-1 leading-[1.45]"
+                      : "text-text-2 leading-[1.7] mt-4 first:mt-0"
+                  }
+                  style={
+                    mi === 0
+                      ? {
+                          fontFamily: "var(--font-display)",
+                          fontSize: "1.5rem",
+                          fontWeight: 500,
+                          letterSpacing: "-0.015em",
+                        }
+                      : undefined
+                  }
+                >
+                  {mi !== 0 && pi === 0 && (
+                    <span className="head-inline">{movement.label}. </span>
+                  )}
+                  <Emphasis text={para} />
+                </p>
+              ))}
             </div>
-          </AnimatedSection>
+          ))}
         </div>
+
+        {/* Reference data, in the same tabular voice as the rest of the index. */}
+        <dl className="idx mt-12 max-w-3xl">
+          {about.sidebar.map((line) => {
+            const [key, ...rest] = line.split(" · ");
+            return (
+              <div
+                key={line}
+                className="idx__row idx__row--tight grid gap-x-8 gap-y-1 sm:grid-cols-[minmax(0,7rem)_minmax(0,1fr)] sm:items-baseline"
+              >
+                <dt className="label">{key}</dt>
+                <dd
+                  className="text-text-2 text-[14px]"
+                  style={{ fontFamily: "var(--font-outlier)" }}
+                >
+                  {rest.join(" · ")}
+                </dd>
+              </div>
+            );
+          })}
+        </dl>
       </div>
     </section>
   );

@@ -1,0 +1,110 @@
+/* Hallmark · tokens · anchor hue 42 (terracotta)
+ *
+ * Every colour and font on this site resolves through a name in this file.
+ * Nothing inline, nothing improvised — if a value is needed, it gets a token
+ * here first. Light is the base; .dark overrides lightness and chroma only,
+ * never the hue.
+ *
+ * The accent moved off forest green. The paper was always warm parchment, so
+ * a warm signal is the one that belongs on it — and every neutral is now tinted
+ * toward the same anchor instead of the cool grey (hue 286) it used to carry.
+ */
+
+:root {
+  /* ── Paper → ink ───────────────────────────────────────────────────────── */
+  --paper:      oklch(96.8% 0.010 85);    /* parchment                  */
+  --paper-2:    oklch(93.8% 0.013 82);    /* raised band                */
+  --paper-3:    oklch(90.2% 0.016 80);    /* pressed / hover            */
+  --rule:       oklch(87.0% 0.016 78);    /* hairline                   */
+  --rule-2:     oklch(79.5% 0.019 72);    /* emphasised hairline        */
+  --edge:       oklch(64.0% 0.019 72);    /* interactive boundary 3.1:1 */
+  --scrim:      oklch(15.5% 0.008 60 / 0.55); /* modal backdrop         */
+
+  --faint:      oklch(51.9% 0.016 60);    /* labels, metadata — 4.6:1   */
+  --muted:      oklch(40.0% 0.015 55);    /* secondary prose            */
+  --ink-2:      oklch(30.0% 0.013 50);    /* body prose                 */
+  --ink:        oklch(17.0% 0.011 45);    /* headings                   */
+
+  /* ── Accent — terracotta. A highlighter, not a colour block. ─────────────
+   * Budget is ≤ 3% of any viewport: links on hover, the focus ring, section
+   * labels, a status mark. Never a large fill.                               */
+  --accent:     oklch(52.0% 0.150 42);
+  --accent-ink: oklch(97.0% 0.010 85);    /* text on an accent fill     */
+  --focus:      oklch(55.0% 0.160 42);
+  --signal:     oklch(52.0% 0.150 42);    /* shipped / live             */
+
+  /* ── Type ────────────────────────────────────────────────────────────────
+   * 2+1: one display, one body, one outlier. Three is the ceiling.
+   * The outlier's role is machine-readable metadata — wordmark, labels,
+   * versions, stack lists, the colophon. One role, used consistently.        */
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-body:    var(--font-plex), ui-sans-serif, system-ui, sans-serif;
+  --font-outlier: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
+
+  /* Scale — major third (1.25) from a 16px body. */
+  --text-2xs:  0.6875rem;  /* 11px — mono labels only          */
+  --text-xs:   0.8rem;     /* 12.8px                           */
+  --text-sm:   0.9rem;     /* 14.4px                           */
+  --text-base: 1rem;       /* 16px — body floor                */
+  --text-md:   1.125rem;   /* 18px — case-study prose          */
+  --text-lg:   1.5625rem;
+  --text-xl:   1.9531rem;
+  --text-2xl:  2.4414rem;
+  --text-display-s: clamp(2rem, 3.5vw + 0.75rem, 3.25rem);
+  --text-display:   clamp(2.75rem, 5vw + 1rem, 5.25rem);
+
+  /* ── Space — 4pt scale, named by role ─────────────────────────────────── */
+  --space-3xs: 0.125rem;
+  --space-2xs: 0.25rem;
+  --space-xs:  0.5rem;
+  --space-sm:  0.75rem;
+  --space-md:  1rem;
+  --space-lg:  1.5rem;
+  --space-xl:  2.5rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+  --space-4xl: 9rem;
+
+  /* ── Motion — three easings, three durations. No bounce. ────────────────── */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in:     cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long:  420ms;
+
+  /* ── Rules, radii, depth ───────────────────────────────────────────────── */
+  --rule-hair: 1px;
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-pill: 999px;
+
+  --z-base: 1;
+  --z-raised: 10;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal: 400;
+  --z-toast: 500;
+  --z-tooltip: 600;
+}
+
+.dark {
+  /* Same hues. Only lightness and chroma move. Elevation is lighter, not
+   * darker — no shadows on dark surfaces, they read as glow.                 */
+  --paper:      oklch(15.5% 0.008 60);
+  --paper-2:    oklch(19.5% 0.010 60);
+  --paper-3:    oklch(23.5% 0.012 58);
+  --rule:       oklch(25.5% 0.011 58);
+  --rule-2:     oklch(32.0% 0.013 55);
+  --edge:       oklch(48.6% 0.016 58);    /* 3.1:1 on dark paper        */
+
+  --faint:      oklch(60.0% 0.014 55);    /* 4.6:1 on the raised band   */
+  --muted:      oklch(72.0% 0.014 55);
+  --ink-2:      oklch(81.0% 0.012 60);
+  --ink:        oklch(94.0% 0.008 85);
+
+  --accent:     oklch(72.0% 0.140 45);
+  --accent-ink: oklch(15.5% 0.010 60);
+  --focus:      oklch(75.0% 0.150 45);
+  --signal:     oklch(72.0% 0.140 45);
+}

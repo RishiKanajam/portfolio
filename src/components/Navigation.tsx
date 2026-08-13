@@ -1,27 +1,35 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Moon, Sun, X, Menu, Search } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Moon, Sun, Search } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
-import { hero, statusLine } from "@/content/content";
+import { hero, siteConfig } from "@/content/content";
+
+/*
+ * N13 · Inline ⌘K search pill.
+ *
+ * The site already ships a real cmdk palette; N13 puts the affordance on the
+ * surface instead of hiding it behind a shortcut only power users know. The
+ * pill IS the navigation — every section and project is reachable through it,
+ * which is why there's no link row and no hamburger. Below 40rem the pill
+ * collapses to its icon, per the archetype's mobile rule.
+ */
 
 const NAV_LINKS = [
-  { label: "About",      href: "#about" },
-  { label: "Companies",  href: "#companies" },
-  { label: "Projects",   href: "#projects" },
-  { label: "Contact",    href: "#contact" },
+  { label: "Work", href: "#projects" },
+  { label: "Experience", href: "#experience" },
+  { label: "About", href: "#about" },
+  { label: "Contact", href: "#contact" },
 ];
 
 export default function Navigation() {
   const { theme, toggle } = useTheme();
-  const [scrolled,  setScrolled]  = useState(false);
-  const [menuOpen,  setMenuOpen]  = useState(false);
-  const [mounted,   setMounted]   = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -31,171 +39,85 @@ export default function Navigation() {
   };
 
   const scrollTo = (href: string) => {
-    setMenuOpen(false);
-    const id = href.replace("#", "");
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById(href.replace("#", ""))?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <>
-      {/*
-       * Fixed header: status line strip (32px) + nav bar (52px) = ~84px total.
-       * Hero and page content must use pt-[84px] to avoid being obscured.
-       */}
-      <header className="fixed top-0 left-0 right-0 z-50">
-        {/* Status line — always visible, scrolls with header */}
-        <div
-          className={`w-full border-b transition-colors duration-300 ${
-            scrolled ? "bg-bg/85 backdrop-blur-xl border-border" : "bg-bg-subtle border-border/60"
-          }`}
+    <header
+      className={`fixed top-0 inset-x-0 z-[200] transition-colors duration-200 ${
+        scrolled ? "bg-bg/90 backdrop-blur-md border-b border-border" : "bg-transparent"
+      }`}
+      style={{ paddingTop: "env(safe-area-inset-top)" }}
+    >
+      <div className="container-wide flex items-center gap-3 h-14">
+        {/* Wordmark: mono, the outlier register */}
+        <a
+          href="#"
+          onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+          className="font-mono text-[13px] font-medium tracking-tight text-text-1 hover:text-accent transition-colors shrink-0 whitespace-nowrap"
+          aria-label="Back to top"
         >
-          <div className="container-wide flex items-center gap-2 py-1.5 overflow-hidden">
-            <span
-              className="status-dot inline-block w-1.5 h-1.5 rounded-full shrink-0"
-              style={{ backgroundColor: "var(--accent)" }}
-              aria-hidden="true"
-            />
-            <p
-              className="text-[11px] text-text-3 truncate leading-none"
-              style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
-            >
-              <span className="text-text-2 font-semibold mr-2">STATUS</span>
-              {statusLine}
-            </p>
-          </div>
-        </div>
+          rishi kanajam
+        </a>
 
-        {/* Main nav bar */}
-        <div
-          className={`transition-colors duration-300 ${
-            scrolled ? "bg-bg/85 backdrop-blur-xl border-b border-border" : "bg-transparent"
-          }`}
+        {/* Search pill: the nav proper */}
+        <button
+          onClick={openPalette}
+          aria-label="Search this site (⌘K)"
+          className="searchpill ml-auto md:ml-6"
         >
-          <div className="container-wide flex items-center h-[52px]">
+          <Search size={12} aria-hidden="true" className="shrink-0" />
+          {/* The pill yields width to the link row before the links do — a nav
+              link that wraps or gets dropped costs more than a shorter hint. */}
+          <span className="hidden sm:inline xl:hidden">Search…</span>
+          <span className="hidden xl:inline">Search work, stack, writing…</span>
+          <span className="hidden lg:inline-flex items-center gap-0.5 ml-2">
+            <kbd>⌘</kbd><kbd>K</kbd>
+          </span>
+        </button>
 
-            {/* Left: wordmark */}
-            <a
-              href="#"
-              onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-              className="text-[15px] font-semibold text-text-1 tracking-tight hover:text-accent transition-colors shrink-0 mr-auto"
-              style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
-              aria-label="Back to top"
+        <nav className="hidden md:flex items-center gap-4 lg:gap-5 ml-auto" aria-label="Sections">
+          {NAV_LINKS.map(({ label, href }) => (
+            <button
+              key={href}
+              onClick={() => scrollTo(href)}
+              className="text-[13px] text-text-3 hover:text-text-1 transition-colors whitespace-nowrap"
             >
-              rk<span className="text-accent">.</span>
-            </a>
+              {label}
+            </button>
+          ))}
+        </nav>
 
-            {/* Center: nav links — desktop only */}
-            <nav
-              className="hidden md:flex items-center gap-0.5 absolute left-1/2 -translate-x-1/2"
-              aria-label="Main navigation"
-            >
-              {NAV_LINKS.map(({ label, href }) => (
-                <button
-                  key={href}
-                  onClick={() => scrollTo(href)}
-                  className="px-3 py-1.5 rounded-md text-[13px] font-medium text-text-3 hover:text-text-1 transition-colors duration-150"
-                >
-                  {label}
-                </button>
-              ))}
-            </nav>
-
-            {/* Right: ⌘K, theme, Resume */}
-            <div className="hidden md:flex items-center gap-1.5 ml-auto">
-              <button
-                onClick={openPalette}
-                aria-label="Open command palette (⌘K)"
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border text-[11px] text-text-4 hover:text-text-2 hover:border-border-strong transition-all duration-150"
-                style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
-              >
-                <Search size={11} aria-hidden="true" />
-                <span>⌘K</span>
-              </button>
-
-              <button
-                onClick={toggle}
-                aria-label="Toggle dark mode"
-                className="w-8 h-8 flex items-center justify-center rounded-md text-text-3 hover:text-text-1 hover:bg-bg-subtle transition-all"
-              >
-                {mounted
-                  ? theme === "dark" ? <Sun size={14} /> : <Moon size={14} />
-                  : <span className="w-[14px] h-[14px]" />}
-              </button>
-
-              <a
-                href={hero.resumeHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3.5 py-1.5 rounded-lg bg-accent text-white text-[12px] font-semibold hover:opacity-90 transition-opacity"
-              >
-                Resume
-              </a>
-            </div>
-
-            {/* Mobile: search + theme + hamburger */}
-            <div className="flex md:hidden items-center gap-1 ml-auto">
-              <button
-                onClick={openPalette}
-                aria-label="Search"
-                className="w-9 h-9 flex items-center justify-center rounded-lg text-text-3 hover:text-text-1 hover:bg-bg-subtle transition-all"
-              >
-                <Search size={15} />
-              </button>
-              <button
-                onClick={toggle}
-                aria-label="Toggle dark mode"
-                className="w-9 h-9 flex items-center justify-center rounded-lg text-text-3 hover:text-text-1 hover:bg-bg-subtle transition-all"
-              >
-                {mounted
-                  ? theme === "dark" ? <Sun size={15} /> : <Moon size={15} />
-                  : <span className="w-[15px] h-[15px]" />}
-              </button>
-              <button
-                onClick={() => setMenuOpen((v) => !v)}
-                aria-label="Toggle menu"
-                aria-expanded={menuOpen}
-                className="w-9 h-9 flex items-center justify-center rounded-lg text-text-3 hover:text-text-1 hover:bg-bg-subtle transition-all"
-              >
-                {menuOpen ? <X size={16} /> : <Menu size={16} />}
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Mobile drawer — appears below the full header (84px) */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed top-[84px] left-0 right-0 z-40 bg-bg/95 backdrop-blur-xl border-b border-border md:hidden"
+        <div className="flex items-center gap-1 md:gap-2 shrink-0 md:ml-2">
+          <button
+            onClick={toggle}
+            aria-label="Toggle dark mode"
+            className="w-11 h-11 md:w-9 md:h-9 flex items-center justify-center rounded-md text-text-3 hover:text-text-1 transition-colors"
           >
-            <nav className="container-wide py-3 flex flex-col" aria-label="Mobile navigation">
-              {NAV_LINKS.map(({ label, href }) => (
-                <button
-                  key={href}
-                  onClick={() => scrollTo(href)}
-                  className="text-left py-3 px-1 text-[15px] font-medium text-text-2 hover:text-accent transition-colors border-b border-border/40 last:border-0"
-                >
-                  {label}
-                </button>
-              ))}
-              <a
-                href={hero.resumeHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMenuOpen(false)}
-                className="mt-3 text-center py-3 px-6 rounded-xl bg-accent text-white text-[14px] font-semibold hover:opacity-90 transition-opacity"
-              >
-                View Resume
-              </a>
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+            {mounted
+              ? theme === "dark" ? <Sun size={15} /> : <Moon size={15} />
+              : <span className="w-[15px] h-[15px]" />}
+          </button>
+
+          <a
+            href={hero.resumeHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:inline-flex items-center h-9 px-3 rounded-md border border-border text-[13px] text-text-2 hover:text-text-1 hover:border-border-strong transition-colors whitespace-nowrap"
+          >
+            CV
+          </a>
+          {/* C1 · outlined chip. An accent-filled block here spent most of the
+              page's accent budget on a 90px button. */}
+          <a
+            href={siteConfig.mailtoHref}
+            className="inline-flex items-center h-9 px-3 rounded-md border text-[13px] font-medium whitespace-nowrap transition-colors"
+            style={{ color: "var(--accent)", borderColor: "var(--accent)" }}
+          >
+            Email
+          </a>
+        </div>
+      </div>
+    </header>
   );
 }

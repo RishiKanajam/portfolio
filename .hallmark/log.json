@@ -1,0 +1,15 @@
+[
+  {
+    "date": "2026-08-13",
+    "macrostructure": "Index-First",
+    "theme": "custom",
+    "theme_axes": "light-paper / serif+mono / warm-accent",
+    "vibe": "technical index, editorial bones",
+    "nav": "N13 inline ⌘K pill",
+    "footer": "Ft4 dense colophon",
+    "components": "S4 inline heads · F3 tabular spec sheet · C3 typographic links · C1 outlined chip",
+    "enrichment": "none",
+    "brief": "rishikanajam.dev · portfolio redesign — replaced Specimen fall-through; accent moved off forest green to terracotta oklch(52% 0.150 42)",
+    "scope": "single-page"
+  }
+]

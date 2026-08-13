@@ -63,7 +63,7 @@ function buildItems(toggleTheme: () => void): PaletteItem[] {
     },
     {
       id: "action-resume",
-      label: "Download Resume",
+      label: "Download CV",
       sublabel: "Opens PDF",
       group: "Actions",
       icon: <FileText size={14} className="text-text-3" />,
@@ -80,7 +80,7 @@ function buildItems(toggleTheme: () => void): PaletteItem[] {
     {
       id: "action-linkedin",
       label: "View LinkedIn",
-      sublabel: "linkedin.com/in/rishikanajam",
+      sublabel: "linkedin.com/in/rishi-madhur-kanajam",
       group: "Actions",
       icon: <ExternalLink size={14} className="text-text-3" />,
       action: () => window.open(siteConfig.linkedIn, "_blank", "noopener"),
@@ -149,7 +149,8 @@ export default function CommandPalette() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="fixed inset-0 z-[200] bg-black/50 backdrop-blur-sm"
+            className="fixed inset-0 z-[200] backdrop-blur-sm"
+            style={{ backgroundColor: "var(--scrim)" }}
             onClick={close}
             aria-hidden="true"
           />
@@ -165,7 +166,7 @@ export default function CommandPalette() {
           >
             <div className="w-full max-w-[560px] pointer-events-auto">
               <Command
-                className="rounded-2xl border border-border bg-bg shadow-2xl overflow-hidden"
+                className="rounded-xl border border-border-strong bg-bg overflow-hidden"
                 shouldFilter={true}
                 loop
               >
@@ -181,7 +182,7 @@ export default function CommandPalette() {
                   />
                   <kbd
                     className="hidden sm:inline-flex px-1.5 py-0.5 rounded border border-border text-[10px] text-text-4 shrink-0"
-                    style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
+                    style={{ fontFamily: "var(--font-outlier)" }}
                   >
                     esc
                   </kbd>
@@ -231,7 +232,7 @@ export default function CommandPalette() {
                 <div className="px-4 py-2 border-t border-border flex items-center gap-3">
                   <span
                     className="text-[10px] text-text-4"
-                    style={{ fontFamily: "var(--font-jetbrains), ui-monospace, monospace" }}
+                    style={{ fontFamily: "var(--font-outlier)" }}
                   >
                     ↑↓ navigate · ↵ select · esc close
                   </span>
