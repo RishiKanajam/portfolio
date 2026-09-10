@@ -17,7 +17,7 @@ export const siteConfig = {
 // ─── Status line (editable weekly) ───────────────────────────────────────────
 
 export const statusLine =
-  "Open to engineering roles in Sydney · Krama Core v1.0.0-alpha.4 live on PyPI · Now building: DeceptionArena benchmark harness";
+  "Open to engineering roles in Sydney · Krama Core v1.0.0-alpha.3 live on PyPI · Now building: DeceptionArena benchmark harness";
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
@@ -40,9 +40,9 @@ export interface Stat {
 
 export const stats: Stat[] = [
   {
-    value: "v1.0.0-alpha.4",
+    value: "v1.0.0-alpha.3",
     label: "Krama Core",
-    sublabel: "live on PyPI · MIT",
+    sublabel: "live on PyPI · Apache 2.0",
     isText: true,
   },
   {
@@ -134,8 +134,8 @@ export const companies: Company[] = [
     brand: "portfolio",
     what: "Nirvya Labs is the org the work is published under. Krama Core is its first release: a Python SDK for FHIR R4, consent and data-exchange flows, encryption, and country-aware compliance, starting with India's ABDM network and architected so the same call site works elsewhere.",
     points: [
-      "Layered on purpose: clinical domains define what care is documented, country adapters define how it's identified and protected, compliance policies define what must be checked before data moves.",
-      "MIT licensed, published to PyPI, CI across Python 3.10–3.12 with pytest, ruff, bandit and pip-audit. Contributions welcome.",
+      "Layered on purpose: clinical domains define what care is documented, country adapters define how it's identified and protected, compliance policies define what must be checked before data moves. India's ABDM adapter is the one wired for live exchange; Australia, the UK and the US carry identifier and formulary metadata only.",
+      "Apache 2.0 licensed, published to PyPI, CI across Python 3.10–3.12 with pytest, ruff, bandit and pip-audit. Contributions welcome.",
     ],
     links: [
       { label: "GitHub", href: "https://github.com/NirvyaLabs/krama-core" },
@@ -177,7 +177,7 @@ export const experience: ExperienceItem[] = [
     bullets: [
       "Maintain Krama Core, a Python SDK for India's ABDM health network: ABHA identity, HIP/HIU consent and data-exchange flows, FHIR R4 bundle builders, and clinical templates across 12 medical domains.",
       "Built the security and resilience layer (ECDH X25519 key exchange with AES-GCM encryption, gateway retries and circuit breakers) and a compliance engine with rule packs for India, Australia, the US and the UK.",
-      "Published v1.0.0-alpha.4 to PyPI (`pip install --pre krama-core`). MIT licensed, 130 tests, CI across Python 3.10–3.12 with pytest, ruff, bandit and pip-audit.",
+      "Published v1.0.0-alpha.3 to PyPI (`pip install --pre krama-core`). Apache 2.0 licensed, 128 tests, CI across Python 3.10–3.12 with pytest, ruff, bandit and pip-audit.",
     ],
     tech: ["Python", "FHIR R4", "Pydantic", "Cryptography", "GitHub Actions"],
   },
@@ -280,11 +280,11 @@ export const projects: Project[] = [
     title: "Krama Core",
     shortTitle: "Krama Core",
     description:
-      "Open-source FHIR R4 and compliance SDK for India's ABDM health network. Published to PyPI, MIT licensed.",
+      "Open-source FHIR R4 and compliance SDK for India's ABDM health network. Published to PyPI, Apache 2.0 licensed.",
     problem:
       "A clinic in rural Andhra Pradesh wants to send a discharge summary to a hospital in the next district. Between them sits ABDM: ABHA identity, consent artefacts, encrypted exchange, and a gateway with strict async callback contracts. A two-person team can't build all of that before they build the thing they actually set out to build.",
     built:
-      "A Python SDK covering the whole path: ABHA identity, HIP/HIU consent and data-exchange flows, FHIR R4 bundle builders, ECDH X25519 key exchange with AES-GCM encryption, gateway resilience through retries and circuit breakers, clinical templates across 12 medical domains, and a compliance engine with rule packs for India, Australia, the US and the UK. v1.0.0-alpha.4 on PyPI, MIT, 130 tests, CI on Python 3.10–3.12 with pytest, ruff, bandit and pip-audit.",
+      "A Python SDK covering the whole path: ABHA identity, HIP/HIU consent and data-exchange flows, FHIR R4 bundle builders, ECDH X25519 key exchange with AES-GCM encryption, gateway resilience through retries and circuit breakers, clinical templates across 12 medical domains, WhatsApp and AI-assisted clinical workflow helpers, and a compliance engine with rule packs for India, Australia, the US and the UK. India's ABDM adapter is the one that talks to a live network; the Australia, UK and US adapters expose identifier and formulary metadata and raise NotImplementedError on network calls. v1.0.0-alpha.3 on PyPI, Apache 2.0, 128 tests, CI on Python 3.10–3.12 with pytest, ruff, bandit and pip-audit.",
     decision: {
       label: "Compliance returns blockers, not warnings",
       body:
@@ -550,7 +550,7 @@ CURRENT / RECENT WORK:
 - Computer Vision Engineer, Ocius Technology (Aug 2024 – Nov 2024): industry capstone, team of 4, maritime object detection for autonomous USVs. Rishi led the model-optimisation workstream; the 9x throughput gain on NVIDIA Jetson was a team-wide result.
 
 LEAD PROJECTS:
-- Krama Core: open-source FHIR R4 + compliance SDK for India's ABDM health network. ABHA identity, HIP/HIU consent and data-exchange flows, ECDH X25519 with AES-GCM encryption, gateway retries and circuit breakers, clinical templates across 12 medical domains, compliance rule packs for India/Australia/US/UK. v1.0.0-alpha.4 on PyPI, MIT, 130 tests, CI on Python 3.10-3.12 with pytest, ruff, bandit, pip-audit. github.com/NirvyaLabs/krama-core
+- Krama Core: open-source FHIR R4 + compliance SDK for India's ABDM health network. ABHA identity, HIP/HIU consent and data-exchange flows, ECDH X25519 with AES-GCM encryption, gateway retries and circuit breakers, clinical templates across 12 medical domains, compliance rule packs for India/Australia/US/UK. v1.0.0-alpha.3 on PyPI (alpha.4 exists in the repo but was never published), Apache 2.0, 128 tests, CI on Python 3.10-3.12 with pytest, ruff, bandit, pip-audit. Only India's ABDM adapter performs live network operations; the Australia, UK and US adapters expose identifier/formulary metadata and raise NotImplementedError for network calls. Do not describe the non-India adapters as complete. pypi.org/project/krama-core/ · github.com/NirvyaLabs/krama-core
 - DeceptionArena: cross-game LLM deception benchmark. Five social deduction games (Skull, Coup, The Resistance, One Night Ultimate Werewolf, Secret Hitler) as pure state machines behind one interface. 1000/1000 randomised stress tests (200 per engine across 5 engines). Deception ELO ratings, 10-axis capability taxonomy, structured decision traces exposing public rationale rather than hidden chain-of-thought, aiohttp WebSocket server, SQLite persistence, four-screen React dashboard, 15 models across 5 providers. IMPORTANT: real-API runs so far are small (1 game per level, 2 models); the larger multi-model run was an offline deterministic stand-in. Describe it as benchmark infrastructure targeting an arXiv preprint. Never present ELO figures as results. The source is not public yet.
 - PathFinder: AI triage and referral platform for the Lake Macquarie & Newcastle Suicide Prevention Network, built with a teammate at NGM Group's hackathon in May 2026. Won the Idea Disruptor Award; LMNSPN's CEO has since met with them about production. Rule-based risk scoring routed to staff by required training level across 14 programs, five-layer escalation protocol, 35+ documented edge cases, crisis numbers hardcoded in static HTML so they survive a backend outage. FastAPI, Azure AI Language, React. github.com/RishiKanajam/PathFinder
 - ChronoLens: cultural research workspace, built solo in about five hours at the OpenAI Codex Hackathon, Sydney. Ten analysis surfaces from one query, six live archive APIs, knowledge graph, image analysis with bounding boxes, PDF/PowerPoint export. Every claim labelled fact / context / hypothesis / needs-review. Next.js 14, TypeScript, GPT-4.1. github.com/RishiKanajam/ChronoLens
