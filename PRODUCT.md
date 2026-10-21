@@ -14,7 +14,7 @@ I build AI systems that know what they don't know.
 Readers arrive from a CV or profile, scan selected projects and follow static detail pages, source links or contact links.
 
 ## Capabilities and Constraints
-Next.js 16, TypeScript, Vercel. No added dependencies. The supplied alignment kit is the factual authority; preserve existing project prose. Content and redesign are separate commits.
+Next.js 16, TypeScript, Vercel. One added dependency, three.js, used only for the hero field and loaded after page load. The supplied alignment kit is the factual authority; preserve existing project prose. Content and redesign are separate commits.
 
 ## Brand Commitments
 A minimal document: single column, black on white, dark mode, IBM Plex Sans and JetBrains Mono metadata. The writing leads. Keep the grandmother / Andhra Pradesh paragraph unchanged.
