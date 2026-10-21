@@ -34,10 +34,10 @@ const fraunces = Fraunces({
 });
 
 const DESCRIPTION =
-  "Full-stack and AI engineer in Sydney. I build AI systems that know what they don't know: retrieval pipelines, LLM benchmarks, and health-data infrastructure, each shipped with the harness that tells you when it's wrong.";
+  "Full-stack & AI engineer in Sydney. I build AI systems that know what they don't know.";
 
 export const metadata: Metadata = {
-  title: "Rishi Kanajam · Full-Stack & AI Engineer",
+  title: "Rishi Kanajam · Full-stack & AI engineer in Sydney",
   description: DESCRIPTION,
   keywords: [
     "AI Engineer",
@@ -55,14 +55,14 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Rishi Kanajam" }],
   openGraph: {
-    title: "Rishi Kanajam · Full-Stack & AI Engineer",
+    title: "Rishi Kanajam · Full-stack & AI engineer in Sydney",
     description: DESCRIPTION,
     type: "website",
     locale: "en_AU",
   },
   twitter: {
     card: "summary",
-    title: "Rishi Kanajam · Full-Stack & AI Engineer",
+    title: "Rishi Kanajam · Full-stack & AI engineer in Sydney",
     description: DESCRIPTION,
   },
 };

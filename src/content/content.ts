@@ -7,7 +7,7 @@ export const siteConfig = {
   oneLiner:
     "Retrieval pipelines, LLM benchmarks, and health-data infrastructure: each one shipped with the evaluation harness, escalation path, or audit trail that tells you when it's wrong.",
   email: "kanajamrishi@gmail.com",
-  linkedIn: "https://linkedin.com/in/rishi-madhur-kanajam",
+  linkedIn: "https://www.linkedin.com/in/rishi-madhur-kanajam",
   github: "https://github.com/RishiKanajam",
   githubOrg: "https://github.com/NirvyaLabs",
   mailtoHref:
@@ -151,7 +151,7 @@ export const companies: Company[] = [
     what: "A platform for Telugu cinema, built nights and weekends: editorial content, a verified marketplace of industry professionals (DOPs, music directors, editors, lyricists), craft tools, and community.",
     points: [
       "Anti-toxicity by design: no star comparisons, no box-office tracking, film-centric organisation, AI moderation on community surfaces.",
-      "Not launched. Target: mid-to-late September 2026.",
+      "Not launched.",
     ],
     links: [],
   },
@@ -170,74 +170,70 @@ export interface ExperienceItem {
 
 export const experience: ExperienceItem[] = [
   {
-    role: "Engineer & Maintainer, Krama Core (open source)",
+    role: "Engineer & Maintainer, Krama Core",
     company: "Nirvya Labs",
-    period: "Apr 2026 – present",
+    period: "Apr 2026 – Present",
     current: true,
     bullets: [
-      "Maintain Krama Core, a Python SDK for India's ABDM health network: ABHA identity, HIP/HIU consent and data-exchange flows, FHIR R4 bundle builders, and clinical templates across 12 medical domains.",
-      "Built the security and resilience layer (ECDH X25519 key exchange with AES-GCM encryption, gateway retries and circuit breakers) and a compliance engine with rule packs for India, Australia, the US and the UK.",
-      "Published v1.0.0-alpha.3 to PyPI (`pip install --pre krama-core`). Apache 2.0 licensed, 128 tests, CI across Python 3.10–3.12 with pytest, ruff, bandit and pip-audit.",
-    ],
-    tech: ["Python", "FHIR R4", "Pydantic", "Cryptography", "GitHub Actions"],
+      "Python SDK for India's ABDM health network: ABHA identity, HIP/HIU consent and data-exchange flows, FHIR R4 bundle builders, clinical templates across 12 domains.",
+      "Security and resilience layer (ECDH X25519 + AES-GCM, retries, circuit breakers) and a compliance engine with India, Australia, US and UK rule packs.",
+      "v1.0.0-alpha.3 on PyPI, Apache 2.0, 128 tests, CI on Python 3.10–3.12 (pytest, ruff, bandit, pip-audit)."
+],
   },
   {
-    role: "Academic Tutor, Data Structures & Algorithms",
+    role: "Academic Tutor, Data Structures & Algorithms (COMP2123/COMP9123)",
     company: "University of Sydney",
-    period: "Jan 2024 – Nov 2026",
+    period: "Jan 2024 – Present",
     current: true,
     bullets: [
-      "Teach COMP2123 / COMP9123 tutorials (binary trees, priority queues, graph traversals, dynamic programming, complexity analysis) to 50+ students per semester across undergraduate and postgraduate cohorts.",
-      "Lead improvements to lab materials, grading aids, and test cases; designing better tooling with iterative testing and feedback loops.",
-      "2+ years translating complex algorithmic concepts to varied audiences, mentoring on debugging and problem-solving in C++ and Python.",
-    ],
-    tech: ["C++", "Python", "DSA"],
+      "Teach COMP2123/COMP9123 tutorials and labs (trees, priority queues, graph traversals, dynamic programming, complexity analysis) to 50+ students per semester.",
+      "Grade assignments with detailed written feedback; improve lab materials and test cases.",
+      "Built DSA_Learning_Web, an interactive React platform for visualising data structures step by step."
+],
   },
   {
-    role: "Systems Engineer · Data Team",
+    role: "Systems Engineer – Data Team (Part-time)",
     company: "St Vincent de Paul Society NSW",
-    period: "Apr 2025 – Apr 2026",
+    period: "Apr 2025 – Mar 2026",
     current: false,
     bullets: [
-      "Built Python scripts to automate routine data extraction and cleansing, reducing manual effort in the team's ETL processes.",
-      "Assisted with data integration workflows across SAP, Workday, and Azure data services, ensuring data consistency across source systems.",
-      "Supported the data team in troubleshooting pipeline issues, validating outputs, and documenting data flows and transformation logic.",
-    ],
-    tech: ["Python", "SQL", "Azure", "SAP", "Workday"],
+      "Built Python scripts to automate data extraction and cleansing, reducing manual effort in ETL processes.",
+      "Supported data integration workflows across SAP, Workday and Azure data services, keeping data consistent across source systems.",
+      "Troubleshot pipeline issues, validated outputs, and documented data flows and transformation logic."
+],
   },
   {
-    role: "Computer Vision Engineer",
+    role: "Computer Vision Engineer (University Capstone)",
     company: "Ocius Technology",
-    period: "Aug 2024 – Nov 2024",
+    period: "Aug 2024 – Dec 2024",
+    current: false,
     bullets: [
-      "Industry capstone in a team of 4: delivered a real-time maritime object detection pipeline for autonomous unmanned surface vehicles (Bluebottle USVs).",
-      "Led the model-optimisation workstream: INT8 quantisation, TensorRT, and inference batching. Team-wide effort achieved a 9× throughput gain on NVIDIA Jetson edge hardware.",
-      "Containerised the pipeline with Docker and shipped to production at Ocius Technology.",
-    ],
-    tech: ["Python", "YOLOv8", "TensorRT", "Docker", "CUDA"],
+      "Worked with Ocius on a real-time YOLOv8 maritime object-detection pipeline for its autonomous Bluebottle vessels, in a four-person team.",
+      "Owned model optimisation: INT8 quantisation, pruning, TensorRT, inference batching and profiling; delivered the optimised model behind a team-wide ~9× throughput gain on NVIDIA Jetson.",
+      "Containerised the pipeline with Docker."
+],
   },
   {
-    role: "Frontend Developer Intern",
+    role: "Frontend Developer (Contract)",
     company: "HRVITE Services Pvt Ltd",
-    period: "Apr 2023 – Jul 2023",
+    period: "Mar 2023 – Jul 2023",
+    current: false,
     bullets: [
-      "Re-engineered Angular UI components and interaction flows, improving usability and contributing to a measured ~15% increase in user retention.",
-      "Built data-driven UI components consuming REST APIs; implemented client-side data transformation and state management for complex nested HR datasets.",
-      "Implemented front-end unit tests and participated in code reviews to reduce regressions and improve maintainability.",
-    ],
-    tech: ["Angular", "TypeScript", "REST APIs"],
+      "Re-engineered Angular UI components and interaction flows for an HR SaaS platform, contributing to a ~15% increase in user retention.",
+      "Built backend REST APIs for the platform and the data-driven frontend components that consumed them, with state management for nested HR datasets.",
+      "Wrote unit tests and took part in code reviews."
+],
   },
   {
-    role: "Software Engineer Trainee",
+    role: "Software Engineer (Trainee)",
     company: "Revidd",
-    period: "Jul 2022 – Jan 2023",
+    period: "Jun 2022 – Jan 2023",
+    current: false,
     bullets: [
-      "Built 15+ responsive interfaces with ReactJS integrated to REST APIs, contributing to a reported ~25% uplift in user engagement.",
-      "Operated in Agile teams (stand-ups, sprint planning) and led peer code reviews to accelerate delivery and knowledge transfer.",
-      "Contributed to backend data services and API development, handling data serialisation and transformation across system boundaries.",
-    ],
-    tech: ["React", "JavaScript", "REST APIs"],
-  },
+      "Moved from a two-month traineeship into full engineering responsibilities at an early-stage startup, working largely independently.",
+      "Built the frontend for a new platform, maintained WordPress sites, and worked on CI/CD pipelines for a microservices architecture."
+],
+  }
 ];
 
 // ─── Projects ─────────────────────────────────────────────────────────────────
@@ -503,7 +499,7 @@ export interface EducationItem {
 
 export const certifications: Certification[] = [
   { title: "AWS Certified AI Practitioner", issuer: "Amazon Web Services", year: "Sep 2025" },
-  { title: "McKinsey Forward Program", issuer: "McKinsey & Company", year: "Apr–Jun 2026 · enrolled" },
+  { title: "McKinsey Forward Program", issuer: "McKinsey & Company", year: "Apr–Jun 2026 · completed" },
 ];
 
 export const education: EducationItem[] = [
@@ -530,7 +526,7 @@ export const contact = {
     { label: "Email", href: "mailto:kanajamrishi@gmail.com", value: "kanajamrishi@gmail.com" },
     { label: "GitHub", href: "https://github.com/RishiKanajam", value: "github.com/RishiKanajam" },
     { label: "Nirvya Labs", href: "https://github.com/NirvyaLabs", value: "github.com/NirvyaLabs" },
-    { label: "LinkedIn", href: "https://linkedin.com/in/rishi-madhur-kanajam", value: "linkedin.com/in/rishi-madhur-kanajam" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/rishi-madhur-kanajam", value: "linkedin.com/in/rishi-madhur-kanajam" },
   ],
 };
 
@@ -572,6 +568,6 @@ EDUCATION:
 - Master of IT (Data Analytics & Management), University of Sydney, 2023-2025
 - B.Tech (Honours) Computer Science (Bioinformatics focus), GMR Institute of Technology, 2019-2023
 
-CERTIFICATIONS: AWS Certified AI Practitioner (Sep 2025), McKinsey Forward Program (enrolled Apr-Jun 2026).
+CERTIFICATIONS: AWS Certified AI Practitioner (Sep 2025), McKinsey Forward Program (completed Apr-Jun 2026).
 
 Do not fabricate details not listed above. Do not describe Ocius work as solo. Do not describe MedVault as having FHIR support or tests. Do not present DeceptionArena ELO numbers as published findings. Do not describe OldTalkies as launched.`;
