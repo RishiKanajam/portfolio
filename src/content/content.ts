@@ -14,57 +14,12 @@ export const siteConfig = {
     "mailto:kanajamrishi@gmail.com?subject=Re%3A%20AI%20Engineering%20opportunity&body=Hi%20Rishi%2C%0A%0A",
 };
 
-// ─── Status line (editable weekly) ───────────────────────────────────────────
-
-export const statusLine =
-  "Open to engineering roles in Sydney · Krama Core v1.0.0-alpha.3 live on PyPI · Now building: DeceptionArena benchmark harness";
-
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
 export const hero = {
   locationPill: "Sydney, Australia · Full Australian work rights through Sept 2028",
   resumeHref: "/resume.pdf",
 };
-
-// ─── Stats bar ────────────────────────────────────────────────────────────────
-
-export interface Stat {
-  value: string;
-  label: string;
-  sublabel: string;
-  numericTarget?: number;
-  decimals?: number;
-  suffix?: string;
-  isText?: boolean;
-}
-
-export const stats: Stat[] = [
-  {
-    value: "v1.0.0-alpha.3",
-    label: "Krama Core",
-    sublabel: "live on PyPI · Apache 2.0",
-    isText: true,
-  },
-  {
-    value: "1000 / 1000",
-    label: "DeceptionArena",
-    sublabel: "engine stress tests passing",
-    isText: true,
-  },
-  {
-    value: "Idea Disruptor",
-    label: "PathFinder",
-    sublabel: "NGM Group hackathon · 2026",
-    isText: true,
-  },
-  {
-    value: "50+",
-    label: "Students Mentored",
-    sublabel: "per semester · USyd",
-    numericTarget: 50,
-    suffix: "+",
-  },
-];
 
 // ─── About (editorial, three movements) ─────────────────────────────────────
 // Bold spans marked with **double asterisks** are parsed by the About component.
@@ -178,7 +133,7 @@ export const experience: ExperienceItem[] = [
       "Python SDK for India's ABDM health network: ABHA identity, HIP/HIU consent and data-exchange flows, FHIR R4 bundle builders, clinical templates across 12 domains.",
       "Security and resilience layer (ECDH X25519 + AES-GCM, retries, circuit breakers) and a compliance engine with India, Australia, US and UK rule packs.",
       "v1.0.0-alpha.3 on PyPI, Apache 2.0, 128 tests, CI on Python 3.10–3.12 (pytest, ruff, bandit, pip-audit)."
-],
+    ],
   },
   {
     role: "Academic Tutor, Data Structures & Algorithms (COMP2123/COMP9123)",
@@ -189,7 +144,7 @@ export const experience: ExperienceItem[] = [
       "Teach COMP2123/COMP9123 tutorials and labs (trees, priority queues, graph traversals, dynamic programming, complexity analysis) to 50+ students per semester.",
       "Grade assignments with detailed written feedback; improve lab materials and test cases.",
       "Built DSA_Learning_Web, an interactive React platform for visualising data structures step by step."
-],
+    ],
   },
   {
     role: "Systems Engineer – Data Team (Part-time)",
@@ -200,7 +155,7 @@ export const experience: ExperienceItem[] = [
       "Built Python scripts to automate data extraction and cleansing, reducing manual effort in ETL processes.",
       "Supported data integration workflows across SAP, Workday and Azure data services, keeping data consistent across source systems.",
       "Troubleshot pipeline issues, validated outputs, and documented data flows and transformation logic."
-],
+    ],
   },
   {
     role: "Computer Vision Engineer (University Capstone)",
@@ -211,7 +166,7 @@ export const experience: ExperienceItem[] = [
       "Worked with Ocius on a real-time YOLOv8 maritime object-detection pipeline for its autonomous Bluebottle vessels, in a four-person team.",
       "Owned model optimisation: INT8 quantisation, pruning, TensorRT, inference batching and profiling; delivered the optimised model behind a team-wide ~9× throughput gain on NVIDIA Jetson.",
       "Containerised the pipeline with Docker."
-],
+    ],
   },
   {
     role: "Frontend Developer (Contract)",
@@ -222,7 +177,7 @@ export const experience: ExperienceItem[] = [
       "Re-engineered Angular UI components and interaction flows for an HR SaaS platform, contributing to a ~15% increase in user retention.",
       "Built backend REST APIs for the platform and the data-driven frontend components that consumed them, with state management for nested HR datasets.",
       "Wrote unit tests and took part in code reviews."
-],
+    ],
   },
   {
     role: "Software Engineer (Trainee)",
@@ -232,8 +187,8 @@ export const experience: ExperienceItem[] = [
     bullets: [
       "Moved from a two-month traineeship into full engineering responsibilities at an early-stage startup, working largely independently.",
       "Built the frontend for a new platform, maintained WordPress sites, and worked on CI/CD pipelines for a microservices architecture."
-],
-  }
+    ],
+  },
 ];
 
 // ─── Projects ─────────────────────────────────────────────────────────────────
@@ -244,10 +199,12 @@ export type ProjectTag =
 export type ProjectStatus = "in-progress" | "shipped" | "concept";
 
 export interface Project {
-  number: string;
+  slug: string;
+  summary?: string;
+  aboutLine?: string;
   title: string;
   shortTitle: string;
-  /** One-line summary. Used in the compact grid, the command palette, and as the case-study standfirst. */
+  /** Original prose retained for detail pages. */
   description: string;
   /** Case-study fields: only set on the four lead projects. */
   problem?: string;
@@ -272,7 +229,8 @@ export interface Project {
 export const projects: Project[] = [
   // ── Case studies ───────────────────────────────────────────────────────────
   {
-    number: "01",
+    slug: "krama-core",
+    aboutLine: "Open-source FHIR R4 and compliance SDK for India's ABDM health network. ABHA, consent flows, encryption, country rule packs.",
     title: "Krama Core",
     shortTitle: "Krama Core",
     description:
@@ -295,7 +253,8 @@ export const projects: Project[] = [
     liveLabel: "PyPI",
   },
   {
-    number: "02",
+    slug: "deceptionarena",
+    summary: "Cross-game LLM deception benchmark: five social deduction games behind one engine interface, with structured decision traces. What exists is benchmark infrastructure, not findings.",
     title: "DeceptionArena",
     shortTitle: "DeceptionArena",
     description:
@@ -318,7 +277,8 @@ export const projects: Project[] = [
     repoNote: "Source not public yet",
   },
   {
-    number: "03",
+    slug: "pathfinder",
+    aboutLine: "AI triage and referral platform for a suicide-prevention network. Rule-based risk engine, 5-layer escalation. Idea Disruptor Award, NGM Group Hackathon.",
     title: "PathFinder",
     shortTitle: "PathFinder",
     description:
@@ -341,7 +301,8 @@ export const projects: Project[] = [
     award: "Idea Disruptor Award · NGM Group",
   },
   {
-    number: "04",
+    slug: "chronolens",
+    aboutLine: "Cultural research workspace where every AI claim is labelled fact, context, hypothesis or needs-review. Built solo at the OpenAI Codex Hackathon.",
     title: "ChronoLens",
     shortTitle: "ChronoLens",
     description:
@@ -364,7 +325,8 @@ export const projects: Project[] = [
 
   // ── Also built ─────────────────────────────────────────────────────────────
   {
-    number: "05",
+    slug: "pdf-rag",
+    aboutLine: "Hybrid RAG: BM25 + dense retrieval with RRF, cross-encoder re-ranking, and an LLM-as-judge evaluation harness.",
     title: "PDF-Rag",
     shortTitle: "PDF-Rag",
     description:
@@ -375,7 +337,8 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/RishiKanajam/PDF-Rag",
   },
   {
-    number: "06",
+    slug: "mangrag",
+    aboutLine: "RAG service over PDFs: MongoDB Atlas Vector Search, local embeddings, Groq LLaMA 3.3, served via FastAPI, Streamlit and CLI.",
     title: "MangRAG",
     shortTitle: "MangRAG",
     description:
@@ -387,7 +350,8 @@ export const projects: Project[] = [
     liveUrl: "https://mangrag.streamlit.app",
   },
   {
-    number: "07",
+    slug: "pinch-recovery",
+    aboutLine: "Failed-payment recovery engine for Pinch Payments: per-dishonour-code strategies, AU business-day scheduling, reasoned decisions.",
     title: "Pinch Recovery Engine",
     shortTitle: "Pinch Recovery",
     description:
@@ -398,7 +362,8 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/RishiKanajam/pinch-recovery",
   },
   {
-    number: "08",
+    slug: "medvault",
+    aboutLine: "Multi-tenant clinical AI platform: Gemini decision support with physician review, IoT cold-chain, offline-first records.",
     title: "MedVault",
     shortTitle: "MedVault",
     description:
@@ -410,7 +375,8 @@ export const projects: Project[] = [
     liveUrl: "https://medvault-596655096468.us-central1.run.app/",
   },
   {
-    number: "09",
+    slug: "anomaly-detector",
+    aboutLine: "Log anomaly detection with Isolation Forest, One-Class SVM and an ensemble vote; Flask UI, Dockerised.",
     title: "anomaly-detector",
     shortTitle: "Anomaly Detector",
     description:
@@ -421,7 +387,8 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/RishiKanajam/anomaly-detector",
   },
   {
-    number: "10",
+    slug: "dsa-learning-web",
+    aboutLine: "Interactive platform for learning data structures: write code and watch the structure change step by step.",
     title: "DSA_Learning_Web",
     shortTitle: "DSA Learning",
     description:
@@ -431,55 +398,6 @@ export const projects: Project[] = [
     status: "shipped",
     githubUrl: "https://github.com/RishiKanajam/DSA_Learning_Web",
   },
-];
-
-// ─── Tech list (editorial grouped) ───────────────────────────────────────────
-
-export interface TechGroup {
-  label: string;
-  items: string[];
-  note?: string;
-}
-
-export const techGroups: TechGroup[] = [
-  {
-    label: "Languages",
-    items: ["Python", "TypeScript", "JavaScript", "SQL", "C++"],
-  },
-  {
-    label: "AI / ML",
-    items: ["PyTorch", "Hugging Face", "LangChain", "RAG", "OpenAI API", "Anthropic API", "Groq", "Evaluation harnesses"],
-  },
-  {
-    label: "Healthcare Data",
-    items: ["FHIR R4", "ABDM", "HL7"],
-  },
-  {
-    label: "Web & Backend",
-    items: ["Next.js", "React", "FastAPI", "Flask", "Node.js", "Streamlit"],
-  },
-  {
-    label: "Data",
-    items: ["PostgreSQL", "MongoDB Atlas", "ChromaDB", "SQLite", "Pandas", "NumPy"],
-  },
-  {
-    label: "Cloud & DevOps",
-    items: ["AWS", "Azure", "GCP", "Firebase", "Docker", "GitHub Actions", "Vercel", "TensorRT"],
-  },
-];
-
-// ─── Writing ──────────────────────────────────────────────────────────────────
-
-export interface WritingPost {
-  slug: string;
-  title: string;
-  date: string;
-  summary: string;
-  tags?: string[];
-}
-
-export const writing: WritingPost[] = [
-  // Posts will be added here when ready
 ];
 
 // ─── Education & Certifications ───────────────────────────────────────────────
@@ -504,7 +422,7 @@ export const certifications: Certification[] = [
 
 export const education: EducationItem[] = [
   {
-    degree: "Master of Information Technology (Data Analytics & Management)",
+    degree: "Master of IT & IT Management (Data Analytics & Management)",
     institution: "University of Sydney",
     period: "2023 – 2025",
     location: "Sydney, Australia",
@@ -516,58 +434,3 @@ export const education: EducationItem[] = [
     location: "India · Bioinformatics focus",
   },
 ];
-
-// ─── Contact ──────────────────────────────────────────────────────────────────
-
-export const contact = {
-  pitch:
-    "I'm looking for engineering roles at startups: AI/ML, backend, or full stack. Sydney-based, full Australian work rights through Sept 2028. If you're building something where being right matters, let's talk.",
-  socials: [
-    { label: "Email", href: "mailto:kanajamrishi@gmail.com", value: "kanajamrishi@gmail.com" },
-    { label: "GitHub", href: "https://github.com/RishiKanajam", value: "github.com/RishiKanajam" },
-    { label: "Nirvya Labs", href: "https://github.com/NirvyaLabs", value: "github.com/NirvyaLabs" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/rishi-madhur-kanajam", value: "linkedin.com/in/rishi-madhur-kanajam" },
-  ],
-};
-
-// ─── AI chatbot system prompt ─────────────────────────────────────────────────
-
-export const chatbotSystemPrompt = `You are an AI assistant on Rishi Kanajam's portfolio website. Answer questions about Rishi factually using the context below. If asked something you don't know, say so honestly. Keep answers concise (2-4 sentences).
-
-ABOUT RISHI:
-Rishi Kanajam is a full-stack and AI engineer based in Sydney, Australia, with family roots in Andhra Pradesh, India. He has full Australian work rights (Subclass 485) through Sep 2028. He is looking for engineering roles at startups: AI/ML, backend, or full stack.
-
-THE THROUGH-LINE: He builds AI systems that know what they don't know: every project ships with the evaluation harness, escalation path, epistemic labelling, or audit trail that tells you when the system is wrong.
-
-CURRENT / RECENT WORK:
-- Engineer & Maintainer, Krama Core (open source), published under Nirvya Labs (Apr 2026 – present).
-- Academic Tutor, University of Sydney (Jan 2024 – Nov 2026): COMP2123/COMP9123 (Data Structures & Algorithms), 50+ students/semester.
-- Systems Engineer, St Vincent de Paul Society NSW (Apr 2025 – Apr 2026, ended): ETL pipelines across SAP, Workday, Azure.
-- Computer Vision Engineer, Ocius Technology (Aug 2024 – Nov 2024): industry capstone, team of 4, maritime object detection for autonomous USVs. Rishi led the model-optimisation workstream; the 9x throughput gain on NVIDIA Jetson was a team-wide result.
-
-LEAD PROJECTS:
-- Krama Core: open-source FHIR R4 + compliance SDK for India's ABDM health network. ABHA identity, HIP/HIU consent and data-exchange flows, ECDH X25519 with AES-GCM encryption, gateway retries and circuit breakers, clinical templates across 12 medical domains, compliance rule packs for India/Australia/US/UK. v1.0.0-alpha.3 on PyPI (alpha.4 exists in the repo but was never published), Apache 2.0, 128 tests, CI on Python 3.10-3.12 with pytest, ruff, bandit, pip-audit. Only India's ABDM adapter performs live network operations; the Australia, UK and US adapters expose identifier/formulary metadata and raise NotImplementedError for network calls. Do not describe the non-India adapters as complete. pypi.org/project/krama-core/ · github.com/NirvyaLabs/krama-core
-- DeceptionArena: cross-game LLM deception benchmark. Five social deduction games (Skull, Coup, The Resistance, One Night Ultimate Werewolf, Secret Hitler) as pure state machines behind one interface. 1000/1000 randomised stress tests (200 per engine across 5 engines). Deception ELO ratings, 10-axis capability taxonomy, structured decision traces exposing public rationale rather than hidden chain-of-thought, aiohttp WebSocket server, SQLite persistence, four-screen React dashboard, 15 models across 5 providers. IMPORTANT: real-API runs so far are small (1 game per level, 2 models); the larger multi-model run was an offline deterministic stand-in. Describe it as benchmark infrastructure targeting an arXiv preprint. Never present ELO figures as results. The source is not public yet.
-- PathFinder: AI triage and referral platform for the Lake Macquarie & Newcastle Suicide Prevention Network, built with a teammate at NGM Group's hackathon in May 2026. Won the Idea Disruptor Award; LMNSPN's CEO has since met with them about production. Rule-based risk scoring routed to staff by required training level across 14 programs, five-layer escalation protocol, 35+ documented edge cases, crisis numbers hardcoded in static HTML so they survive a backend outage. FastAPI, Azure AI Language, React. github.com/RishiKanajam/PathFinder
-- ChronoLens: cultural research workspace, built solo in about five hours at the OpenAI Codex Hackathon, Sydney. Ten analysis surfaces from one query, six live archive APIs, knowledge graph, image analysis with bounding boxes, PDF/PowerPoint export. Every claim labelled fact / context / hypothesis / needs-review. Next.js 14, TypeScript, GPT-4.1. github.com/RishiKanajam/ChronoLens
-
-ALSO BUILT:
-- PDF-Rag: the hybrid-retrieval project: BM25 + dense search merged with Reciprocal Rank Fusion, cross-encoder re-ranking, sentence-aware NLTK chunking, conversational memory, and an LLM-as-judge evaluation harness scoring faithfulness, relevancy and context quality. ChromaDB, LangChain, Groq.
-- MangRAG: a production RAG service: MongoDB Atlas Vector Search, Groq (LLaMA 3.3), local HuggingFace embeddings, served through FastAPI + Streamlit + CLI, Dockerised, pytest. Live at mangrag.streamlit.app. It is NOT the hybrid-retrieval project.
-- Pinch Recovery Engine: failed direct-debit recovery that reads the dishonour code and picks a strategy per failure class; hard failures are never retried, retries never land on a bank holiday, and every decision carries a human-readable reasoning string. FastAPI, Postgres.
-- MedVault: multi-tenant clinical platform. Next.js 15 + TypeScript + Firebase, Gemini Pro Vision multimodal, IoT cold-chain monitoring, offline-first via IndexedDB, tenant isolation through Firebase custom claims and Firestore security rules. It does NOT have FHIR support or a test suite; both are on its roadmap. FHIR work belongs to Krama Core, not MedVault.
-- anomaly-detector: log anomaly detection (AIOps) via Isolation Forest, One-Class SVM, ensemble voting. Flask.
-- DSA_Learning_Web: interactive data-structures learning platform with step-by-step visualisation. React, Vite.
-
-SIDE: OldTalkies (solo founder): a platform for Telugu cinema, in build, not launched, targeting mid-to-late September 2026. It is a platform in build, NOT a YouTube channel.
-
-TECH STACK:
-Python, TypeScript, PyTorch, Hugging Face, LangChain, RAG, evaluation harnesses, OpenAI/Anthropic/Groq APIs, FHIR R4, ABDM, Next.js, React, FastAPI, PostgreSQL, MongoDB Atlas, ChromaDB, AWS, Azure, GCP, Docker.
-
-EDUCATION:
-- Master of IT (Data Analytics & Management), University of Sydney, 2023-2025
-- B.Tech (Honours) Computer Science (Bioinformatics focus), GMR Institute of Technology, 2019-2023
-
-CERTIFICATIONS: AWS Certified AI Practitioner (Sep 2025), McKinsey Forward Program (completed Apr-Jun 2026).
-
-Do not fabricate details not listed above. Do not describe Ocius work as solo. Do not describe MedVault as having FHIR support or tests. Do not present DeceptionArena ELO numbers as published findings. Do not describe OldTalkies as launched.`;

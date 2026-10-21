@@ -1,375 +1,61 @@
-@import "tailwindcss";
 @import "./tokens.css";
 
-/* Hallmark · genre: editorial · macrostructure: Index-First · theme: custom
- * (vibe: "technical index, editorial bones" · paper oklch(96.8% 0.010 85)
- *  accent oklch(52% 0.150 42) terracotta · Fraunces + IBM Plex Sans + JetBrains Mono)
- * nav: N13 inline ⌘K pill · footer: Ft4 dense colophon
- * components: S4 inline heads · F3 tabular spec sheet · C3 typographic links
- * enrichment: none — typography only · reveal: one load entrance, no scroll reveals
- * mood: technical with editorial bones · axes: light-paper / serif+mono / warm-accent
- * pre-emit critique: P5 H5 E4 S5 R5 V4
- */
-
-/* ── Dark mode via .dark class on <html> ─────────────────────────────────── */
-@variant dark (&:where(.dark, .dark *));
-
-/* ── Tailwind token bridge ────────────────────────────────────────────────
- * Utility names map onto the tokens in tokens.css. Nothing here defines a
- * colour; it only gives Tailwind a handle on one.                            */
-@theme inline {
-  --color-paper:        var(--paper);
-  --color-bg:           var(--paper);
-  --color-bg-subtle:    var(--paper-2);
-  --color-surface:      var(--paper-2);
-  --color-pressed:      var(--paper-3);
-  --color-border:       var(--rule);
-  --color-border-strong: var(--rule-2);
-  --color-text-1:       var(--ink);
-  --color-text-2:       var(--ink-2);
-  --color-text-3:       var(--muted);
-  --color-text-4:       var(--faint);
-  --color-accent:       var(--accent);
-  --color-dot-green:    var(--signal);
-
-  /* Only the utilities the page actually uses, and only where the theme name
-     differs from the token name — a self-referencing var() resolves by cascade
-     order, which is not something to depend on. */
-  --font-mono:  var(--font-outlier);
-  --font-sans:  var(--font-body);
-  --font-serif: var(--font-display);
-}
-
-/* ── Base ─────────────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
-
-html {
-  scroll-behavior: smooth;
-  background-color: var(--paper);
-  overflow-x: clip;                 /* clip, not hidden — preserves sticky */
+html { background: var(--paper); scroll-padding-top: 1.5rem; }
+body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--font-body); font-size: 16px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+.document { width: min(680px, calc(100% - 40px)); margin-inline: auto; }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3 { font-weight: 600; line-height: 1.3; text-wrap: balance; }
+h1 { font-size: clamp(2rem, 5vw, 2.5rem); letter-spacing: -0.03em; }
+h2 { font-size: 1.25rem; letter-spacing: -0.015em; margin-bottom: 1.75rem; }
+h3 { font-size: 1.125rem; }
+p + p { margin-top: 1rem; }
+a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+a:hover, .text-button:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
+::selection { background: var(--ink); color: var(--paper); }
+.hero { padding-top: clamp(4rem, 10vw, 6.5rem); padding-bottom: 0.25rem; }
+.role { margin-top: 0.5rem; font-size: 1.125rem; }
+.thesis { margin-top: 1.5rem; }
+.profile-links { display: flex; flex-wrap: wrap; align-items: baseline; row-gap: 0.4rem; margin-top: 1.25rem; }
+.profile-links > span { display: inline-block; }
+.separator { margin-inline: 0.35rem; color: var(--muted); }
+.metadata { font-family: var(--font-metadata); font-size: 0.75rem; line-height: 1.8; color: var(--muted); font-weight: 400; font-variant-numeric: tabular-nums; }
+.rights { margin-top: 1rem; }
+main > section { margin-top: 4.5rem; }
+.project + .project { margin-top: 2.75rem; }
+.project-heading { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.5rem 1rem; margin-bottom: 0.75rem; }
+.project > p { margin-top: 0.6rem; }
+strong { font-weight: 600; }
+.project-links { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1.25rem; margin-top: 0.75rem; }
+.plain-list { list-style: none; padding: 0; margin: 0; }
+.more-work li + li { margin-top: 0.9rem; }
+.more-work + p { margin-top: 1.5rem; }
+.experience li + li { margin-top: 1.25rem; }
+.experience-role { font-weight: 500; }
+footer { padding-block: 0 3rem; margin-top: 5rem; }
+footer .profile-links { margin: 0; font-size: 0.875rem; }
+.footer-actions { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1.5rem; margin-top: 1rem; font-size: 0.875rem; }
+.text-button { padding: 0; border: 0; border-radius: 0; background: none; color: inherit; font: inherit; cursor: pointer; text-decoration: underline; text-underline-offset: 0.2em; }
+.colophon { margin-top: 1.5rem; max-width: 65ch; }
+.detail { padding-top: 3rem; }
+.detail header { margin-top: 2.5rem; }
+.detail header h1 { margin-bottom: 1rem; }
+.detail article > section, .detail > section { margin-top: 3rem; }
+.detail h2 { margin-bottom: 0.75rem; }
+.detail header p + p { margin-top: 0.75rem; }
+.background-entry + .background-entry { margin-top: 2rem; }
+ul:not(.plain-list) { padding-left: 1.25rem; }
+li { overflow-wrap: break-word; }
+li + li { margin-top: 0.5rem; }
+.stack, .colophon, a { overflow-wrap: anywhere; }
+.skip-link { position: absolute; top: 0.5rem; left: 1rem; padding: 0.5rem; background: var(--paper); transform: translateY(-200%); }
+.skip-link:focus { transform: none; }
+@media (max-width: 400px) {
+  .document { width: calc(100% - 36px); }
+  .metadata { font-size: 0.75rem; }
+  main > section { margin-top: 3.5rem; }
 }
-
-body {
-  background-color: var(--paper);
-  color: var(--ink);
-  font-family: var(--font-body);
-  font-size: var(--text-base);
-  line-height: 1.6;
-  overflow-x: clip;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: background-color var(--dur-short) var(--ease-out),
-              color var(--dur-short) var(--ease-out);
-}
-
-/* Light-on-dark carries extra optical weight. IBM Plex ships static weights,
- * so stepping 400 → 350 would snap to 300 and read as a different face. The
- * compensation happens in the palette instead: dark ink sits at 94%, not 98%. */
-
-::selection {
-  background-color: var(--accent);
-  color: var(--accent-ink);
-}
-
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--rule-2); border-radius: var(--radius-pill); }
-
-/* Display headers wrap inside long words rather than pushing the viewport. */
-h1, h2, h3 {
-  font-style: normal;               /* roman only — italic headers are a tell */
-  overflow-wrap: anywhere;
-  min-width: 0;
-}
-
-/* ── Containers ───────────────────────────────────────────────────────────── */
-.wrap {
-  max-width: 68rem;
-  margin-inline: auto;
-  padding-inline: clamp(1.125rem, 4vw, 2.5rem);
-}
-
-.container-wide { /* retained name, Index-First measure */
-  max-width: 68rem;
-  margin-inline: auto;
-  padding-inline: clamp(1.125rem, 4vw, 2.5rem);
-}
-
-.measure { max-width: 68ch; }
-.measure-tight { max-width: 58ch; }
-
-/* ── Section rhythm ───────────────────────────────────────────────────────
- * Deliberately uneven: an index breathes at the top of a block and closes
- * tight at the bottom. Equal padding everywhere is the flat-rhythm tell.     */
-.section-gap {
-  padding-block-start: var(--space-3xl);
-  padding-block-end: var(--space-2xl);
-}
-@media (min-width: 60rem) {
-  .section-gap {
-    padding-block-start: var(--space-4xl);
-    padding-block-end: var(--space-3xl);
-  }
-}
-
-section[id], div[id="stats"] { scroll-margin-top: 5.5rem; }
-
-/* ── Labels — the mono register ──────────────────────────────────────────── */
-.label {
-  font-family: var(--font-outlier);
-  font-size: var(--text-2xs);
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--faint);
-}
-
-.section-label { /* retained name */
-  display: block;
-  font-family: var(--font-outlier);
-  font-size: var(--text-2xs);
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: var(--space-md);
-}
-
-/* S4 · inline small-caps head — emerges inside the flow, no spatial break. */
-.head-inline {
-  font-variant-caps: all-small-caps;
-  letter-spacing: 0.06em;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.tnum { font-variant-numeric: tabular-nums; }
-
-/* ── C3 · typographic link ───────────────────────────────────────────────
- * A word, a rule beneath it, and a mark. No box, no fill. The underline
- * thickens on hover — one signal, not four.                                 */
-.link-t {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35em;
-  min-height: 44px;                 /* touch target */
-  color: var(--ink);
-  white-space: nowrap;              /* affordances are one-line objects */
-  text-decoration: underline;
-  text-decoration-color: var(--edge);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.24em;
-  transition: text-decoration-color var(--dur-micro) var(--ease-out),
-              text-decoration-thickness var(--dur-micro) var(--ease-out),
-              color var(--dur-micro) var(--ease-out);
-}
-.link-t:hover {
-  color: var(--accent);
-  text-decoration-color: var(--accent);
-  text-decoration-thickness: 2px;
-}
-.link-t:active { color: var(--accent); opacity: 0.7; }
-.link-t:disabled,
-.link-t[aria-disabled="true"] {
-  color: var(--faint);
-  text-decoration-color: var(--rule);
-  cursor: not-allowed;
-  opacity: 0.55;
-}
-
-/* Inline prose link — same voice, no touch-target padding. */
-.link-i {
-  color: var(--ink);
-  text-decoration: underline;
-  text-decoration-color: var(--rule-2);
-  text-underline-offset: 0.22em;
-  text-decoration-thickness: 1px;
-  transition: text-decoration-color var(--dur-micro) var(--ease-out),
-              color var(--dur-micro) var(--ease-out);
-}
-.link-i:hover { color: var(--accent); text-decoration-color: var(--accent); }
-
-/* ── Index rows — the page's primary structure ───────────────────────────── */
-.idx {
-  border-block-start: var(--rule-hair) solid var(--rule);
-}
-.idx__row {
-  border-block-end: var(--rule-hair) solid var(--rule);
-  padding-block: var(--space-xl);
-}
-.idx__row--tight { padding-block: var(--space-lg); }
-
-/* Case-study row: identity rail + prose. Single column until there's room. */
-.idx__case {
-  display: grid;
-  gap: var(--space-lg);
-}
-@media (min-width: 60rem) {
-  .idx__case {
-    grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
-    gap: var(--space-2xl);
-    align-items: start;
-  }
-}
-
-/* ── F3 · tabular spec sheet ─────────────────────────────────────────────── */
-.spec {
-  width: 100%;
-  border-collapse: collapse;
-  font-variant-numeric: tabular-nums;
-}
-.spec tr { border-block-end: var(--rule-hair) solid var(--rule); }
-.spec tr:last-child { border-block-end: 0; }
-.spec th,
-.spec td {
-  text-align: start;
-  vertical-align: baseline;
-  padding-block: var(--space-md);
-  font-weight: 400;
-}
-.spec th {
-  font-family: var(--font-outlier);
-  font-size: var(--text-xs);
-  color: var(--faint);
-  white-space: nowrap;
-  padding-inline-end: var(--space-lg);
-}
-
-/* ── N13 · inline ⌘K search pill ─────────────────────────────────────────── */
-.searchpill {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-xs);
-  height: 34px;
-  padding-inline: var(--space-sm);
-  background: var(--paper-2);
-  border: var(--rule-hair) solid var(--edge);
-  border-radius: var(--radius-pill);
-  color: var(--muted);
-  font-size: var(--text-xs);
-  white-space: nowrap;
-  transition: border-color var(--dur-short) var(--ease-out),
-              color var(--dur-short) var(--ease-out);
-}
-.searchpill:hover { border-color: var(--ink-2); color: var(--ink); }
-.searchpill:active { opacity: 0.8; }
-.searchpill kbd {
-  font-family: var(--font-outlier);
-  font-size: var(--text-2xs);
-  color: var(--faint);
-}
-
-/* ── Ft4 · dense colophon ────────────────────────────────────────────────── */
-.colophon {
-  font-family: var(--font-outlier);
-  font-size: var(--text-xs);
-  line-height: 1.9;
-  color: var(--faint);
-}
-.colophon a { color: var(--muted); text-decoration: none; }
-.colophon a:hover { color: var(--accent); }
-
-/* ── Interactive states — gate 26 wants active and disabled in code, not
- * only default and hover. ────────────────────────────────────────────────── */
-button:active,
-a.link-i:active { opacity: 0.7; }
-
-button:disabled,
-[aria-disabled="true"] {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-/* Control boundaries clear 3:1; the decorative hairlines stay light. */
-.searchpill,
-.control-edge { border-color: var(--edge); }
-
-/* ── Focus ────────────────────────────────────────────────────────────────
- * Instant. Never transitioned — a ring that fades in leaves keyboard users
- * with no indicator for the first 200ms.                                     */
-:focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 3px;
-  border-radius: var(--radius-sm);
-  transition: none;
-}
-
-/* ── Motion — one orchestrated entrance on load, nothing on scroll ───────── */
-.reveal {
-  opacity: 0;
-  transform: translateY(6px);
-  animation: reveal var(--dur-long) var(--ease-out) forwards;
-  animation-delay: calc(var(--i, 0) * 55ms);
-}
-@keyframes reveal {
-  to { opacity: 1; transform: none; }
-}
-
-/* Scroll reveal — the four case-study rows only, once each.
- *
- * Scoped deliberately: when every section fades in, the page never settles and
- * the motion stops carrying information. Four rows means the reveal marks the
- * things worth slowing down for.
- *
- * The hidden state only applies where scripting is on, so the rows are never
- * stranded invisible if JS fails to run. */
-@media (scripting: enabled) {
-  .reveal-row {
-    opacity: 0;
-    /* 10px was below the threshold of noticing on a row this tall. */
-    transform: translateY(16px);
-    transition: opacity var(--dur-long) var(--ease-out),
-                transform var(--dur-long) var(--ease-out);
-  }
-  .reveal-row.is-in {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-/* Status dot — functional, marks a live line. */
-@keyframes status-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.25; }
-}
-.status-dot { animation: status-blink 2.4s var(--ease-in-out) infinite; }
-
-.animate-pulse-badge { /* retained name */
-  animation: status-blink 2.4s var(--ease-in-out) infinite;
-}
-
-/* ── cmdk command palette overlay ────────────────────────────────────────── */
-[cmdk-overlay] {
-  position: fixed;
-  inset: 0;
-  background: var(--scrim);
-  backdrop-filter: blur(3px);
-  z-index: var(--z-modal);
-}
-
-[cmdk-dialog] {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 14vh;
-  z-index: calc(var(--z-modal) + 1);
-}
-
-/* ── Reduced motion ───────────────────────────────────────────────────────
- * Spatial motion collapses to an opacity crossfade. Functional motion stays. */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 150ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 150ms !important;
-  }
-  .reveal { animation: reveal-reduced 150ms linear forwards; }
-  @keyframes reveal-reduced { to { opacity: 1; transform: none; } }
-  /* Spatial motion collapses to an opacity crossfade; no travel. */
-  .reveal-row { transform: none; }
-  .reveal-row.is-in { transform: none; }
-  html { scroll-behavior: auto; }
-  .status-dot, .animate-pulse-badge { animation: none; opacity: 1; }
+  *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
 }
