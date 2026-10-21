@@ -17,7 +17,7 @@ export default function Projects() {
             <span className="metadata">{project.status === "shipped" ? "Shipped" : "In progress"}</span>
           </div>
           <p>{project.summary ?? project.description}</p>
-          {project.decision && <p className="decision"><strong>One decision: {project.decision.label}.</strong></p>}
+          {project.decision && <p className="decision"><span className="decision-label">One decision:</span> <strong>{project.decision.label}.</strong></p>}
           <ProjectLinks project={project} />
         </article>;
       })}
@@ -27,7 +27,10 @@ export default function Projects() {
       <ul className="plain-list more-work">
         {more.map(slug => {
           const project = projects.find(p => p.slug === slug)!;
-          return <li key={slug}><a href={project.githubUrl}>{project.title}</a><span> — {project.aboutLine}</span></li>;
+          return <li key={slug}>
+            <a href={project.githubUrl}>{project.title}</a>
+            <span className="more-work-about">{project.aboutLine}</span>
+          </li>;
         })}
       </ul>
       <p><a href={siteConfig.github}>More on GitHub →</a></p>

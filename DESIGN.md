@@ -1,3 +1,5 @@
 # Portfolio design
 
 User-approved direction: a well-set document, one column with a 680px reading measure. White and near-black with a matching dark theme. IBM Plex Sans for prose and headings; JetBrains Mono only for status, dates and metadata. Underlined text links, generous section spacing, no cards, borders, shadows, gradients or animation. Respect system theme with an optional persisted override. Home prioritises selected work, more work, experience, then two original About paragraphs. Full prose lives on static project pages and the background page.
+
+Hierarchy: name 2.25–2.75rem; thesis set larger (1.25–1.5rem, weight 500) as the page's one statement; section headings 1.375rem; project titles at body size, semibold. Secondary text (role, org, project one-liners, "One decision:" label) uses the muted token. Link underlines are a translucent ink tone that turns solid on hover. Experience rows put role and organisation on the left with mono dates right-aligned, which wrap below on narrow screens.

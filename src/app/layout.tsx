@@ -5,8 +5,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import Footer from "@/components/Footer";
 import "./globals.css";
 
-const plex = IBM_Plex_Sans({ variable: "--font-plex", subsets: ["latin"], weight: ["400", "500", "600"], display: "optional" });
-const mono = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"], weight: ["400"], display: "optional", preload: false });
+const plex = IBM_Plex_Sans({ variable: "--font-plex", subsets: ["latin"], weight: ["400", "500", "600"], display: "swap" });
+const mono = JetBrains_Mono({ variable: "--font-jetbrains", subsets: ["latin"], weight: ["400"], display: "swap" });
 const title = "Rishi Kanajam · Full-stack & AI engineer in Sydney";
 const description = "Full-stack & AI engineer in Sydney. I build AI systems that know what they don't know.";
 export const metadata: Metadata = {

@@ -1,22 +1,25 @@
 :root {
   color-scheme: light;
   --paper: #ffffff;
-  --ink: #191919;
-  --muted: #595959;
-  --font-body: var(--font-plex), sans-serif;
-  --font-metadata: var(--font-jetbrains), monospace;
+  --ink: #171717;
+  --muted: #5c5c5c;
+  --underline: rgb(23 23 23 / 0.35);
+  --font-body: var(--font-plex), system-ui, sans-serif;
+  --font-metadata: var(--font-jetbrains), ui-monospace, monospace;
 }
 :root.dark, :root[data-theme="dark"] {
   color-scheme: dark;
-  --paper: #151515;
-  --ink: #ededed;
-  --muted: #b0b0b0;
+  --paper: #141414;
+  --ink: #ececec;
+  --muted: #a8a8a8;
+  --underline: rgb(236 236 236 / 0.4);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --paper: #151515;
-    --ink: #ededed;
-    --muted: #b0b0b0;
+    --paper: #141414;
+    --ink: #ececec;
+    --muted: #a8a8a8;
+    --underline: rgb(236 236 236 / 0.4);
   }
 }
