@@ -3,6 +3,7 @@ import { IBM_Plex_Sans, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Footer from "@/components/Footer";
+import FocusObserver from "@/components/FocusObserver";
 import "./globals.css";
 
 const plex = IBM_Plex_Sans({ variable: "--font-plex", subsets: ["latin"], weight: ["400", "500", "600"], display: "swap" });
@@ -18,11 +19,11 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { width: "device-width", initialScale: 1 };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="en" className={`${plex.variable} ${mono.variable}`} suppressHydrationWarning>
-    <head><script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){document.documentElement.dataset.theme=t;document.documentElement.classList.toggle('dark',t==='dark')}}catch(e){}})()` }} /></head>
+    <head><script dangerouslySetInnerHTML={{ __html: `(function(){document.documentElement.classList.add('js');try{var t=localStorage.getItem('theme');if(t==='light'||t==='dark'){document.documentElement.dataset.theme=t;document.documentElement.classList.toggle('dark',t==='dark')}}catch(e){}})()` }} /></head>
     <body>
       <a className="skip-link" href="#main">Skip to content</a>
       <div className="document">{children}<Footer /></div>
-      <Analytics /><SpeedInsights />
+      <FocusObserver /><Analytics /><SpeedInsights />
     </body>
   </html>;
 }

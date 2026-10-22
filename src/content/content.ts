@@ -224,6 +224,10 @@ export interface Project {
   /** Shown in place of a repo link when there is no public source. */
   repoNote?: string;
   award?: string;
+  /** What a reader can check, restated from facts elsewhere in this entry. */
+  evidence?: string[];
+  /** What isn't done or proven yet, restated from facts elsewhere in this entry. */
+  limits?: string[];
 }
 
 export const projects: Project[] = [
@@ -251,6 +255,8 @@ export const projects: Project[] = [
     githubUrl: "https://github.com/NirvyaLabs/krama-core",
     liveUrl: "https://pypi.org/project/krama-core/",
     liveLabel: "PyPI",
+    evidence: ["v1.0.0-alpha.3 on PyPI", "128 tests; CI on Python 3.10–3.12", "Apache 2.0"],
+    limits: ["Australia, UK and US adapters: metadata only, no live exchange"],
   },
   {
     slug: "deceptionarena",
@@ -275,6 +281,8 @@ export const projects: Project[] = [
     status: "in-progress",
     caseStudy: true,
     repoNote: "Source not public yet",
+    evidence: ["1000/1000 randomised stress tests", "15 models across 5 providers wired in"],
+    limits: ["Real-API runs so far are small", "Infrastructure, not findings"],
   },
   {
     slug: "pathfinder",
@@ -299,6 +307,7 @@ export const projects: Project[] = [
     caseStudy: true,
     githubUrl: "https://github.com/RishiKanajam/PathFinder",
     award: "Idea Disruptor Award · NGM Group",
+    evidence: ["Idea Disruptor Award, NGM Group hackathon", "35+ documented edge cases", "Built with a teammate"],
   },
   {
     slug: "chronolens",
@@ -321,6 +330,7 @@ export const projects: Project[] = [
     status: "shipped",
     caseStudy: true,
     githubUrl: "https://github.com/RishiKanajam/ChronoLens",
+    evidence: ["Built solo in about five hours", "Ten analysis surfaces, six live archive APIs"],
   },
 
   // ── Also built ─────────────────────────────────────────────────────────────
