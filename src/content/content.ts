@@ -48,7 +48,7 @@ export const about = {
       label: "Day-to-day",
       paragraphs: [
         "I'm from Andhra Pradesh (Telugu). When my grandmother needed care, our records travelled on paper. For many underserved communities in India, the nearest hospital can be 60 kilometres away; they're who this work is for. That's why I maintain **Krama Core**, an open-source FHIR and compliance SDK for India's ABDM health network, published under **Nirvya Labs**.",
-        "I tutor Data Structures & Algorithms to 50+ students a semester at the University of Sydney. Before that: the Data team at St Vincent de Paul Society NSW, and a real-time computer-vision pipeline for autonomous maritime craft at Ocius.",
+        "I tutor Data Structures & Algorithms to 50+ students a semester at the University of Sydney. Alongside that: the Data team at St Vincent de Paul Society NSW, and a university capstone with Ocius on a real-time computer-vision pipeline for autonomous maritime craft.",
         "If you're building AI systems, developer tooling, or health infrastructure, I'd like to talk.",
       ],
     },
