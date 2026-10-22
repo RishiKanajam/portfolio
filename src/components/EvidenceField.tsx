@@ -19,21 +19,29 @@ export default function EvidenceField() {
       handle = mountEvidenceField(canvas, reducedMotion);
       if (handle) canvas.dataset.ready = "";
     });
-    // Wait for the page to finish loading, then a beat more, then an idle slot.
+    // Start on the first sign of a reader (pointer, touch, scroll, key), or a
+    // few seconds after load, whichever comes first, in an idle slot.
+    const triggers = ["pointermove", "pointerdown", "touchstart", "scroll", "keydown", "wheel"] as const;
     let timer: ReturnType<typeof setTimeout> | undefined;
     let idle: number | undefined;
-    const schedule = () => {
-      timer = setTimeout(() => {
-        if (typeof window.requestIdleCallback === "function") idle = window.requestIdleCallback(load, { timeout: 4000 });
-        else load();
-      }, 1500);
+    let started = false;
+    const begin = () => {
+      if (started) return;
+      started = true;
+      triggers.forEach(type => window.removeEventListener(type, begin));
+      clearTimeout(timer);
+      if (typeof window.requestIdleCallback === "function") idle = window.requestIdleCallback(load, { timeout: 1500 });
+      else load();
     };
-    if (document.readyState === "complete") schedule();
-    else window.addEventListener("load", schedule, { once: true });
+    const arm = () => { timer = setTimeout(begin, 4000); };
+    triggers.forEach(type => window.addEventListener(type, begin, { once: true, passive: true }));
+    if (document.readyState === "complete") arm();
+    else window.addEventListener("load", arm, { once: true });
 
     return () => {
       disposed = true;
-      window.removeEventListener("load", schedule);
+      triggers.forEach(type => window.removeEventListener(type, begin));
+      window.removeEventListener("load", arm);
       clearTimeout(timer);
       if (idle !== undefined) window.cancelIdleCallback(idle);
       handle?.dispose();

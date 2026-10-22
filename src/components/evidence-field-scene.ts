@@ -1,32 +1,37 @@
 import {
   BufferAttribute,
   BufferGeometry,
-  Camera,
   Color,
-  NormalBlending,
+  PerspectiveCamera,
+  Plane,
   Points,
+  Raycaster,
   Scene,
   ShaderMaterial,
   Vector2,
+  Vector3,
   WebGLRenderer,
 } from "three";
 
-// A grid of points that comes into focus near the evidence (the pointer) and
-// blurs, fades and drifts where there is none.
+// A landscape of points seen through a lens with real depth of field.
+// Whatever sits at the focal distance (set by the pointer) is sharp; the rest
+// is out of focus. Things you have evidence for are in focus.
 
-const SPACING = 26; // CSS px between grid points
-const FOCUS_INNER = 70; // px: fully sharp inside this radius
-const FOCUS_OUTER = 300; // px: fully uncertain beyond this radius
+const COLS = 140;
+const ROWS = 90;
+const WIDTH = 64; // world units across
+const NEAR_Z = 6;
+const FAR_Z = -70;
 
 const vertexShader = /* glsl */ `
   uniform float uTime;
-  uniform vec2 uResolution;
-  uniform vec2 uFocus;
+  uniform float uFocusDepth;
+  uniform vec3 uFocusPoint;
   uniform float uPixelRatio;
-  attribute vec2 aGrid;
+  uniform float uViewHeight;
   attribute float aSeed;
-  varying float vCertainty;
-  varying float vSeed;
+  varying float vAlpha;
+  varying float vSharp;
 
   float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
   float noise(vec2 p) {
@@ -37,34 +42,44 @@ const vertexShader = /* glsl */ `
   }
 
   void main() {
-    float d = distance(aGrid, uFocus);
-    float certainty = 1.0 - smoothstep(${FOCUS_INNER.toFixed(1)}, ${FOCUS_OUTER.toFixed(1)}, d);
-    float uncertainty = 1.0 - certainty;
-    vec2 q = aGrid * 0.006 + aSeed;
-    vec2 drift = vec2(noise(q + uTime * 0.07), noise(q.yx - uTime * 0.06)) - 0.5;
-    vec2 px = aGrid + drift * uncertainty * 22.0;
-    vec2 clip = (px / uResolution) * 2.0 - 1.0;
-    gl_Position = vec4(clip.x, -clip.y, 0.0, 1.0);
-    gl_PointSize = mix(2.4, 8.0, uncertainty) * uPixelRatio;
-    vCertainty = certainty;
-    vSeed = aSeed;
+    vec3 p = position;
+    // Slow swell across the field.
+    float n = noise(p.xz * 0.11 + vec2(uTime * 0.035, -uTime * 0.02));
+    float n2 = noise(p.xz * 0.27 - vec2(uTime * 0.02, 0.0));
+    p.y += (n - 0.5) * 2.2 + (n2 - 0.5) * 0.6;
+
+    vec4 mv = modelViewMatrix * vec4(p, 1.0);
+    float depth = -mv.z;
+    gl_Position = projectionMatrix * mv;
+
+    // Circle of confusion: distance from the focal plane, relative to it.
+    float coc = abs(depth - uFocusDepth) / uFocusDepth;
+    // A little extra sharpness right where the pointer lands.
+    float near = 1.0 - smoothstep(0.0, 9.0, distance(p.xz, uFocusPoint.xz));
+    float blur = clamp(coc * 3.2 - near * 0.6, 0.0, 1.6);
+
+    float size = (1.4 + blur * 9.0) * (uViewHeight / 900.0) * (14.0 / depth);
+    gl_PointSize = clamp(size, 0.0, 34.0) * uPixelRatio;
+
+    float fog = 1.0 - smoothstep(38.0, 78.0, depth);
+    float edge = smoothstep(${(WIDTH / 2).toFixed(1)}, ${(WIDTH / 2 - 10).toFixed(1)}, abs(p.x));
+    float twinkle = 0.8 + 0.2 * sin(uTime * 0.9 + aSeed * 50.0);
+    vAlpha = fog * edge * twinkle * (0.95 / (1.0 + blur * blur * 3.0));
+    vSharp = 1.0 - clamp(blur, 0.0, 1.0);
   }
 `;
 
 const fragmentShader = /* glsl */ `
   uniform vec3 uColor;
-  uniform float uTime;
-  varying float vCertainty;
-  varying float vSeed;
+  varying float vAlpha;
+  varying float vSharp;
 
   void main() {
     float r = length(gl_PointCoord - 0.5);
-    float edge = mix(0.0, 0.42, vCertainty);
-    float disc = 1.0 - smoothstep(edge, 0.5, r);
-    float flicker = 0.75 + 0.25 * sin(uTime * 0.8 + vSeed * 40.0);
-    float alpha = disc * mix(0.16 * flicker, 0.75, vCertainty);
-    if (alpha < 0.004) discard;
-    gl_FragColor = vec4(uColor, alpha);
+    float disc = 1.0 - smoothstep(mix(0.0, 0.38, vSharp), 0.5, r);
+    float a = disc * vAlpha;
+    if (a < 0.003) discard;
+    gl_FragColor = vec4(uColor, a);
   }
 `;
 
@@ -81,23 +96,54 @@ export function mountEvidenceField(canvas: HTMLCanvasElement, reducedMotion: boo
   renderer.setPixelRatio(pixelRatio);
 
   const scene = new Scene();
-  const camera = new Camera();
+  const camera = new PerspectiveCamera(38, 1, 0.1, 200);
+  camera.position.set(0, 3.4, 10);
+  camera.lookAt(0, -2.6, -14);
+
+  const positions = new Float32Array(COLS * ROWS * 3);
+  const seeds = new Float32Array(COLS * ROWS);
+  for (let row = 0, i = 0; row < ROWS; row++) {
+    // Rows spaced so they look evenly spaced in perspective.
+    const t = row / (ROWS - 1);
+    const z = NEAR_Z + (FAR_Z - NEAR_Z) * Math.pow(t, 1.35);
+    for (let col = 0; col < COLS; col++, i++) {
+      positions[i * 3] = (col / (COLS - 1) - 0.5) * WIDTH;
+      positions[i * 3 + 1] = 0;
+      positions[i * 3 + 2] = z;
+      seeds[i] = Math.random();
+    }
+  }
+  const geometry = new BufferGeometry();
+  geometry.setAttribute("position", new BufferAttribute(positions, 3));
+  geometry.setAttribute("aSeed", new BufferAttribute(seeds, 1));
+
   const uniforms = {
     uTime: { value: 0 },
-    uResolution: { value: new Vector2(1, 1) },
-    uFocus: { value: new Vector2(0, 0) },
+    uFocusDepth: { value: 16 },
+    uFocusPoint: { value: new Vector3(4, 0, -6) },
     uPixelRatio: { value: pixelRatio },
+    uViewHeight: { value: 900 },
     uColor: { value: new Color() },
   };
-  const material = new ShaderMaterial({ uniforms, vertexShader, fragmentShader, transparent: true, depthTest: false, blending: NormalBlending });
-  let geometry = new BufferGeometry();
+  const material = new ShaderMaterial({ uniforms, vertexShader, fragmentShader, transparent: true, depthTest: false, depthWrite: false });
   const points = new Points(geometry, material);
+  points.frustumCulled = false;
   scene.add(points);
 
-  let width = 0, height = 0;
-  const focus = new Vector2();
-  const target = new Vector2();
+  const raycaster = new Raycaster();
+  const ground = new Plane(new Vector3(0, 1, 0), 0);
+  const ndc = new Vector2(0.45, -0.15);
+  const hit = new Vector3();
+  const focusPoint = new Vector3().copy(uniforms.uFocusPoint.value);
+  const targetPoint = new Vector3().copy(focusPoint);
   let lastPointer = -Infinity;
+
+  function aim(x: number, y: number) {
+    ndc.set(x, y);
+    raycaster.setFromCamera(ndc, camera);
+    if (raycaster.ray.intersectPlane(ground, hit) && hit.z > FAR_Z * 0.6) targetPoint.copy(hit);
+    else targetPoint.set(x * 20, 0, FAR_Z * 0.45);
+  }
 
   function readInk() {
     const ink = getComputedStyle(document.documentElement).getPropertyValue("--ink").trim() || "#171717";
@@ -106,46 +152,33 @@ export function mountEvidenceField(canvas: HTMLCanvasElement, reducedMotion: boo
 
   function layout() {
     const rect = canvas.getBoundingClientRect();
-    width = Math.max(1, Math.round(rect.width));
-    height = Math.max(1, Math.round(rect.height));
+    const width = Math.max(1, Math.round(rect.width));
+    const height = Math.max(1, Math.round(rect.height));
     renderer.setSize(width, height, false);
-    uniforms.uResolution.value.set(width, height);
-    const cols = Math.ceil(width / SPACING) + 1;
-    const rows = Math.ceil(height / SPACING) + 1;
-    const offsetX = (width - (cols - 1) * SPACING) / 2;
-    const grid = new Float32Array(cols * rows * 2);
-    const seed = new Float32Array(cols * rows);
-    for (let y = 0, i = 0; y < rows; y++) {
-      for (let x = 0; x < cols; x++, i++) {
-        grid[i * 2] = offsetX + x * SPACING;
-        grid[i * 2 + 1] = y * SPACING + SPACING / 2;
-        seed[i] = Math.random();
-      }
-    }
-    geometry.dispose();
-    geometry = new BufferGeometry();
-    geometry.setAttribute("aGrid", new BufferAttribute(grid, 2));
-    geometry.setAttribute("aSeed", new BufferAttribute(seed, 1));
-    // Positions are computed in the shader; a dummy attribute keeps three happy.
-    geometry.setAttribute("position", new BufferAttribute(new Float32Array(cols * rows * 3), 3));
-    points.geometry = geometry;
-    if (lastPointer === -Infinity) { focus.set(width * 0.72, height * 0.42); target.copy(focus); }
+    camera.aspect = width / height;
+    // Keep the field filling narrow (phone) screens too.
+    camera.fov = camera.aspect < 0.8 ? 58 : 38;
+    camera.updateProjectionMatrix();
+    uniforms.uViewHeight.value = height;
   }
 
-  function render() { renderer.render(scene, camera); }
+  function update() {
+    uniforms.uFocusPoint.value.copy(focusPoint);
+    uniforms.uFocusDepth.value = Math.max(4, camera.position.distanceTo(focusPoint));
+  }
+  function render() { update(); renderer.render(scene, camera); }
 
-  // Without a pointer (touch, idle), the focus wanders slowly on its own.
+  // Without a pointer (touch, idle), the focus pulls slowly near and far on its own.
   function wander(t: number) {
-    target.set(width * (0.62 + 0.22 * Math.sin(t * 0.00011)), height * (0.45 + 0.25 * Math.sin(t * 0.00017 + 1.3)));
+    aim(0.5 * Math.sin(t * 0.00009), -0.05 - 0.45 * (0.5 + 0.5 * Math.sin(t * 0.00013 + 1.1)));
   }
 
   let frame = 0, visible = true, running = false;
   function tick(t: number) {
     if (!running) return;
     if (t - lastPointer > 4000) wander(t);
-    focus.lerp(target, 0.06);
+    focusPoint.lerp(targetPoint, 0.045);
     uniforms.uTime.value = t / 1000;
-    uniforms.uFocus.value.copy(focus);
     render();
     frame = requestAnimationFrame(tick);
   }
@@ -159,21 +192,23 @@ export function mountEvidenceField(canvas: HTMLCanvasElement, reducedMotion: boo
   function onPointer(event: PointerEvent) {
     if (event.pointerType === "touch") return;
     const rect = canvas.getBoundingClientRect();
-    target.set(event.clientX - rect.left, event.clientY - rect.top);
+    if (event.clientY > rect.bottom) return;
+    aim(((event.clientX - rect.left) / rect.width) * 2 - 1, -(((event.clientY - rect.top) / rect.height) * 2 - 1));
     lastPointer = performance.now();
-    if (reducedMotion) { focus.copy(target); uniforms.uFocus.value.copy(focus); render(); }
+    if (reducedMotion) { focusPoint.copy(targetPoint); render(); }
   }
   function onVisibility() { if (document.hidden) stop(); else start(); }
   function onTheme() { readInk(); render(); }
 
-  const resizeObserver = new ResizeObserver(() => { layout(); uniforms.uFocus.value.copy(focus); render(); });
+  const resizeObserver = new ResizeObserver(() => { layout(); render(); });
   const intersection = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; if (visible) start(); else stop(); });
   const themeObserver = new MutationObserver(onTheme);
   const scheme = window.matchMedia("(prefers-color-scheme: dark)");
 
   readInk();
   layout();
-  uniforms.uFocus.value.copy(focus);
+  aim(ndc.x, ndc.y);
+  focusPoint.copy(targetPoint);
   render();
   resizeObserver.observe(canvas);
   intersection.observe(canvas);
