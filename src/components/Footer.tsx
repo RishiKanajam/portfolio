@@ -13,8 +13,7 @@ export default function Footer() {
       <p className="closing-email"><a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a></p>
       <ProfileLinks footer />
       <div className="footer-actions"><Link prefetch={false} href="/about">Background</Link><ThemeToggle /><a href="#top">↑ Top</a></div>
-      <p className="metadata colophon">Set in IBM Plex Sans and JetBrains Mono. Built with Next.js and TypeScript, deployed on Vercel. Written and maintained by Rishi Kanajam in Sydney, Australia. 2026.</p>
-      <p className="metadata colophon-note">The field at the top is drawn with three.js and a depth-of-field lens: whatever sits at the focal distance, which follows your cursor, is sharp. Everything else is out of focus. The dotted rules come into focus as you reach them. In each project, ● marks what you can check and ○ what isn’t done or proven yet.</p>
+      <p className="metadata colophon">Written and maintained by Rishi Kanajam in Sydney, Australia. 2026.</p>
     </div>
   </footer>;
 }

@@ -124,7 +124,6 @@ footer .profile-links { margin: 0; }
 .footer-actions { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 1.5rem; margin-top: 0.75rem; }
 .text-button { padding: 0; border: 0; border-radius: 0; background: none; color: inherit; font: inherit; cursor: pointer; text-decoration: underline; text-decoration-color: var(--underline); text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
 .colophon { margin-top: 2.5rem; max-width: 64ch; }
-.colophon-note { margin-top: 0.5rem; max-width: 64ch; }
 
 /* Detail pages */
 .detail { max-width: 680px; margin-inline: auto; padding-top: 3rem; }
